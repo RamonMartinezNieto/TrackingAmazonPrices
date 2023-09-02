@@ -15,5 +15,4 @@ public class BotProviderTelegram : IBotProvider
     }
 
     public object GetBotClient() => BotCLient;
-
 }

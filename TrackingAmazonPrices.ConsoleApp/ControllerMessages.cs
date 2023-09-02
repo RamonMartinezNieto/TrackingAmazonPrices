@@ -13,7 +13,7 @@ public class ControllerMessages
         _logger = logger;
     }
 
-    public void SetHandler(IHandlerMessage handlerMessage) 
+    public void SetHandler(IHandlerMessage handlerMessage)
     {
         _handlerMessage = handlerMessage;
     }
@@ -21,7 +21,7 @@ public class ControllerMessages
     public void HandlerMessage(object objectMessage)
     {
         _logger.LogInformation("recibiendo un mensaje");
-        
+
         using CancellationTokenSource cts = new();
 
         if (!_handlerMessage.IsValidMessage(objectMessage))

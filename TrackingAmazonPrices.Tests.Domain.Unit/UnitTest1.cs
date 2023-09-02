@@ -1,4 +1,3 @@
-using System;
 using Xunit;
 
 namespace TrackingAmazonPrices.Tests.Domain.Unit
@@ -8,7 +7,6 @@ namespace TrackingAmazonPrices.Tests.Domain.Unit
         [Fact]
         public void Test1()
         {
-
         }
     }
 }

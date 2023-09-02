@@ -18,7 +18,7 @@ public class HandlerMessageTelegram : HandlerMessage, IUpdateHandler
         ILoggerFactory logger,
         ITelegramBotClient botClient,
         Func<Exception, Exception> handlerError,
-        Action<object> handlerMessage) 
+        Action<object> handlerMessage)
         : base(handlerError, handlerMessage)
     {
         _botClient = botClient;
@@ -26,17 +26,16 @@ public class HandlerMessageTelegram : HandlerMessage, IUpdateHandler
     }
 
     public Task HandlePollingErrorAsync(
-        ITelegramBotClient botClient, 
-        Exception exception, 
+        ITelegramBotClient botClient,
+        Exception exception,
         CancellationToken cancellationToken)
     {
         return Task.FromException(_handlerError(exception));
     }
 
-
     public async Task HandleUpdateAsync(
-        ITelegramBotClient botClient, 
-        Update update, 
+        ITelegramBotClient botClient,
+        Update update,
         CancellationToken cancellationToken)
     {
         await Task.Run(() => _handlerMessage(update), cancellationToken);
@@ -44,8 +43,7 @@ public class HandlerMessageTelegram : HandlerMessage, IUpdateHandler
 
     public override bool IsValidMessage<TMessage>(TMessage update)
     {
-
-        if (update is not Update updateMessage) 
+        if (update is not Update updateMessage)
             return false;
 
         if (updateMessage.Message is not { } message)
@@ -59,7 +57,7 @@ public class HandlerMessageTelegram : HandlerMessage, IUpdateHandler
 
     public override void PrintMessage(object objectMessage)
     {
-        if (IsValidMessage(objectMessage)) 
+        if (IsValidMessage(objectMessage))
         {
             Update update = (Update)objectMessage;
             _logger.LogInformation(update.Message.Text);
@@ -70,7 +68,7 @@ public class HandlerMessageTelegram : HandlerMessage, IUpdateHandler
     {
         if (objectMessage is not Update update)
             throw new ArgumentException("invalid objectMessage, this is not Update for telegram client");
-        
+
         if (update.Message is not { } message)
             return;
 

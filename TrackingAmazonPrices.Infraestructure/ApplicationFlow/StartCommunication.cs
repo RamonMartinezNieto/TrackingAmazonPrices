@@ -1,9 +1,9 @@
-﻿using TrackingAmazonPrices.Application.ApplicationFlow;
-using Microsoft.Extensions.Logging;
-using TrackingAmazonPrices.Application.Services;
+﻿using Microsoft.Extensions.Logging;
 using System;
-using TrackingAmazonPrices.Application.Handlers;
 using Telegram.Bot;
+using TrackingAmazonPrices.Application.ApplicationFlow;
+using TrackingAmazonPrices.Application.Handlers;
+using TrackingAmazonPrices.Application.Services;
 
 namespace TrackingAmazonPrices.Infraestructure.StartCommunication;
 
