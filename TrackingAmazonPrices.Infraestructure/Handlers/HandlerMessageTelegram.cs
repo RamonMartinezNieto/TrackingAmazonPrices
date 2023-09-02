@@ -14,8 +14,8 @@ public class HandlerMessageTelegram : HandlerMessage, IUpdateHandler
         ILoggerFactory logger,
         ITelegramBotClient botClient,
         Func<Exception, Exception> handlerError,
-        Action<object> handlerMessage)
-        : base(handlerError, handlerMessage)
+        Action<object> handlerMessage
+        ) : base(handlerError, handlerMessage)
     {
         _botClient = botClient;
         _logger = logger.CreateLogger<HandlerMessageTelegram>();

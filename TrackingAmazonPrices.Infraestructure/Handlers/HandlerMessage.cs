@@ -4,8 +4,8 @@ namespace TrackingAmazonPrices.Infraestructure.Handlers;
 
 public abstract class HandlerMessage : IHandlerMessage
 {
-    internal Func<Exception, Exception> _handlerError;
-    internal Action<object> _handlerMessage;
+    internal readonly Func<Exception, Exception> _handlerError;
+    internal readonly Action<object> _handlerMessage;
 
     public HandlerMessage(
         Func<Exception, Exception> handlerError,

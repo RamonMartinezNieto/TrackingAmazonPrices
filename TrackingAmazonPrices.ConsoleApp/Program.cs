@@ -7,6 +7,7 @@ using TrackingAmazonPrices.Domain.Configurations;
 using TrackingAmazonPrices.Infraestructure.Handlers;
 using TrackingAmazonPrices.Infraestructure.Services;
 using TrackingAmazonPrices.Infraestructure.Communications;
+using Telegram.Bot;
 
 namespace TrackingAmazonPrices.ConsoleApp;
 
@@ -32,8 +33,7 @@ internal class Program
                     options.Token = Environment.GetEnvironmentVariable("TrackingAmazonBotToken");
                 });
 
-                services.AddSingleton<IBotProvider, BotProviderTelegram>();
-                services.AddSingleton<IBotClient, BotClientTelegram>();
+                services.AddSingleton<IBotClient<ITelegramBotClient>, BotClientTelegram>();
                 services.AddSingleton<IComunicationHandler, MessageCommunicationTelegram>();
                 services.AddSingleton<IStartComunication, StartCommunication>();
                 services.AddSingleton<ControllerMessages>();

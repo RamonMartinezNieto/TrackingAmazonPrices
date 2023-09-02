@@ -1,14 +1,16 @@
 ﻿using TrackingAmazonPrices.Application.Services;
 using Telegram.Bot;
+using TrackingAmazonPrices.Domain.Configurations;
 
 namespace TrackingAmazonPrices.Infraestructure.Services;
 
-public class BotClientTelegram : IBotClient
+public class BotClientTelegram : IBotClient<ITelegramBotClient>
 {
-    public object BotClient { get; set; }
+    public ITelegramBotClient BotClient { get; }
 
-    public BotClientTelegram(IBotProvider clientProvider)
+    public BotClientTelegram(
+        IOptions<BotConfig> botConfig)
     {
-        BotClient = (ITelegramBotClient)clientProvider.GetBotClient();
+        BotClient = new TelegramBotClient(botConfig.Value.Token);
     }
 }

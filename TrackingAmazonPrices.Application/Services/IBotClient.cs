@@ -1,6 +1,6 @@
 ﻿namespace TrackingAmazonPrices.Application.Services;
 
-public interface IBotClient
+public interface IBotClient<TClient>
 {
-    public object BotClient { get; }
+    public TClient BotClient { get; }
 }

@@ -15,13 +15,13 @@ public class StartCommunication : IStartComunication
     public StartCommunication(
         ILoggerFactory loggerFactory,
         IComunicationHandler comunication,
-        IBotClient botClient
+        IBotClient<ITelegramBotClient> botClient
         )
     {
         _logger = loggerFactory.CreateLogger<StartCommunication>();
         _loggerFactory = loggerFactory;
         _comunication = comunication;
-        _botClient = (ITelegramBotClient)botClient.BotClient;
+        _botClient = botClient.BotClient;
     }
 
     public IHandlerMessage Start<THandlerMessage>(

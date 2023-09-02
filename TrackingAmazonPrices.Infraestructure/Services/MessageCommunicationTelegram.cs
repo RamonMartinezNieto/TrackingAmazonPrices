@@ -14,10 +14,10 @@ public class MessageCommunicationTelegram : IComunicationHandler
 
     public MessageCommunicationTelegram(
         ILogger<MessageCommunicationTelegram> logger,
-        IBotClient client)
+        IBotClient<ITelegramBotClient> client)
     {
         _logger = logger;
-        _botClient = (ITelegramBotClient)client.BotClient;
+        _botClient = client.BotClient;
     }
 
     public IHandlerMessage StartComunication(IHandlerMessage handlerMessage)

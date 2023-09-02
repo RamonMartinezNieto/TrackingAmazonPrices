@@ -7,8 +7,7 @@ public class ControllerMessages
     private readonly ILogger<ControllerMessages> _logger;
     private IHandlerMessage _handlerMessage;
 
-    public ControllerMessages(
-        ILogger<ControllerMessages> logger)
+    public ControllerMessages(ILogger<ControllerMessages> logger)
     {
         _logger = logger;
     }
@@ -34,7 +33,7 @@ public class ControllerMessages
 
     public Exception HandleException(Exception exception)
     {
-        _logger.LogError(exception, "Error en HandlerMessageTelegram");
+        _logger.LogError(exception, "Error in HandlerMessageTelegram");
         return exception;
     }
 }
