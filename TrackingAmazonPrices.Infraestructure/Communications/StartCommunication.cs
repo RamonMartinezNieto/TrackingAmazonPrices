@@ -1,11 +1,9 @@
-﻿using Microsoft.Extensions.Logging;
-using System;
-using Telegram.Bot;
+﻿using Telegram.Bot;
 using TrackingAmazonPrices.Application.ApplicationFlow;
 using TrackingAmazonPrices.Application.Handlers;
 using TrackingAmazonPrices.Application.Services;
 
-namespace TrackingAmazonPrices.Infraestructure.StartCommunication;
+namespace TrackingAmazonPrices.Infraestructure.Communications;
 
 public class StartCommunication : IStartComunication
 {
@@ -14,11 +12,11 @@ public class StartCommunication : IStartComunication
     private readonly IComunicationHandler _comunication;
     private readonly ITelegramBotClient _botClient;
 
-    //Cambiar BOtClientTelegram por interfaz
     public StartCommunication(
         ILoggerFactory loggerFactory,
         IComunicationHandler comunication,
-        IBotClient botClient)
+        IBotClient botClient
+        )
     {
         _logger = loggerFactory.CreateLogger<StartCommunication>();
         _loggerFactory = loggerFactory;

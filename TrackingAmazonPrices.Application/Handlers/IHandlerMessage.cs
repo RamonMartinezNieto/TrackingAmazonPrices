@@ -1,7 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-
-namespace TrackingAmazonPrices.Application.Handlers;
+﻿namespace TrackingAmazonPrices.Application.Handlers;
 
 public interface IHandlerMessage
 {

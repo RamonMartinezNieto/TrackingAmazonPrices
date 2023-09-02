@@ -1,5 +1,4 @@
-﻿using System;
-using TrackingAmazonPrices.Application.Handlers;
+﻿using TrackingAmazonPrices.Application.Handlers;
 
 namespace TrackingAmazonPrices.Application.ApplicationFlow;
 

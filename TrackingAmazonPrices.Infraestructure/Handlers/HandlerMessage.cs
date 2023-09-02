@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using TrackingAmazonPrices.Application.Handlers;
+﻿using TrackingAmazonPrices.Application.Handlers;
 
 namespace TrackingAmazonPrices.Infraestructure.Handlers;
 

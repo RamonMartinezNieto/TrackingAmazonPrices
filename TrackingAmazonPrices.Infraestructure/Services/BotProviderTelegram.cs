@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Options;
-using Telegram.Bot;
+﻿using Telegram.Bot;
 using TrackingAmazonPrices.Application.Services;
 using TrackingAmazonPrices.Domain.Configurations;
 

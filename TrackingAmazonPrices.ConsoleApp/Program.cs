@@ -6,7 +6,7 @@ using TrackingAmazonPrices.Application.Services;
 using TrackingAmazonPrices.Domain.Configurations;
 using TrackingAmazonPrices.Infraestructure.Handlers;
 using TrackingAmazonPrices.Infraestructure.Services;
-using TrackingAmazonPrices.Infraestructure.StartCommunication;
+using TrackingAmazonPrices.Infraestructure.Communications;
 
 namespace TrackingAmazonPrices.ConsoleApp;
 
