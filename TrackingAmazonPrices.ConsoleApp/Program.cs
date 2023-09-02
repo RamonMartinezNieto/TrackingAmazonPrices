@@ -17,7 +17,6 @@ internal class Program
         IConfiguration Configuration = new ConfigurationBuilder()
             .SetBasePath(Directory.GetParent(AppContext.BaseDirectory).FullName)
             .AddJsonFile("appsettings.json")
-            .AddUserSecrets<Program>(true)
             .Build();
 
         IHost _host = Host.CreateDefaultBuilder().ConfigureServices(
