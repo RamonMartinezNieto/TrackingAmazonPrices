@@ -39,7 +39,7 @@ public class MessageCommunicationTelegram : IComunicationHandler
             AllowedUpdates = Array.Empty<UpdateType>()
         };
 
-        _logger.LogInformation("Iniciando comunicación");
+        _logger.LogInformation("Starting communication with telegram.");
 
         using CancellationTokenSource cts = new();
 

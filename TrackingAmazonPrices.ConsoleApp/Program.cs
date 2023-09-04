@@ -7,7 +7,6 @@ using TrackingAmazonPrices.Domain.Configurations;
 using TrackingAmazonPrices.Infraestructure.Handlers;
 using TrackingAmazonPrices.Infraestructure.Services;
 using Telegram.Bot;
-using System.Runtime.CompilerServices;
 using TrackingAmazonPrices.Application.Handlers;
 using TrackingAmazonPrices.Infraestructure.Commands;
 using TrackingAmazonPrices.Application.Command;
@@ -29,8 +28,6 @@ internal class Program
             {
                 services.AddLogging();
                 services.AddMemoryCache();
-
-                var eso = Environment.GetEnvironmentVariable("TrackingAmazonBotToken");
 
                 services.Configure<BotConfig>(options =>
                 {

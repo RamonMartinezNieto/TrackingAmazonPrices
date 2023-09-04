@@ -8,8 +8,6 @@ public interface IMessageHandler
 
     Task SentMessage(object chatId, string message, CancellationToken cts);
 
-    void PrintMessage(object objectMessage);
-
     string GetMessage<TMessage>(TMessage objectMessage);
 
     void SetControllerMessage(IControllerMessage controllerMessage);

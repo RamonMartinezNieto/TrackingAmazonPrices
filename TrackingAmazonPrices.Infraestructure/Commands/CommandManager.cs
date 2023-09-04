@@ -22,19 +22,13 @@ public class CommandManager : ICommandManager
 
     //TODO Change with a factory or other
     public ICommand GetCommand(string messageCommand)
-    {
-        switch (messageCommand)
+        => messageCommand switch
         {
-            case "/start":
-                return _commandProvider.FirstOrDefault(x => x.GetType() == typeof(StartCommand));
-            case "/test":
-                return _commandProvider.FirstOrDefault(x => x.GetType() == typeof(TestCommand));
-        }
-        return null;
-    }
+            "/start" => _commandProvider.FirstOrDefault(x => x.GetType() == typeof(StartCommand)),
+            "/test" => _commandProvider.FirstOrDefault(x => x.GetType() == typeof(TestCommand)),
+            _ => null,
+        };
 
     public bool IsCommand(string messageCommand)
-    {
-        return _commands.Contains(messageCommand);
-    }
+        => _commands.Contains(messageCommand);
 }

@@ -1,7 +1,4 @@
-﻿
-using TrackingAmazonPrices.Application.Handlers;
-
-namespace TrackingAmazonPrices.Application.ApplicationFlow;
+﻿namespace TrackingAmazonPrices.Application.ApplicationFlow;
 
 public interface IControllerMessage
 {

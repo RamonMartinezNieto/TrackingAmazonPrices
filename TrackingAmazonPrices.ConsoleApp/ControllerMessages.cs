@@ -28,7 +28,7 @@ public class ControllerMessages : IControllerMessage
 
     public void HandlerMessageImp(object objectMessage)
     {
-        _logger.LogInformation("recibiendo un mensaje");
+        _logger.LogInformation("receiving message");
 
         using CancellationTokenSource cts = new();
 
@@ -38,14 +38,10 @@ public class ControllerMessages : IControllerMessage
         var message = _handlerMessage.GetMessage(objectMessage);
         if (_commandManager.IsCommand(message))
         {
-            _logger.LogWarning("YES");
-
-            var command = _commandManager.GetCommand(message);
-            command.ExecuteAsync(objectMessage, cts.Token);
+            _commandManager
+                .GetCommand(message)?
+                .ExecuteAsync(objectMessage, cts.Token);
         }
-
-        _handlerMessage.PrintMessage(objectMessage);
-        _handlerMessage.SentMessage(objectMessage, "hooola", cts.Token);
     }
 
     public Exception HandleExceptionImp(Exception exception)

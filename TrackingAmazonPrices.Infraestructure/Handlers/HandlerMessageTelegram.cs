@@ -67,15 +67,6 @@ public class HandlerMessageTelegram : IMessageHandler, IUpdateHandler
         return string.Empty;
     }
 
-    public void PrintMessage(object objectMessage)
-    {
-        if (IsValidMessage(objectMessage))
-        {
-            Update update = (Update)objectMessage;
-            _logger.LogInformation(update.Message.Text);
-        }
-    }
-
     public async Task SentMessage(object objectMessage, string text, CancellationToken cts)
     {
         if (objectMessage is not Update update)
