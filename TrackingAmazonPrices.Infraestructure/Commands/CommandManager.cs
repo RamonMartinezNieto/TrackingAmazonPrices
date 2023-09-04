@@ -6,13 +6,13 @@ namespace TrackingAmazonPrices.Infraestructure.Commands;
 
 public class CommandManager : ICommandManager
 {
-    private static readonly List<string> _commands = new()
+    private readonly Dictionary<string, Type> _commands = new()
     {
-        "/start",
-        "/test"
+        { "/start", typeof(StartCommand) },
+        { "/test", typeof(TestCommand) },
     };
 
-    private IEnumerable<ICommand> _commandProvider;
+    private readonly IEnumerable<ICommand> _commandProvider;
 
     public CommandManager(
         IEnumerable<ICommand> commandProvider)
@@ -20,15 +20,14 @@ public class CommandManager : ICommandManager
         _commandProvider = commandProvider;
     }
 
-    //TODO Change with a factory or other
     public ICommand GetCommand(string messageCommand)
-        => messageCommand switch
-        {
-            "/start" => _commandProvider.FirstOrDefault(x => x.GetType() == typeof(StartCommand)),
-            "/test" => _commandProvider.FirstOrDefault(x => x.GetType() == typeof(TestCommand)),
-            _ => null,
-        };
+    {
+        if (_commands.TryGetValue(messageCommand, out var commandType))
+            return _commandProvider.FirstOrDefault(x => x.GetType() == commandType);
+
+        return null;
+    }
 
     public bool IsCommand(string messageCommand)
-        => _commands.Contains(messageCommand);
+        => _commands.ContainsKey(messageCommand);
 }
