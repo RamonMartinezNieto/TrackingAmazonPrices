@@ -2,7 +2,7 @@
 using TrackingAmazonPrices.Application.Command;
 using TrackingAmazonPrices.Application.Handlers;
 
-namespace TrackingAmazonPrices.ConsoleApp;
+namespace TrackingAmazonPrices.Infraestructure;
 
 public class ControllerMessages : IControllerMessage
 {
