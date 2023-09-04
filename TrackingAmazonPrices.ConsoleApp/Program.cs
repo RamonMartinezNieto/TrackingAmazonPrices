@@ -6,8 +6,11 @@ using TrackingAmazonPrices.Application.Services;
 using TrackingAmazonPrices.Domain.Configurations;
 using TrackingAmazonPrices.Infraestructure.Handlers;
 using TrackingAmazonPrices.Infraestructure.Services;
-using TrackingAmazonPrices.Infraestructure.Communications;
 using Telegram.Bot;
+using System.Runtime.CompilerServices;
+using TrackingAmazonPrices.Application.Handlers;
+using TrackingAmazonPrices.Infraestructure.Commands;
+using TrackingAmazonPrices.Application.Command;
 
 namespace TrackingAmazonPrices.ConsoleApp;
 
@@ -20,7 +23,8 @@ internal class Program
             .AddJsonFile("appsettings.json")
             .Build();
 
-        IHost _host = Host.CreateDefaultBuilder().ConfigureServices(
+
+        var _host = Host.CreateDefaultBuilder().ConfigureServices(
             services =>
             {
                 services.AddLogging();
@@ -34,20 +38,20 @@ internal class Program
                 });
 
                 services.AddSingleton<IBotClient<ITelegramBotClient>, BotClientTelegram>();
+                services.AddSingleton<ICommandManager, CommandManager>();
+
+                services.AddSingleton<IMessageHandler, HandlerMessageTelegram>();
+                services.AddSingleton<IControllerMessage, ControllerMessages>();
                 services.AddSingleton<IComunicationHandler, MessageCommunicationTelegram>();
-                services.AddSingleton<IStartComunication, StartCommunication>();
-                services.AddSingleton<ControllerMessages>();
-            })
-        .Build();
 
-        var controllerMessage = _host.Services.GetRequiredService<ControllerMessages>();
-        var app = _host.Services.GetRequiredService<IStartComunication>();
+                //commands
+                services.AddTransient<ICommand, StartCommand>();
+                services.AddTransient<ICommand, TestCommand>();
 
-        var handler = app.Start<HandlerMessageTelegram>(
-            controllerMessage.HandleException,
-            controllerMessage.HandlerMessage);
+            }).Build();
 
-        controllerMessage.SetHandler(handler);
+        var app = _host.Services.GetRequiredService<IComunicationHandler>();
+        IMessageHandler handler = app.StartComunication();
 
         Thread.Sleep(Timeout.Infinite);
     }

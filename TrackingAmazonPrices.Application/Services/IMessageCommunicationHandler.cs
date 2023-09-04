@@ -4,5 +4,5 @@ namespace TrackingAmazonPrices.Application.Services;
 
 public interface IComunicationHandler
 {
-    IHandlerMessage StartComunication(IHandlerMessage handlerMessage);
+    IMessageHandler StartComunication();
 }

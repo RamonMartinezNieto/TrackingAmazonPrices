@@ -2,23 +2,29 @@
 using Telegram.Bot.Polling;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
+using TrackingAmazonPrices.Application.ApplicationFlow;
+using TrackingAmazonPrices.Application.Handlers;
+using TrackingAmazonPrices.Application.Services;
 
 namespace TrackingAmazonPrices.Infraestructure.Handlers;
 
-public class HandlerMessageTelegram : HandlerMessage, IUpdateHandler
+public class HandlerMessageTelegram : IMessageHandler, IUpdateHandler
 {
     private readonly ITelegramBotClient _botClient;
     private readonly ILogger<HandlerMessageTelegram> _logger;
+    private IControllerMessage _controllerMessage;
 
     public HandlerMessageTelegram(
-        ILoggerFactory logger,
-        ITelegramBotClient botClient,
-        Func<Exception, Exception> handlerError,
-        Action<object> handlerMessage
-        ) : base(handlerError, handlerMessage)
+        ILogger<HandlerMessageTelegram> logger,
+        IBotClient<ITelegramBotClient> botClient) 
     {
-        _botClient = botClient;
-        _logger = logger.CreateLogger<HandlerMessageTelegram>();
+        _botClient = botClient.BotClient;
+        _logger = logger;
+    }
+
+    public void SetControllerMessage(IControllerMessage controllerMessage)
+    {
+        _controllerMessage = controllerMessage;
     }
 
     public Task HandlePollingErrorAsync(
@@ -26,7 +32,10 @@ public class HandlerMessageTelegram : HandlerMessage, IUpdateHandler
         Exception exception,
         CancellationToken cancellationToken)
     {
-        return Task.FromException(_handlerError(exception));
+        if (!IsValidController()) 
+            throw new ArgumentNullException("ControllerMessage is not defined, call method SetControllerMessage");
+        
+        return Task.FromException(_controllerMessage.HandlerError(exception));
     }
 
     public async Task HandleUpdateAsync(
@@ -34,24 +43,31 @@ public class HandlerMessageTelegram : HandlerMessage, IUpdateHandler
         Update update,
         CancellationToken cancellationToken)
     {
-        await Task.Run(() => _handlerMessage(update), cancellationToken);
+        if (!IsValidController())
+            throw new ArgumentNullException("ControllerMessage is not defined, call method SetControllerMessage");
+
+        await Task.Run(() => _controllerMessage.HandlerMessage(update), cancellationToken);
     }
 
-    public override bool IsValidMessage<TMessage>(TMessage update)
+    public bool IsValidMessage<TMessage>(TMessage update)
     {
-        if (update is not Update updateMessage)
-            return false;
-
-        if (updateMessage.Message is not { } message)
-            return false;
-
-        if (message.Text is not { } messageText)
-            return false;
-
-        return true;
+        return update is Update updateMessage &&
+                updateMessage.Message is { } message &&
+                message.Text is { } messageText;
     }
 
-    public override void PrintMessage(object objectMessage)
+    public string GetMessage<TMessage>(TMessage update)
+    {
+        if (update is Update updateMessage &&
+            updateMessage.Message is { } message &&
+            message.Text is { } messageText)
+        {
+            return messageText;
+        }
+        return string.Empty;
+    }
+
+    public void PrintMessage(object objectMessage)
     {
         if (IsValidMessage(objectMessage))
         {
@@ -60,7 +76,7 @@ public class HandlerMessageTelegram : HandlerMessage, IUpdateHandler
         }
     }
 
-    public override async Task SentMessage(object objectMessage, string text, CancellationToken cts)
+    public async Task SentMessage(object objectMessage, string text, CancellationToken cts)
     {
         if (objectMessage is not Update update)
             throw new ArgumentException("invalid objectMessage, this is not Update for telegram client");
@@ -75,4 +91,8 @@ public class HandlerMessageTelegram : HandlerMessage, IUpdateHandler
                  parseMode: ParseMode.MarkdownV2,
                  cancellationToken: cts);
     }
+
+    private bool IsValidController() 
+        => _controllerMessage is not null; 
+
 }

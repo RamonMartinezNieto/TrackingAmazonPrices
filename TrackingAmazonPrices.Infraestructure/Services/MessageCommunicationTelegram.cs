@@ -1,6 +1,7 @@
 ﻿using Telegram.Bot;
 using Telegram.Bot.Polling;
 using Telegram.Bot.Types.Enums;
+using TrackingAmazonPrices.Application.ApplicationFlow;
 using TrackingAmazonPrices.Application.Handlers;
 using TrackingAmazonPrices.Application.Services;
 using TrackingAmazonPrices.Infraestructure.Handlers;
@@ -11,19 +12,27 @@ public class MessageCommunicationTelegram : IComunicationHandler
 {
     private readonly ILogger<MessageCommunicationTelegram> _logger;
     private readonly ITelegramBotClient _botClient;
+    private readonly IMessageHandler _handlerMessage;
+    private readonly IControllerMessage _controllerMessage;
 
     public MessageCommunicationTelegram(
         ILogger<MessageCommunicationTelegram> logger,
-        IBotClient<ITelegramBotClient> client)
+        IBotClient<ITelegramBotClient> client,
+        IMessageHandler handlerMessage,
+        IControllerMessage controllerMessage)
     {
         _logger = logger;
         _botClient = client.BotClient;
+        _handlerMessage = handlerMessage;
+        _controllerMessage = controllerMessage;
     }
 
-    public IHandlerMessage StartComunication(IHandlerMessage handlerMessage)
+    public IMessageHandler StartComunication()
     {
-        if (handlerMessage is not HandlerMessageTelegram handler)
+        if (_handlerMessage is not HandlerMessageTelegram handler)
             throw new ArgumentException("The handler is not valid for bot telegram");
+
+        _handlerMessage.SetControllerMessage(_controllerMessage);
 
         ReceiverOptions options = new()
         {
@@ -42,6 +51,6 @@ public class MessageCommunicationTelegram : IComunicationHandler
 
         _logger.LogInformation("Bot listening...");
 
-        return handlerMessage;
+        return _handlerMessage;
     }
 }
