@@ -1,15 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using TrackingAmazonPrices.Application.Command;
+using TrackingAmazonPrices.Domain.Enums;
 
 namespace TrackingAmazonPrices.Infraestructure.Commands;
 
 public class CommandManager : ICommandManager
 {
-    private readonly Dictionary<string, Type> _commands = new()
+    private readonly Dictionary<string, (Steps,Type)> _commands = new()
     {
-        { "/start", typeof(StartCommand) },
-        { "/test", typeof(TestCommand) },
+        { "/start", (Steps.Start, typeof(StartCommand)) },
+        { "/test", (Steps.Test, typeof(TestCommand)) },
     };
 
     private readonly IEnumerable<ICommand> _commandProvider;
@@ -23,11 +24,32 @@ public class CommandManager : ICommandManager
     public ICommand GetCommand(string messageCommand)
     {
         if (_commands.TryGetValue(messageCommand, out var commandType))
-            return _commandProvider.FirstOrDefault(x => x.GetType() == commandType);
+        {
+            Type type = commandType.Item2;
+            return _commandProvider.FirstOrDefault(x => x.GetType() == type);
+        }
 
         return null;
     }
 
+    public ICommand GetNextCommand(Steps? step)
+    {
+        if (step.HasValue)
+        {
+            var matchingEntry = _commands.FirstOrDefault(entry => entry.Value.Item1 == step.Value);
+
+            if (!matchingEntry.Equals(default(KeyValuePair<string, (Steps, Type)>)))
+            {
+                Type type = matchingEntry.Value.Item2;
+                return _commandProvider.FirstOrDefault(x => x.GetType() == type);
+            }
+        }
+
+        return null;
+    }
+
+
     public bool IsCommand(string messageCommand)
         => _commands.ContainsKey(messageCommand);
+
 }

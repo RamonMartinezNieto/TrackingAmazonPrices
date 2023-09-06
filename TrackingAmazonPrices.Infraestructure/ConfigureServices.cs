@@ -27,7 +27,6 @@ public static class ConfigureServices
         services.AddSingleton<IBotClient<ITelegramBotClient>, BotClientTelegram>();
         services.AddSingleton<ICommandManager, CommandManager>();
         services.AddSingleton<IMessageHandler, HandlerMessageTelegram>();
-        services.AddSingleton<IControllerMessage, ControllerMessages>();
         services.AddSingleton<IComunicationHandler, MessageCommunicationTelegram>();
         return services;
     }

@@ -1,6 +1,9 @@
-﻿namespace TrackingAmazonPrices.Application.Command;
+﻿using TrackingAmazonPrices.Domain.Enums;
+
+namespace TrackingAmazonPrices.Application.Command;
 
 public interface ICommand
 {
-    Task ExecuteAsync(object objectMessage, CancellationToken cancellationToken);
+    public Steps NextStep { get; }
+    Task ExecuteAsync(object objectMessage);
 }

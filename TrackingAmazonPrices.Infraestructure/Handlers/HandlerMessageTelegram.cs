@@ -67,11 +67,12 @@ public class HandlerMessageTelegram : IMessageHandler, IUpdateHandler
         return string.Empty;
     }
 
-    public async Task SentMessage(object objectMessage, string text, CancellationToken cts)
+    public async Task SentMessage(object objectMessage, string text)
     {
-        if (objectMessage is not Update update)
+        if (objectMessage is not Update update) {
+            _logger.LogError("InvalidObjectMessage SentMessage");
             throw new ArgumentException("invalid objectMessage, this is not Update for telegram client");
-
+        }
         if (update.Message is not { } message)
             return;
 
@@ -79,11 +80,19 @@ public class HandlerMessageTelegram : IMessageHandler, IUpdateHandler
                  chatId: message.Chat.Id,
                  text: text,
                  disableNotification: true,
-                 parseMode: ParseMode.MarkdownV2,
-                 cancellationToken: cts);
+                 parseMode: ParseMode.MarkdownV2);
     }
 
     private bool IsValidController() 
-        => _controllerMessage is not null; 
+        => _controllerMessage is not null;
 
+    public long GetChatId(object objectMessage)
+    {
+        if (objectMessage is Update updateMessage &&
+            updateMessage.Message is { } message)
+        {
+            return message.Chat.Id;
+        }
+        return default;
+    }
 }
