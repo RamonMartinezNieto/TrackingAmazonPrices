@@ -8,3 +8,7 @@ global using TrackingAmazonPrices.Application.Handlers;
 global using TrackingAmazonPrices.Domain.Enums;
 global using TrackingAmazonPrices.Infraestructure.Commands;
 global using Xunit;
+global using Microsoft.Extensions.Options;
+global using TrackingAmazonPrices.Domain.Configurations;
+global using TrackingAmazonPrices.Infraestructure.Services;
+global using Telegram.Bot;
