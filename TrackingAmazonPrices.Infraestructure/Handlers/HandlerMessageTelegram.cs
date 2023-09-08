@@ -64,7 +64,7 @@ public class HandlerMessageTelegram : IMessageHandler, IUpdateHandler
         return eso;
     }
 
-    public string GetMessage<TMessage>(TMessage update)
+    public string GetMessage<TMessage>(TMessage objectMessage)
     {
         if (update is Update updateMessage &&
             updateMessage.Message is { } message &&
