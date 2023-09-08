@@ -5,12 +5,12 @@ using Telegram.Bot.Types.Enums;
 using TrackingAmazonPrices.Application.ApplicationFlow;
 using TrackingAmazonPrices.Application.Handlers;
 using TrackingAmazonPrices.Application.Services;
+using TrackingAmazonPrices.Domain.Exceptions;
 
 namespace TrackingAmazonPrices.Infraestructure.Handlers;
 
 public class HandlerMessageTelegram : IMessageHandler, IUpdateHandler
 {
-    private static string ExceptionMissingController = "Controller Message is not defined, call method SetControllerMessage";
     private readonly ITelegramBotClient _botClient;
     private readonly ILogger<HandlerMessageTelegram> _logger;
     private IControllerMessage _controllerMessage;
@@ -34,7 +34,7 @@ public class HandlerMessageTelegram : IMessageHandler, IUpdateHandler
         CancellationToken cancellationToken)
     {
         if (!IsValidController())
-            throw new NullReferenceException(ExceptionMissingController);
+            throw new InvalidControllerException();
 
         return Task.FromException(_controllerMessage.HandlerError(exception));
     }
@@ -45,7 +45,7 @@ public class HandlerMessageTelegram : IMessageHandler, IUpdateHandler
         CancellationToken cancellationToken)
     {
         if (!IsValidController())
-            throw new NullReferenceException(ExceptionMissingController);
+            throw new NullReferenceException();
 
         await Task.Run(() => _controllerMessage.HandlerMessage(update), cancellationToken);
     }

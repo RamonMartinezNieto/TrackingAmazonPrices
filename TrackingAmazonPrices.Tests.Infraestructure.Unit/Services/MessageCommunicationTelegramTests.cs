@@ -1,9 +1,4 @@
-﻿using System;
-using TrackingAmazonPrices.Application.ApplicationFlow;
-using TrackingAmazonPrices.Application.Services;
-using TrackingAmazonPrices.Infraestructure.Handlers;
-
-namespace TrackingAmazonPrices.Tests.Infraestructure.Unit.Services;
+﻿namespace TrackingAmazonPrices.Tests.Infraestructure.Unit.Services;
 
 public class MessageCommunicationTelegramTests
 {

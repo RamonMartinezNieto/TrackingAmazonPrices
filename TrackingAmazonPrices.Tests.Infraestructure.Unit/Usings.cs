@@ -12,3 +12,7 @@ global using Microsoft.Extensions.Options;
 global using TrackingAmazonPrices.Domain.Configurations;
 global using TrackingAmazonPrices.Infraestructure.Services;
 global using Telegram.Bot;
+global using System;
+global using TrackingAmazonPrices.Application.ApplicationFlow;
+global using TrackingAmazonPrices.Application.Services;
+global using TrackingAmazonPrices.Infraestructure.Handlers;
