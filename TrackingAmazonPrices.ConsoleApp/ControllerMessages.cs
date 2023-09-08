@@ -46,7 +46,8 @@ public class ControllerMessages : IControllerMessage
             ICommand command = GetCommand(message, chatId);
 
             var taskExecute = Task.Run(() => TryExecuteCommand(command, objectMessage));
-            Task.WhenAll(taskExecute);
+            taskExecute.Wait(); 
+
             (bool succes, ICommand nextCommand) = taskExecute.Result;
 
             if (succes)
