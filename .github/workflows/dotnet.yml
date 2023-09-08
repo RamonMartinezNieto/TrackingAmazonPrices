@@ -24,16 +24,13 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
-    - name: Run Tests with Coverage
-      run: dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura
-    - name: Generate Code Coverage Report
-      run: |
-        dotnet tool install -g dotnet-reportgenerator-globaltool
-        reportgenerator "-reports:coverage.cobertura.xml" "-targetdir:coverage" "-reporttypes:Html"
-    - name: Publish Code Coverage Report
-      uses: actions/upload-artifact@v2
+    - name: Run automated unit tests
+      run: dotnet test TrackingAmazonPrices/TrackingAmazonPrices.Tests.Infraestructure.Unit/TrackingAmazonPrices.Tests.Infraestructure.Unit.csproj  
+          /p:CollectCoverage=true 
+          /p:CoverletOutput=TestResults/ 
+          /p:CoverletOutputFormat=lcov
+    - name: Publish coverage report to coveralls.io   
+      uses: coverallsapp/github-action@master   
       with:
-        name: code-coverage
-        path: coverage
+        github-token: ${{ secrets.GITHUB_TOKEN }} 
+        path-to-lcov: FeatureFlags/FeatureFlags.Tests/TestResults/coverage.info 
