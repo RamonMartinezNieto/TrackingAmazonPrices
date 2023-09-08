@@ -73,6 +73,7 @@ jobs:
         shell: powershell
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"RamonMartinezNieto_TrackingAmazonPrices" /o:"ramonmartineznieto" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-          dotnet build
+          #dotnet build
+          dotnet build Src\PowerXtensions.DotNet.sln --configuration Release;
+          dotnet test Src\PowerXtensions.DotNet.sln --no-build --collect:"XPlat Code Coverage";
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
-          .\.sonar\scanner\dotnet-sonarscanner cover /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml"
