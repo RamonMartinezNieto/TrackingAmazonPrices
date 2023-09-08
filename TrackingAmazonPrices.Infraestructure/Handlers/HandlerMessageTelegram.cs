@@ -45,7 +45,7 @@ public class HandlerMessageTelegram : IMessageHandler, IUpdateHandler
         CancellationToken cancellationToken)
     {
         if (!IsValidController())
-            throw new NullReferenceException();
+            throw new InvalidControllerException();
 
         await Task.Run(() => _controllerMessage.HandlerMessage(update), cancellationToken);
     }

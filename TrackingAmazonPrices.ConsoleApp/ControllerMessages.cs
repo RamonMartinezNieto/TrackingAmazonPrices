@@ -1,6 +1,7 @@
 ﻿using TrackingAmazonPrices.Application.ApplicationFlow;
 using TrackingAmazonPrices.Application.Command;
 using TrackingAmazonPrices.Application.Handlers;
+using TrackingAmazonPrices.Infraestructure.Commands;
 
 namespace TrackingAmazonPrices.ConsoleApp;
 
@@ -29,7 +30,7 @@ public class ControllerMessages : IControllerMessage
         HandlerMessage = HandlerMessageImp;
     }
 
-    public async void HandlerMessageImp(object objectMessage)
+    public void HandlerMessageImp(object objectMessage)
     {
         _logger.LogInformation("receiving message");
 
@@ -44,7 +45,9 @@ public class ControllerMessages : IControllerMessage
 
             ICommand command = GetCommand(message, chatId);
 
-            var (succes, nextCommand) = await TryExecuteCommand(command, objectMessage);
+            var taskExecute = Task.Run(() => TryExecuteCommand(command, objectMessage));
+            Task.WhenAll(taskExecute);
+            (bool succes, ICommand nextCommand) = taskExecute.Result;
 
             if (succes)
             {
