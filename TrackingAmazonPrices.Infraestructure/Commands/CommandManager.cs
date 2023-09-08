@@ -5,7 +5,7 @@ namespace TrackingAmazonPrices.Infraestructure.Commands;
 
 public class CommandManager : ICommandManager
 {
-    private readonly Dictionary<string, (Steps,Type)> _commands = new()
+    private readonly Dictionary<string, (Steps, Type)> _commands = new()
     {
         { "/start", (Steps.Start, typeof(StartCommand)) },
         { "/test", (Steps.Test, typeof(TestCommand)) },
@@ -47,7 +47,6 @@ public class CommandManager : ICommandManager
     public bool IsCommand(string messageCommand)
         => _commands.ContainsKey(messageCommand);
 
-    public ICommand NullCommand() 
+    public ICommand NullCommand()
         => _commandProvider.FirstOrDefault(x => x.GetType() == typeof(NullCommand));
-
 }

@@ -17,7 +17,7 @@ public class HandlerMessageTelegram : IMessageHandler, IUpdateHandler
 
     public HandlerMessageTelegram(
         ILogger<HandlerMessageTelegram> logger,
-        IBotClient<ITelegramBotClient> botClient) 
+        IBotClient<ITelegramBotClient> botClient)
     {
         _botClient = botClient.BotClient;
         _logger = logger;
@@ -33,9 +33,9 @@ public class HandlerMessageTelegram : IMessageHandler, IUpdateHandler
         Exception exception,
         CancellationToken cancellationToken)
     {
-        if (!IsValidController()) 
+        if (!IsValidController())
             throw new ArgumentNullException("ControllerMessage is not defined, call method SetControllerMessage");
-        
+
         return Task.FromException(_controllerMessage.HandlerError(exception));
     }
 
@@ -77,7 +77,8 @@ public class HandlerMessageTelegram : IMessageHandler, IUpdateHandler
 
     public async Task<bool> SentMessage(object objectMessage, string text)
     {
-        if (objectMessage is not Update update) {
+        if (objectMessage is not Update update)
+        {
             _logger.LogError("InvalidObjectMessage SentMessage");
             throw new ArgumentException("invalid objectMessage, this is not Update for telegram client");
         }
@@ -92,10 +93,11 @@ public class HandlerMessageTelegram : IMessageHandler, IUpdateHandler
 
         return result != null;
     }
-    
+
     public async Task<bool> SentInlineMenuMessage(object objectMessage, string text)
     {
-        if (objectMessage is not Update update) {
+        if (objectMessage is not Update update)
+        {
             _logger.LogError("InvalidObjectMessage SentMessage");
             throw new ArgumentException("invalid objectMessage, this is not Update for telegram client");
         }
@@ -116,7 +118,7 @@ public class HandlerMessageTelegram : IMessageHandler, IUpdateHandler
     {
         string[] rows = new string[textItemsRows.Length];
 
-        for(int i = 0; i <= textItemsRows.Length; i++)
+        for (int i = 0; i <= textItemsRows.Length; i++)
         {
             rows[i] = textItemsRows[i];
         }
@@ -126,7 +128,7 @@ public class HandlerMessageTelegram : IMessageHandler, IUpdateHandler
         return replyKeyboard;
     }
 
-    private bool IsValidController() 
+    private bool IsValidController()
         => _controllerMessage is not null;
 
     public long GetChatId(object objectMessage)
@@ -138,6 +140,4 @@ public class HandlerMessageTelegram : IMessageHandler, IUpdateHandler
         }
         return default;
     }
-
-   
 }

@@ -9,5 +9,4 @@ public interface IPoolingCommands
     bool TryGetPendingCommandResponse(long chatId, out ICommand command);
 
     bool TryAddCommand(long chatId, ICommand command);
-
 }

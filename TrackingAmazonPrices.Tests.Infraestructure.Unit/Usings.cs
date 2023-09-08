@@ -1,0 +1,9 @@
+﻿global using FluentAssertions;
+global using Microsoft.Extensions.Logging;
+global using NSubstitute;
+global using System.Collections.Generic;
+global using System.Linq;
+global using TrackingAmazonPrices.Application.Command;
+global using TrackingAmazonPrices.Application.Handlers;
+global using TrackingAmazonPrices.Infraestructure.Commands;
+global using Xunit;

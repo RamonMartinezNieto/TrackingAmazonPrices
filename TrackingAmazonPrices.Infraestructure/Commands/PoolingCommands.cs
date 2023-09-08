@@ -14,7 +14,7 @@ public class PoolingCommands : IPoolingCommands
 
     public bool TryAddCommand(long chatId, ICommand command)
     {
-        if (command is not NullCommand)
+        if (command is not null && command is not NullCommand)
         {
             PoolingTestCommands.TryAdd(chatId, command);
             return true;

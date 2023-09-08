@@ -1,28 +1,13 @@
-﻿using Xunit;
-using NSubstitute;
-using TrackingAmazonPrices.Infraestructure.Commands;
-using FluentAssertions;
-using System.Collections.Generic;
-using TrackingAmazonPrices.Application.Command;
-using Microsoft.Extensions.Logging;
-using TrackingAmazonPrices.Application.Handlers;
-using System.Linq;
+﻿namespace TrackingAmazonPrices.Tests.Infraestructure.Unit.Commands;
 
-namespace TrackingAmazonPrices.Tests.Infraestructure.Unit.Commands;
-
-[Collection("pito")]
 public class CommandManagerTests
 {
-    //bool IsCommand(string command);
-    //ICommand GetCommand(string messageCommand);
-    //ICommand GetNextCommand(Steps? step);
-    //ICommand NullCommand();
-    static IMessageHandler messageHandler = Substitute.For<IMessageHandler>();
+    private static IMessageHandler _messageHandler = Substitute.For<IMessageHandler>();
 
-    static IEnumerable<ICommand> commands = new List<ICommand>
+    private static IEnumerable<ICommand> _commands = new List<ICommand>
         {
-            new StartCommand(Substitute.For<ILogger<StartCommand>>(), messageHandler),
-            new TestCommand(Substitute.For<ILogger<TestCommand>>(), messageHandler),
+            new StartCommand(Substitute.For<ILogger<StartCommand>>(), _messageHandler),
+            new TestCommand(Substitute.For<ILogger<TestCommand>>(), _messageHandler),
             new NullCommand(),
         };
 
@@ -30,7 +15,7 @@ public class CommandManagerTests
 
     public CommandManagerTests()
     {
-        _sut = new CommandManager(commands);
+        _sut = new CommandManager(_commands);
     }
 
     [Theory]
@@ -69,34 +54,32 @@ public class CommandManagerTests
         result.Should().BeAssignableTo<ICommand>();
         result.Should().BeOfType<NullCommand>();
     }
-    
+
     [Fact]
     public void GetNullCommand_ReturnNullCommandObject_WhenRequestForNullCommand()
     {
-
         var result = _sut.NullCommand();
 
         result.Should().BeAssignableTo<ICommand>();
         result.Should().BeOfType<NullCommand>();
     }
-        
+
     [Fact]
     public void GetNextCommand_ReturnAnotherCommand_WhenCallWithCommandWithNextStep()
     {
-        var startCommand = commands.First();
+        var startCommand = _commands.First();
         var result = _sut.GetNextCommand(startCommand.NextStep);
 
         result.Should().BeAssignableTo<ICommand>();
     }
-            
+
     [Fact]
     public void GetNextCommand_ReturnNullCommandObject_WhenCallWithCommandWithoutNextStep()
     {
-        var startCommand = commands.First();
+        var startCommand = _commands.First();
         var result = _sut.GetNextCommand(startCommand.NextStep);
 
         result.Should().BeAssignableTo<ICommand>();
         result.Should().BeOfType<NullCommand>();
     }
-
 }
