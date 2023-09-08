@@ -1,8 +1,6 @@
 # TrackingAmazonPrices
 
-## Coveralls
-[![Coverage Status](https://coveralls.io/repos/github/RamonMartinezNieto/TrackingAmazonPrices/badge.svg?branch=master)](https://coveralls.io/github/RamonMartinezNieto/TrackingAmazonPrices?branch=master)
-# SonarCloud
+## SonarCloud
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=RamonMartinezNieto_TrackingAmazonPrices&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=RamonMartinezNieto_TrackingAmazonPrices)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=RamonMartinezNieto_TrackingAmazonPrices&metric=coverage)](https://sonarcloud.io/summary/new_code?id=RamonMartinezNieto_TrackingAmazonPrices)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=RamonMartinezNieto_TrackingAmazonPrices&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=RamonMartinezNieto_TrackingAmazonPrices)
