@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using TrackingAmazonPrices.Application.ApplicationFlow;
 using TrackingAmazonPrices.Application.Services;
 using TrackingAmazonPrices.Infraestructure;
-using TrackingAmazonPrices.Application.ApplicationFlow;
 
 namespace TrackingAmazonPrices.ConsoleApp;
 
@@ -16,7 +16,6 @@ internal static class Program
             .AddJsonFile("appsettings.json")
             .Build();
 
-
         var _host = Host.CreateDefaultBuilder().ConfigureServices(
             services =>
             {
@@ -27,7 +26,6 @@ internal static class Program
                 services.AddServices();
                 services.AddCommands();
                 services.AddSingleton<IControllerMessage, ControllerMessages>();
-
             }).Build();
 
         var app = _host.Services.GetRequiredService<IComunicationHandler>();

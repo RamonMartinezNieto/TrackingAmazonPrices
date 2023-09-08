@@ -1,5 +1,5 @@
-﻿using TrackingAmazonPrices.Application.Services;
-using Telegram.Bot;
+﻿using Telegram.Bot;
+using TrackingAmazonPrices.Application.Services;
 using TrackingAmazonPrices.Domain.Configurations;
 
 namespace TrackingAmazonPrices.Infraestructure.Services;

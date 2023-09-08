@@ -2,9 +2,9 @@
 
 public class CommandManagerTests
 {
-    private readonly static IMessageHandler _messageHandler = Substitute.For<IMessageHandler>();
+    private static readonly IMessageHandler _messageHandler = Substitute.For<IMessageHandler>();
 
-    private readonly static IEnumerable<ICommand> _commands = new List<ICommand>
+    private static readonly IEnumerable<ICommand> _commands = new List<ICommand>
         {
             new StartCommand(Substitute.For<ILogger<StartCommand>>(), _messageHandler),
             new TestCommand(Substitute.For<ILogger<TestCommand>>(), _messageHandler),

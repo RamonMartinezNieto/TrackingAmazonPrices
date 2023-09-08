@@ -23,7 +23,7 @@ public class TestCommand : ICommand
     public async Task<bool> ExecuteAsync(object objectMessage)
     {
         _logger.LogWarning("This is an TEST command");
-        
+
         bool result = await _messageHandler.SentMessage(objectMessage, "TEST Message");
         NextStep = Steps.Nothing;
 

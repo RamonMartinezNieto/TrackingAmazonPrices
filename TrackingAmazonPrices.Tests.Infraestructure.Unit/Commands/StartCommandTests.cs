@@ -8,7 +8,6 @@ public class StartCommandTests
     private readonly ILogger<StartCommand> _logger = Substitute.For<ILogger<StartCommand>>();
     private readonly Update _updateObject = Substitute.For<Update>();
 
-
     [Fact]
     public void InstantiateStartCommand_NextStepNothing_WhenNotCallExecuteAsync()
     {

@@ -5,6 +5,6 @@ global using System.Collections.Generic;
 global using System.Linq;
 global using TrackingAmazonPrices.Application.Command;
 global using TrackingAmazonPrices.Application.Handlers;
+global using TrackingAmazonPrices.Domain.Enums;
 global using TrackingAmazonPrices.Infraestructure.Commands;
 global using Xunit;
-global using TrackingAmazonPrices.Domain.Enums;

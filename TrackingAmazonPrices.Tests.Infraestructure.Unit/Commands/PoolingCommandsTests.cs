@@ -2,12 +2,13 @@
 
 public class PoolingCommandsTests
 {
-    private readonly static IMessageHandler _messageHandler = Substitute.For<IMessageHandler>();
+    private static readonly IMessageHandler _messageHandler = Substitute.For<IMessageHandler>();
     private readonly StartCommand _startCommand = new(Substitute.For<ILogger<StartCommand>>(), _messageHandler);
     private readonly TestCommand _testCommand = new(Substitute.For<ILogger<TestCommand>>(), _messageHandler);
     private readonly NullCommand _nullCommand = new();
     private readonly PoolingCommands _sut;
-    private readonly static long _chatId = 123456L;
+    private static readonly long _chatId = 123456L;
+
     public PoolingCommandsTests()
     {
         _sut = new PoolingCommands();
@@ -19,14 +20,14 @@ public class PoolingCommandsTests
         var result = _sut.TryAddCommand(_chatId, _startCommand);
         result.Should().BeTrue();
     }
-        
+
     [Fact]
     public void TryAddCommand_ReturnFalse_WhenCommandIsNullCommandObject()
     {
         var result = _sut.TryAddCommand(_chatId, _nullCommand);
         result.Should().BeFalse();
     }
-            
+
     [Fact]
     public void TryAddCommand_ReturnFalse_WhenCommandIsNull()
     {

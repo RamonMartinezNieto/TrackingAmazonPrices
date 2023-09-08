@@ -38,7 +38,7 @@ public class ControllerMessages : IControllerMessage
             _logger.LogInformation("esto es un callback");
         }
         else if (_handlerMessage.IsValidMessage(objectMessage))
-        { 
+        {
             var message = _handlerMessage.GetMessage(objectMessage);
             long chatId = _handlerMessage.GetChatId(objectMessage);
 
@@ -46,7 +46,7 @@ public class ControllerMessages : IControllerMessage
 
             var (succes, nextCommand) = await TryExecuteCommand(command, objectMessage);
 
-            if (succes) 
+            if (succes)
             {
                 _poolingCommands.TryAddCommand(chatId, nextCommand);
             }
@@ -67,10 +67,10 @@ public class ControllerMessages : IControllerMessage
     }
 
     private async Task<(bool succes, ICommand nextCommand)> TryExecuteCommand(
-        ICommand command, 
+        ICommand command,
         object objectMessage)
     {
-        if (await command.ExecuteAsync(objectMessage)) 
+        if (await command.ExecuteAsync(objectMessage))
         {
             var nextCommand = _commandManager.GetNextCommand(command.NextStep);
             return (true, nextCommand);

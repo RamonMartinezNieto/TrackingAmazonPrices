@@ -24,9 +24,9 @@ public class StartCommand : ICommand
     {
         _logger.LogWarning("This is an start command");
         bool result = await _messageHandler.SentMessage(objectMessage, string.Format("{0} Choise language", TelegramEmojis.QUESTIONMARK));
-        
-        if(result) NextStep = Steps.Test; 
-        
+
+        if (result) NextStep = Steps.Test;
+
         return result;
     }
 }
