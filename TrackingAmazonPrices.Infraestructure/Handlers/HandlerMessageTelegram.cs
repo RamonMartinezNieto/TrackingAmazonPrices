@@ -31,7 +31,9 @@ public class HandlerMessageTelegram : IMessageHandler, IUpdateHandler
         Exception exception,
         CancellationToken cancellationToken)
     {
-        IsValidController();
+        if (!IsValidController())
+            throw new InvalidControllerException();
+
         return Task.FromException(_controllerMessage.HandlerError(exception));
     }
 
@@ -40,7 +42,9 @@ public class HandlerMessageTelegram : IMessageHandler, IUpdateHandler
         Update update,
         CancellationToken cancellationToken)
     {
-        IsValidController();
+        if (!IsValidController())
+            throw new InvalidControllerException();
+        
         await Task.Run(() => _controllerMessage.HandlerMessage(update), cancellationToken);
     }
 
@@ -88,12 +92,7 @@ public class HandlerMessageTelegram : IMessageHandler, IUpdateHandler
     }
 
     private bool IsValidController()
-    { 
-        if(_controllerMessage is null)
-            throw new InvalidControllerException();
-        
-        return true;
-    }
+          => _controllerMessage is not null;
 
     public long GetChatId(object objectMessage)
     {
