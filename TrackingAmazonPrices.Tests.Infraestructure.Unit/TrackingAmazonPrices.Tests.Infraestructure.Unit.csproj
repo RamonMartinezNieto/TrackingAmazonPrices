@@ -20,4 +20,12 @@
     <ProjectReference Include="..\TrackingAmazonPrices.Infraestructure\TrackingAmazonPrices.Infraestructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="coverlet.msbuild" Version="6.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <DotNetCliToolReference Include="dotnet-reportgenerator-globaltool" Version="5.1.12" />
+  </ItemGroup>
+  
 </Project>
