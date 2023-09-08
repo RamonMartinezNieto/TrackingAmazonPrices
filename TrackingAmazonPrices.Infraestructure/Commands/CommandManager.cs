@@ -13,8 +13,7 @@ public class CommandManager : ICommandManager
 
     private readonly IEnumerable<ICommand> _commandProvider;
 
-    public CommandManager(
-        IEnumerable<ICommand> commandProvider)
+    public CommandManager(IEnumerable<ICommand> commandProvider)
     {
         _commandProvider = commandProvider;
     }
