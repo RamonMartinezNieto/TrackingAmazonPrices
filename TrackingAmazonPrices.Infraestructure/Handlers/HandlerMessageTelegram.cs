@@ -24,18 +24,14 @@ public class HandlerMessageTelegram : IMessageHandler, IUpdateHandler
     }
 
     public void SetControllerMessage(IControllerMessage controllerMessage)
-    {
-        _controllerMessage = controllerMessage;
-    }
+        => _controllerMessage = controllerMessage;
 
     public Task HandlePollingErrorAsync(
         ITelegramBotClient botClient,
         Exception exception,
         CancellationToken cancellationToken)
     {
-        if (!IsValidController())
-            throw new InvalidControllerException();
-
+        IsValidController();
         return Task.FromException(_controllerMessage.HandlerError(exception));
     }
 
@@ -44,9 +40,7 @@ public class HandlerMessageTelegram : IMessageHandler, IUpdateHandler
         Update update,
         CancellationToken cancellationToken)
     {
-        if (!IsValidController())
-            throw new InvalidControllerException();
-
+        IsValidController();
         await Task.Run(() => _controllerMessage.HandlerMessage(update), cancellationToken);
     }
 
@@ -58,11 +52,8 @@ public class HandlerMessageTelegram : IMessageHandler, IUpdateHandler
     }
 
     public bool IsCallBackQuery<TMessage>(TMessage typeMessage)
-    {
-        var eso = typeMessage is Update updateMessage &&
-                updateMessage.CallbackQuery is { };
-        return eso;
-    }
+        => typeMessage is Update updateMessage 
+           && updateMessage.CallbackQuery is { };
 
     public string GetMessage<TMessage>(TMessage objectMessage)
     {
@@ -82,10 +73,12 @@ public class HandlerMessageTelegram : IMessageHandler, IUpdateHandler
             _logger.LogError("InvalidObjectMessage SentMessage");
             throw new ArgumentException("invalid objectMessage, this is not Update for telegram client");
         }
+        
         if (update.Message is not { } message)
             return false;
 
-        var result = await _botClient.SendTextMessageAsync(
+        var result = await _botClient
+            .SendTextMessageAsync(
                  chatId: message.Chat.Id,
                  text: textMessage,
                  disableNotification: true,
@@ -95,7 +88,12 @@ public class HandlerMessageTelegram : IMessageHandler, IUpdateHandler
     }
 
     private bool IsValidController()
-        => _controllerMessage is not null;
+    { 
+        if(_controllerMessage is null)
+            throw new InvalidControllerException();
+        
+        return true;
+    }
 
     public long GetChatId(object objectMessage)
     {
