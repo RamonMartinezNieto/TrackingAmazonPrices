@@ -5,8 +5,6 @@ using TrackingAmazonPrices.Application.Services;
 using TrackingAmazonPrices.Application.Handlers;
 using TrackingAmazonPrices.Infraestructure;
 using TrackingAmazonPrices.Application.ApplicationFlow;
-using TrackingAmazonPrices.Application.Command;
-using TrackingAmazonPrices.Infraestructure.Commands;
 
 namespace TrackingAmazonPrices.ConsoleApp;
 
@@ -29,7 +27,6 @@ internal class Program
                 services.AddConfigure();
                 services.AddServices();
                 services.AddCommands();
-                services.AddSingleton<IPoolingCommands, PoolingCommands>();
                 services.AddSingleton<IControllerMessage, ControllerMessages>();
 
             }).Build();

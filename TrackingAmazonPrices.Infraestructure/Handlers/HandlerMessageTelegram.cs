@@ -2,6 +2,7 @@
 using Telegram.Bot.Polling;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
+using Telegram.Bot.Types.ReplyMarkups;
 using TrackingAmazonPrices.Application.ApplicationFlow;
 using TrackingAmazonPrices.Application.Handlers;
 using TrackingAmazonPrices.Application.Services;
@@ -56,6 +57,13 @@ public class HandlerMessageTelegram : IMessageHandler, IUpdateHandler
                 message.Text is { } messageText;
     }
 
+    public bool IsCallBackQuery<TMessage>(TMessage message)
+    {
+        var eso = message is Update updateMessage &&
+                updateMessage.CallbackQuery is { } callbackQuery;
+        return eso;
+    }
+
     public string GetMessage<TMessage>(TMessage update)
     {
         if (update is Update updateMessage &&
@@ -67,20 +75,55 @@ public class HandlerMessageTelegram : IMessageHandler, IUpdateHandler
         return string.Empty;
     }
 
-    public async Task SentMessage(object objectMessage, string text)
+    public async Task<bool> SentMessage(object objectMessage, string text)
     {
         if (objectMessage is not Update update) {
             _logger.LogError("InvalidObjectMessage SentMessage");
             throw new ArgumentException("invalid objectMessage, this is not Update for telegram client");
         }
         if (update.Message is not { } message)
-            return;
+            return false;
 
-        await _botClient.SendTextMessageAsync(
+        var result = await _botClient.SendTextMessageAsync(
                  chatId: message.Chat.Id,
                  text: text,
                  disableNotification: true,
                  parseMode: ParseMode.MarkdownV2);
+
+        return result != null;
+    }
+    
+    public async Task<bool> SentInlineMenuMessage(object objectMessage, string text)
+    {
+        if (objectMessage is not Update update) {
+            _logger.LogError("InvalidObjectMessage SentMessage");
+            throw new ArgumentException("invalid objectMessage, this is not Update for telegram client");
+        }
+        if (update.Message is not { } message)
+            return false;
+
+        var result = await _botClient.SendTextMessageAsync(
+                 chatId: message.Chat.Id,
+                 text: text,
+                 replyMarkup: CreateMenu(new string[] { "asda", "yterty" }),
+                 disableNotification: true,
+                 parseMode: ParseMode.MarkdownV2);
+
+        return result != null;
+    }
+
+    public ReplyKeyboardMarkup CreateMenu(params string[] textItemsRows)
+    {
+        string[] rows = new string[textItemsRows.Length];
+
+        for(int i = 0; i <= textItemsRows.Length; i++)
+        {
+            rows[i] = textItemsRows[i];
+        }
+
+        ReplyKeyboardMarkup replyKeyboard = new string[][] { rows };
+
+        return replyKeyboard;
     }
 
     private bool IsValidController() 
@@ -95,4 +138,6 @@ public class HandlerMessageTelegram : IMessageHandler, IUpdateHandler
         }
         return default;
     }
+
+   
 }

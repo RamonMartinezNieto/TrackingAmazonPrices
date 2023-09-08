@@ -17,15 +17,14 @@ public class StartCommand : ICommand
     {
         _logger = logger;
         _messageHandler = messageHandler;
+        NextStep = Steps.Nothing;
     }
 
-    public Task ExecuteAsync(object objectMessage)
+    public async Task<bool> ExecuteAsync(object objectMessage)
     {
         _logger.LogWarning("This is an start command");
-        _messageHandler.SentMessage(objectMessage, string.Format("{0} Choise language", TelegramEmojis.Question));
-
+        bool result = await _messageHandler.SentMessage(objectMessage, string.Format("{0} Choise language", TelegramEmojis.Question));
         NextStep = Steps.Test; 
-
-        return Task.CompletedTask;
+        return result;
     }
 }

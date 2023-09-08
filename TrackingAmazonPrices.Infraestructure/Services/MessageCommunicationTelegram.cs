@@ -49,8 +49,6 @@ public class MessageCommunicationTelegram : IComunicationHandler
                 cancellationToken: cts.Token
             );
 
-        _logger.LogInformation("Bot listening...");
-
         return _handlerMessage;
     }
 }

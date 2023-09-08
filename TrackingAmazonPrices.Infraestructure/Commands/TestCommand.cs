@@ -10,20 +10,23 @@ public class TestCommand : ICommand
 
     private readonly ILogger<TestCommand> _logger;
     private readonly IMessageHandler _messageHandler;
-    
+
     public TestCommand(
         ILogger<TestCommand> logger,
         IMessageHandler messageHandler)
     {
         _logger = logger;
         _messageHandler = messageHandler;
+        NextStep = Steps.Nothing;
     }
 
-    public Task ExecuteAsync(object objectMessage)
+    public async Task<bool> ExecuteAsync(object objectMessage)
     {
         _logger.LogWarning("This is an TEST command");
-        _messageHandler.SentMessage(objectMessage, "TEST Message");
+        
+        bool result = await _messageHandler.SentMessage(objectMessage, "TEST Message");
         NextStep = Steps.Nothing;
-        return Task.CompletedTask;
+
+        return result;
     }
 }

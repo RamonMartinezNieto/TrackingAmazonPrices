@@ -1,13 +1,6 @@
-﻿using Newtonsoft.Json.Linq;
-using System.Collections.Concurrent;
-using System.Linq;
-using System.Threading.Tasks;
-using Telegram.Bot.Types;
-using TrackingAmazonPrices.Application.ApplicationFlow;
+﻿using TrackingAmazonPrices.Application.ApplicationFlow;
 using TrackingAmazonPrices.Application.Command;
 using TrackingAmazonPrices.Application.Handlers;
-using TrackingAmazonPrices.Domain.Enums;
-using TrackingAmazonPrices.Infraestructure.Commands;
 
 namespace TrackingAmazonPrices.ConsoleApp;
 
@@ -36,39 +29,53 @@ public class ControllerMessages : IControllerMessage
         HandlerMessage = HandlerMessageImp;
     }
 
-    public void HandlerMessageImp(object objectMessage)
+    public async void HandlerMessageImp(object objectMessage)
     {
         _logger.LogInformation("receiving message");
 
-        if (!_handlerMessage.IsValidMessage(objectMessage))
-            throw new ArgumentException("Object Message not valid");
-
-        var message = _handlerMessage.GetMessage(objectMessage);
-        long chatId = _handlerMessage.GetChatId(objectMessage);
-
-        _poolingCommands.TryGetPendingCommandResponse(chatId, out ICommand command);
-
-        if (command is null && _commandManager.IsCommand(message))
+        if (_handlerMessage.IsCallBackQuery(objectMessage))
         {
-            command = _commandManager.GetCommand(message);
+            _logger.LogInformation("esto es un callback");
         }
+        else if (_handlerMessage.IsValidMessage(objectMessage))
+        { 
+            var message = _handlerMessage.GetMessage(objectMessage);
+            long chatId = _handlerMessage.GetChatId(objectMessage);
 
-        ExecuteCommand(objectMessage, chatId, command);
+            ICommand command = GetCommand(message, chatId);
+
+            var (succes, nextCommand) = await TryExecuteCommand(command, objectMessage);
+
+            if (succes) 
+            {
+                _poolingCommands.TryAddCommand(chatId, nextCommand);
+            }
+        }
     }
 
-    private void ExecuteCommand(
-        object objectMessage, 
-        long chatId, 
-        ICommand command)
+    private ICommand GetCommand(string message, long chatId)
     {
-        if (command is not null)
-        {
-            command.ExecuteAsync(objectMessage);
+        if (_poolingCommands.TryGetPendingCommandResponse(chatId, out ICommand command))
+            return command;
 
-            _poolingCommands.TryAddCommand(
-                chatId,
-                _commandManager.GetNextCommand(command.NextStep));
+        if (_commandManager.IsCommand(message))
+        {
+            return _commandManager.GetCommand(message);
         }
+
+        return _commandManager.NullCommand();
+    }
+
+    private async Task<(bool succes, ICommand nextCommand)> TryExecuteCommand(
+        ICommand command, 
+        object objectMessage)
+    {
+        if (await command.ExecuteAsync(objectMessage)) 
+        {
+            var nextCommand = _commandManager.GetNextCommand(command.NextStep);
+            return (true, nextCommand);
+        }
+        return (true, _commandManager.NullCommand());
     }
 
     public Exception HandleExceptionImp(Exception exception)
@@ -76,5 +83,4 @@ public class ControllerMessages : IControllerMessage
         _logger.LogError(exception, "Error in HandlerMessageTelegram");
         return exception;
     }
-
 }

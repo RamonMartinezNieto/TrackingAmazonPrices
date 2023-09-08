@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using TrackingAmazonPrices.Application.Command;
+﻿using TrackingAmazonPrices.Application.Command;
 using TrackingAmazonPrices.Domain.Enums;
 
 namespace TrackingAmazonPrices.Infraestructure.Commands;
@@ -28,8 +26,7 @@ public class CommandManager : ICommandManager
             Type type = commandType.Item2;
             return _commandProvider.FirstOrDefault(x => x.GetType() == type);
         }
-
-        return null;
+        return NullCommand();
     }
 
     public ICommand GetNextCommand(Steps? step)
@@ -45,11 +42,13 @@ public class CommandManager : ICommandManager
             }
         }
 
-        return null;
+        return NullCommand();
     }
-
 
     public bool IsCommand(string messageCommand)
         => _commands.ContainsKey(messageCommand);
+
+    public ICommand NullCommand() 
+        => _commandProvider.FirstOrDefault(x => x.GetType() == typeof(NullCommand));
 
 }

@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Telegram.Bot;
-using TrackingAmazonPrices.Application.ApplicationFlow;
 using TrackingAmazonPrices.Application.Command;
 using TrackingAmazonPrices.Application.Handlers;
 using TrackingAmazonPrices.Application.Services;
@@ -28,14 +27,16 @@ public static class ConfigureServices
         services.AddSingleton<ICommandManager, CommandManager>();
         services.AddSingleton<IMessageHandler, HandlerMessageTelegram>();
         services.AddSingleton<IComunicationHandler, MessageCommunicationTelegram>();
+        services.AddSingleton<IPoolingCommands, PoolingCommands>();
+
         return services;
     }
 
     public static IServiceCollection AddCommands(this IServiceCollection services)
     {
+        services.AddTransient<ICommand, NullCommand>();
         services.AddTransient<ICommand, StartCommand>();
         services.AddTransient<ICommand, TestCommand>();
         return services;
     }
-
 }

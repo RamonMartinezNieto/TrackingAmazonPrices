@@ -1,25 +1,20 @@
 ﻿using System.Collections.Concurrent;
 using TrackingAmazonPrices.Application.Command;
-using TrackingAmazonPrices.Domain.Enums;
 
 namespace TrackingAmazonPrices.Infraestructure.Commands;
 
 public class PoolingCommands : IPoolingCommands
 {
-    private readonly ILogger<PoolingCommands> _logger;
-
     public static ConcurrentDictionary<long, ICommand> PoolingTestCommands { get; set; }
 
-    public PoolingCommands(ILogger<PoolingCommands> logger)
+    public PoolingCommands()
     {
         PoolingTestCommands = new();
-        _logger = logger;
     }
-
 
     public bool TryAddCommand(long chatId, ICommand command)
     {
-        if (command is not null)
+        if (command is not NullCommand)
         {
             PoolingTestCommands.TryAdd(chatId, command);
             return true;
