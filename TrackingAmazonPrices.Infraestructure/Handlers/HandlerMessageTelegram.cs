@@ -54,13 +54,13 @@ public class HandlerMessageTelegram : IMessageHandler, IUpdateHandler
     {
         return update is Update updateMessage &&
                 updateMessage.Message is { } message &&
-                message.Text is { } messageText;
+                message.Text is { };
     }
 
     public bool IsCallBackQuery<TMessage>(TMessage message)
     {
         var eso = message is Update updateMessage &&
-                updateMessage.CallbackQuery is { } callbackQuery;
+                updateMessage.CallbackQuery is { };
         return eso;
     }
 
@@ -114,7 +114,7 @@ public class HandlerMessageTelegram : IMessageHandler, IUpdateHandler
         return result != null;
     }
 
-    public ReplyKeyboardMarkup CreateMenu(params string[] textItemsRows)
+    public static ReplyKeyboardMarkup CreateMenu(params string[] textItemsRows)
     {
         string[] rows = new string[textItemsRows.Length];
 

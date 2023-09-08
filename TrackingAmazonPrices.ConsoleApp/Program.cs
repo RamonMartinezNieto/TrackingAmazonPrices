@@ -10,7 +10,7 @@ namespace TrackingAmazonPrices.ConsoleApp;
 
 internal class Program
 {
-    private static void Main(string[] args)
+    private static void Main()
     {
         IConfiguration Configuration = new ConfigurationBuilder()
             .SetBasePath(Directory.GetParent(AppContext.BaseDirectory).FullName)

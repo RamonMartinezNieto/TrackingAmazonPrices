@@ -7,3 +7,4 @@ global using TrackingAmazonPrices.Application.Command;
 global using TrackingAmazonPrices.Application.Handlers;
 global using TrackingAmazonPrices.Infraestructure.Commands;
 global using Xunit;
+global using TrackingAmazonPrices.Domain.Enums;

@@ -1,7 +1,4 @@
 ﻿using Telegram.Bot.Types;
-using TrackingAmazonPrices.Application.Handlers;
-using TrackingAmazonPrices.Domain.Enums;
-using TrackingAmazonPrices.Infraestructure.Commands;
 
 namespace TrackingAmazonPrices.Tests.Infraestructure.Unit.Commands;
 
