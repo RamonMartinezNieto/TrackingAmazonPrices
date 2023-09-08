@@ -44,8 +44,8 @@ public class CommandManager : ICommandManager
         return NullCommand();
     }
 
-    public bool IsCommand(string messageCommand)
-        => _commands.ContainsKey(messageCommand);
+    public bool IsCommand(string command)
+        => _commands.ContainsKey(command);
 
     public ICommand NullCommand()
         => _commandProvider.FirstOrDefault(x => x.GetType() == typeof(NullCommand));

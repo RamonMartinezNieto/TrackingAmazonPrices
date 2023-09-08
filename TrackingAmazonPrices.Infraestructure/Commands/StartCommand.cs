@@ -23,7 +23,7 @@ public class StartCommand : ICommand
     public async Task<bool> ExecuteAsync(object objectMessage)
     {
         _logger.LogWarning("This is an start command");
-        bool result = await _messageHandler.SentMessage(objectMessage, string.Format("{0} Choise language", TelegramEmojis.Question));
+        bool result = await _messageHandler.SentMessage(objectMessage, string.Format("{0} Choise language", TelegramEmojis.QUESTIONMARK));
         
         if(result) NextStep = Steps.Test; 
         

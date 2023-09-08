@@ -2,17 +2,16 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using TrackingAmazonPrices.Application.Services;
-using TrackingAmazonPrices.Application.Handlers;
 using TrackingAmazonPrices.Infraestructure;
 using TrackingAmazonPrices.Application.ApplicationFlow;
 
 namespace TrackingAmazonPrices.ConsoleApp;
 
-internal class Program
+internal static class Program
 {
     private static void Main()
     {
-        IConfiguration Configuration = new ConfigurationBuilder()
+        new ConfigurationBuilder()
             .SetBasePath(Directory.GetParent(AppContext.BaseDirectory).FullName)
             .AddJsonFile("appsettings.json")
             .Build();
@@ -32,7 +31,7 @@ internal class Program
             }).Build();
 
         var app = _host.Services.GetRequiredService<IComunicationHandler>();
-        IMessageHandler handler = app.StartComunication();
+        app.StartComunication();
 
         Thread.Sleep(Timeout.Infinite);
     }

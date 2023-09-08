@@ -11,7 +11,7 @@ on:
 
 jobs:
   build:
-
+    name: Build, test and coverage
     runs-on: ubuntu-latest
 
     steps:
@@ -36,7 +36,7 @@ jobs:
         path-to-lcov: TrackingAmazonPrices.Tests.Infraestructure.Unit/TestResults/coverage.info
 
   sonarcloud:
-    name: Build and analyze
+    name: Sonar cloud Analysis
     runs-on: windows-latest
     steps:
       - name: Set up JDK 17

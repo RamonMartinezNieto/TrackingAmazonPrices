@@ -2,7 +2,7 @@
 
 public static class TelegramEmojis
 {
-    public static string SpainFlag = "\U0001F1EA";
-    public static string GbFlag = "\U0001F1EC";
-    public static string Question = "\U00002753";
+    public const string SPAINT_FLAG= "\U0001F1EA";
+    public const string GB_FLAG = "\U0001F1EC";
+    public const string QUESTIONMARK = "\U00002753";
 }

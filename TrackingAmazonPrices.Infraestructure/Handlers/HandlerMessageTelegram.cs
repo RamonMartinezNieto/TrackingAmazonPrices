@@ -11,6 +11,7 @@ namespace TrackingAmazonPrices.Infraestructure.Handlers;
 
 public class HandlerMessageTelegram : IMessageHandler, IUpdateHandler
 {
+    private static string ExceptionMissingController = "Controller Message is not defined, call method SetControllerMessage";
     private readonly ITelegramBotClient _botClient;
     private readonly ILogger<HandlerMessageTelegram> _logger;
     private IControllerMessage _controllerMessage;
@@ -34,7 +35,7 @@ public class HandlerMessageTelegram : IMessageHandler, IUpdateHandler
         CancellationToken cancellationToken)
     {
         if (!IsValidController())
-            throw new ArgumentNullException("ControllerMessage is not defined, call method SetControllerMessage");
+            throw new NullReferenceException(ExceptionMissingController);
 
         return Task.FromException(_controllerMessage.HandlerError(exception));
     }
@@ -45,21 +46,21 @@ public class HandlerMessageTelegram : IMessageHandler, IUpdateHandler
         CancellationToken cancellationToken)
     {
         if (!IsValidController())
-            throw new ArgumentNullException("ControllerMessage is not defined, call method SetControllerMessage");
+            throw new NullReferenceException(ExceptionMissingController);
 
         await Task.Run(() => _controllerMessage.HandlerMessage(update), cancellationToken);
     }
 
-    public bool IsValidMessage<TMessage>(TMessage update)
+    public bool IsValidMessage<TMessage>(TMessage typeMessage)
     {
-        return update is Update updateMessage &&
+        return typeMessage is Update updateMessage &&
                 updateMessage.Message is { } message &&
                 message.Text is { };
     }
 
-    public bool IsCallBackQuery<TMessage>(TMessage message)
+    public bool IsCallBackQuery<TMessage>(TMessage typeMessage)
     {
-        var eso = message is Update updateMessage &&
+        var eso = typeMessage is Update updateMessage &&
                 updateMessage.CallbackQuery is { };
         return eso;
     }
@@ -75,7 +76,7 @@ public class HandlerMessageTelegram : IMessageHandler, IUpdateHandler
         return string.Empty;
     }
 
-    public async Task<bool> SentMessage(object objectMessage, string text)
+    public async Task<bool> SentMessage(object objectMessage, string textMessage)
     {
         if (objectMessage is not Update update)
         {
@@ -87,45 +88,11 @@ public class HandlerMessageTelegram : IMessageHandler, IUpdateHandler
 
         var result = await _botClient.SendTextMessageAsync(
                  chatId: message.Chat.Id,
-                 text: text,
+                 text: textMessage,
                  disableNotification: true,
                  parseMode: ParseMode.MarkdownV2);
 
         return result != null;
-    }
-
-    public async Task<bool> SentInlineMenuMessage(object objectMessage, string text)
-    {
-        if (objectMessage is not Update update)
-        {
-            _logger.LogError("InvalidObjectMessage SentMessage");
-            throw new ArgumentException("invalid objectMessage, this is not Update for telegram client");
-        }
-        if (update.Message is not { } message)
-            return false;
-
-        var result = await _botClient.SendTextMessageAsync(
-                 chatId: message.Chat.Id,
-                 text: text,
-                 replyMarkup: CreateMenu(new string[] { "asda", "yterty" }),
-                 disableNotification: true,
-                 parseMode: ParseMode.MarkdownV2);
-
-        return result != null;
-    }
-
-    public static ReplyKeyboardMarkup CreateMenu(params string[] textItemsRows)
-    {
-        string[] rows = new string[textItemsRows.Length];
-
-        for (int i = 0; i <= textItemsRows.Length; i++)
-        {
-            rows[i] = textItemsRows[i];
-        }
-
-        ReplyKeyboardMarkup replyKeyboard = new string[][] { rows };
-
-        return replyKeyboard;
     }
 
     private bool IsValidController()
