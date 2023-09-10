@@ -148,7 +148,9 @@ public class HandlerMessageTelegramTest
         
         Func<Task> act = async () => await _sut.HandleUpdateAsync(_botClient.BotClient, message, cts.Token);
 
-        act.Should().ThrowAsync<InvalidControllerException>();
+        act.Should()
+            .ThrowAsync<InvalidControllerException>()
+            .WithMessage("Controller Message is not defined, call method SetControllerMessage");
     }
         
     [Fact]
@@ -172,7 +174,9 @@ public class HandlerMessageTelegramTest
 
         Func<Task> act = async () => await _sut.HandlePollingErrorAsync(_botClient.BotClient, someException, cts.Token);
 
-        act.Should().ThrowAsync<InvalidControllerException>();
+        act.Should()
+            .ThrowAsync<InvalidControllerException>()
+            .WithMessage("Controller Message is not defined, call method SetControllerMessage");
     }
 
 
