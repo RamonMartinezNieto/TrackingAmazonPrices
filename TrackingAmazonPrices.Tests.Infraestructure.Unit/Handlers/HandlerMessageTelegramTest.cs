@@ -1,13 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using NSubstitute;
-using NSubstitute.Extensions;
-using System.Net.Http;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
-using Telegram.Bot;
-using Telegram.Bot.Types;
-using Telegram.Bot.Types.Enums;
-using TrackingAmazonPrices.Application.Services;
+﻿using Telegram.Bot.Types;
 using TrackingAmazonPrices.Domain.Exceptions;
 
 namespace TrackingAmazonPrices.Tests.Infraestructure.Unit.Handlers;
