@@ -1,4 +1,6 @@
-﻿using Telegram.Bot.Types;
+﻿using System.Threading.Tasks;
+using Telegram.Bot.Types;
+using Telegram.Bot.Types.Enums;
 using TrackingAmazonPrices.Domain.Exceptions;
 
 namespace TrackingAmazonPrices.Tests.Infraestructure.Unit.Handlers;
@@ -112,6 +114,32 @@ public class HandlerMessageTelegramTest
         var result = _sut.GetChatId(message);
 
         result.Should().Be(default);
+    }    
+
+    [Fact]
+    public void SentMessage_ThrowException_InvalidObject() 
+    {
+        object someObject = new();
+
+        Func<Task> act = async () => await _sut.SentMessage(someObject, Arg.Any<string>());
+
+        act.Should().ThrowAsync<ArgumentException>()
+            .WithMessage("invalid objectMessage, this is not Update for telegram client");
+    }
+    
+    [Fact]
+    public void SentMessage_NotThrowException_ValidObject() 
+    {
+        Update message = GetMockCallback();
+
+        Func<Task> act = async () => await _sut.SentMessage(message, Arg.Any<string>());
+
+        act.Should().NotThrowAsync<ArgumentException>();
+        _botClient.BotClient.SendTextMessageAsync(
+            chatId: Arg.Any<long>(),
+            text: Arg.Any<string>(),
+            disableNotification: Arg.Any<bool>(),
+            parseMode: Arg.Any<ParseMode>());
     }
 
     private static Update GetMockMessage()

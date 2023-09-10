@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
 using NSubstitute;
 using NSubstitute.Core.Arguments;
 using System;
@@ -14,18 +15,15 @@ namespace TrackingAmazonPrices.Tests.ConsoleApp.Unit;
 public class ControllerMessagesTests
 {
     private readonly ILogger<ControllerMessages> _logger = Substitute.For<ILogger<ControllerMessages>>();
-    private readonly ILogger<TestCommand> _loggerTestCommand = Substitute.For<ILogger<TestCommand>>();
-    private readonly ICommandManager _commandMananger = Substitute.For<ICommandManager>();
+    private readonly ICommandManager _commandManager = Substitute.For<ICommandManager>();
     private readonly IMessageHandler _messageHandler = Substitute.For<IMessageHandler>();
     private readonly IPoolingCommands _poolingCommands = Substitute.For<IPoolingCommands>();
 
     [Fact]
-    public void HandlerMessageImp_CheckCalls_WhenReceiveUpdateMessage_WithCommand()
+    public void HandlerMessageImp_CheckCalls_WhenReceiveUpdateMessage_WithValidCommand()
     {
-        TestCommand testCommand = new TestCommand(_loggerTestCommand, _messageHandler);
-
         ControllerMessages sut = Substitute.ForPartsOf<ControllerMessages>
-            (_logger, _commandMananger, _messageHandler, _poolingCommands);
+            (_logger, _commandManager, _messageHandler, _poolingCommands);
 
 
         Update update = new()
@@ -41,6 +39,9 @@ public class ControllerMessagesTests
         };
 
         _messageHandler.IsValidMessage(update).Returns(true);
+        _messageHandler.GetMessage(update).Returns(update.Message.Text);
+        _messageHandler.GetChatId(update).Returns(update.Message.Chat.Id);
+        _commandManager.IsCommand(update.Message.Text).Returns(true);
 
         sut.HandlerMessageImp(update);
 
@@ -54,10 +55,8 @@ public class ControllerMessagesTests
     [Fact]
     public void HandlerMessageImp_CheckCalls_WhenReceiveCallBakc_WithCommand()
     {
-        TestCommand testCommand = new TestCommand(_loggerTestCommand, _messageHandler);
-
         ControllerMessages sut = Substitute.ForPartsOf<ControllerMessages>
-            (_logger, _commandMananger, _messageHandler, _poolingCommands);
+            (_logger, _commandManager, _messageHandler, _poolingCommands);
 
         CallbackQuery callBack = new();
 

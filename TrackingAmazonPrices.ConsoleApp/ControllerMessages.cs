@@ -78,7 +78,7 @@ public class ControllerMessages : IControllerMessage
             var nextCommand = _commandManager.GetNextCommand(command.NextStep);
             return (true, nextCommand);
         }
-        return (true, _commandManager.NullCommand());
+        return (false, _commandManager.NullCommand());
     }
 
     public Exception HandleExceptionImp(Exception exception)
