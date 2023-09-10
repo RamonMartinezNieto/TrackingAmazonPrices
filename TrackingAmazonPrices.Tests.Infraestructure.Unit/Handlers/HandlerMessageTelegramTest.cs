@@ -167,10 +167,30 @@ public class HandlerMessageTelegramTest
     }
 
     [Fact]
-    public void HandlePollingErrorAsync_ThrowException_WhenControllerNotValid()
+    public async Task HandlePollingErrorAsync_ThrowException_WhenControllerNotValid()
     {
         using CancellationTokenSource cts = new();
-        Exception someException = new();
+        Exception someException = new("ups");
+
+        _sut.SetControllerMessage(_controllerMessage);
+
+        Func<Task> act = async () => await _sut.HandlePollingErrorAsync(_botClient.BotClient, someException, cts.Token);
+
+        await act
+            .Should()
+            .ThrowAsync<Exception>();
+
+        _controllerMessage.Received().HandlerError(someException);
+    }
+
+
+    [Fact]
+    public void HandlePollingErrorAsync_Execute_WhenControllerIsValid()
+    {
+        using CancellationTokenSource cts = new();
+        Exception someException = new("ups");
+
+        _sut.SetControllerMessage(_controllerMessage);
 
         Func<Task> act = async () => await _sut.HandlePollingErrorAsync(_botClient.BotClient, someException, cts.Token);
 
