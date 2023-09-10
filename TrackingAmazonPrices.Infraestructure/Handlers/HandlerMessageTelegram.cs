@@ -23,18 +23,25 @@ public class HandlerMessageTelegram : IMessageHandler, IUpdateHandler
         _logger = logger;
     }
 
-    public void SetControllerMessage(IControllerMessage controllerMessage)
-        => _controllerMessage = controllerMessage;
+    public IControllerMessage SetControllerMessage(IControllerMessage controllerMessage)
+    {
+        if (IsValidController(controllerMessage)) { 
+            _controllerMessage = controllerMessage;
+            return _controllerMessage;
+        }
+
+        throw new InvalidControllerException();
+    }
 
     public Task HandlePollingErrorAsync(
         ITelegramBotClient botClient,
         Exception exception,
         CancellationToken cancellationToken)
     {
-        if (!IsValidController())
-            throw new InvalidControllerException();
+        if (IsValidController(_controllerMessage))
+            return Task.FromException(_controllerMessage.HandlerError(exception));
 
-        return Task.FromException(_controllerMessage.HandlerError(exception));
+        throw new InvalidControllerException();
     }
 
     public async Task HandleUpdateAsync(
@@ -42,7 +49,7 @@ public class HandlerMessageTelegram : IMessageHandler, IUpdateHandler
         Update update,
         CancellationToken cancellationToken)
     {
-        if (!IsValidController())
+        if (!IsValidController(_controllerMessage))
             throw new InvalidControllerException();
         
         await Task.Run(() => _controllerMessage.HandlerMessage(update), cancellationToken);
@@ -51,8 +58,7 @@ public class HandlerMessageTelegram : IMessageHandler, IUpdateHandler
     public bool IsValidMessage<TMessage>(TMessage typeMessage)
     {
         return typeMessage is Update updateMessage &&
-                updateMessage.Message is { } message &&
-                message.Text is { };
+                updateMessage.Type is UpdateType.Message;
     }
 
     public bool IsCallBackQuery<TMessage>(TMessage typeMessage)
@@ -61,12 +67,11 @@ public class HandlerMessageTelegram : IMessageHandler, IUpdateHandler
 
     public string GetMessage<TMessage>(TMessage objectMessage)
     {
-        if (objectMessage is Update updateMessage &&
-            updateMessage.Message is { } message &&
-            message.Text is { } messageText)
+        if (objectMessage is Update updateMessage && IsValidMessage(updateMessage))
         {
-            return messageText;
+            return updateMessage.Message.Text;
         }
+
         return string.Empty;
     }
 
@@ -91,8 +96,8 @@ public class HandlerMessageTelegram : IMessageHandler, IUpdateHandler
         return result != null;
     }
 
-    private bool IsValidController()
-          => _controllerMessage is not null;
+    private static bool IsValidController(IControllerMessage controllerMessage)
+          => controllerMessage is not null;
 
     public long GetChatId(object objectMessage)
     {

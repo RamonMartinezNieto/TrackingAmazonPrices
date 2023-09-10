@@ -12,7 +12,7 @@ public interface IMessageHandler
 
     string GetMessage<TMessage>(TMessage objectMessage);
 
-    void SetControllerMessage(IControllerMessage controllerMessage);
+    IControllerMessage SetControllerMessage(IControllerMessage controllerMessage);
 
     long GetChatId(object objectMessage);
 }
