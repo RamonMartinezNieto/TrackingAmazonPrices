@@ -1,4 +1,7 @@
-﻿namespace TrackingAmazonPrices.Tests.Infraestructure.Unit.Handlers;
+﻿using NSubstitute.Core.Arguments;
+using System.Threading;
+
+namespace TrackingAmazonPrices.Tests.Infraestructure.Unit.Handlers;
 
 public class HandlerMessageTelegramTest
 {
@@ -136,6 +139,42 @@ public class HandlerMessageTelegramTest
             disableNotification: Arg.Any<bool>(),
             parseMode: Arg.Any<ParseMode>());
     }
+
+    [Fact]
+    public void HandleUpdateAsync_ThrowInvalidController_WhenControllerNotValid() 
+    {
+        Update message = GetMockMessage();
+        using CancellationTokenSource cts = new ();
+        
+        Func<Task> act = async () => await _sut.HandleUpdateAsync(_botClient.BotClient, message, cts.Token);
+
+        act.Should().ThrowAsync<InvalidControllerException>();
+    }
+        
+    [Fact]
+    public async Task HandleUpdateAsync_Execute_WhenControllerValid() 
+    {
+        Update message = GetMockMessage();
+        using CancellationTokenSource cts = new ();
+
+        _sut.SetControllerMessage(_controllerMessage);
+
+        await _sut.HandleUpdateAsync(_botClient.BotClient, message, cts.Token);
+        
+        _controllerMessage.Received().HandlerMessage(Arg.Any<Update>());
+    }
+
+    [Fact]
+    public void HandlePollingErrorAsync_ThrowException_WhenControllerNotValid()
+    {
+        using CancellationTokenSource cts = new();
+        Exception someException = new();
+
+        Func<Task> act = async () => await _sut.HandlePollingErrorAsync(_botClient.BotClient, someException, cts.Token);
+
+        act.Should().ThrowAsync<InvalidControllerException>();
+    }
+
 
     private static Update GetMockMessage()
     {
