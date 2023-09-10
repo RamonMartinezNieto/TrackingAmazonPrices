@@ -1,6 +1,4 @@
-﻿using Telegram.Bot.Types;
-
-namespace TrackingAmazonPrices.Tests.Infraestructure.Unit.Commands;
+﻿namespace TrackingAmazonPrices.Tests.Infraestructure.Unit.Commands;
 
 public class StartCommandTests
 {

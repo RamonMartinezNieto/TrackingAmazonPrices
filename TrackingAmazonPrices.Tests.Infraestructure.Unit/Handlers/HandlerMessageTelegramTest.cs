@@ -1,9 +1,4 @@
-﻿using System.Threading.Tasks;
-using Telegram.Bot.Types;
-using Telegram.Bot.Types.Enums;
-using TrackingAmazonPrices.Domain.Exceptions;
-
-namespace TrackingAmazonPrices.Tests.Infraestructure.Unit.Handlers;
+﻿namespace TrackingAmazonPrices.Tests.Infraestructure.Unit.Handlers;
 
 public class HandlerMessageTelegramTest
 {

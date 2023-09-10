@@ -16,3 +16,7 @@ global using System;
 global using TrackingAmazonPrices.Application.ApplicationFlow;
 global using TrackingAmazonPrices.Application.Services;
 global using TrackingAmazonPrices.Infraestructure.Handlers;
+global using System.Threading.Tasks;
+global using Telegram.Bot.Types;
+global using Telegram.Bot.Types.Enums;
+global using TrackingAmazonPrices.Domain.Exceptions;

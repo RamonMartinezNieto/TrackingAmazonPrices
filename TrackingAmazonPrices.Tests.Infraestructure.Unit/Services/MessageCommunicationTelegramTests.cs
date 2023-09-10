@@ -1,9 +1,4 @@
-﻿using Microsoft.Extensions.Options;
-using NSubstitute.Core.Arguments;
-using System.Threading;
-using Telegram.Bot.Polling;
-
-namespace TrackingAmazonPrices.Tests.Infraestructure.Unit.Services;
+﻿namespace TrackingAmazonPrices.Tests.Infraestructure.Unit.Services;
 
 public class MessageCommunicationTelegramTests
 {
