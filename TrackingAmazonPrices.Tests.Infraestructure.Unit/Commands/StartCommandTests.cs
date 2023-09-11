@@ -25,10 +25,14 @@ public class StartCommandTests
     [Fact]
     public async void StartComand_NextStepTest_WhenCallExecuteAsyncAndMessageIsValid()
     {
+        _messageHandler.SentInlineKeyboardMessage(_updateObject, Arg.Any<string>(), Arg.Any<object>()).Returns(true);
         _messageHandler.SentMessage(_updateObject, Arg.Any<string>()).Returns(true);
 
         StartCommand startCommand = new(_logger, _messageHandler);
         var result = await startCommand.ExecuteAsync(_updateObject);
+
+        await _messageHandler.Received(1).SentMessage(_updateObject, Arg.Any<string>());
+        await _messageHandler.Received(1).SentInlineKeyboardMessage(_updateObject, Arg.Any<string>(), Arg.Any<object>());
         startCommand.NextStep.Should().Be(Steps.Test);
         result.Should().BeTrue();
     }
@@ -40,6 +44,9 @@ public class StartCommandTests
 
         StartCommand startCommand = new(_logger, _messageHandler);
         var result = await startCommand.ExecuteAsync(_updateObject);
+
+        await _messageHandler.DidNotReceive().SentInlineKeyboardMessage(_updateObject, Arg.Any<string>(), Arg.Any<object>());
+
         startCommand.NextStep.Should().Be(Steps.Nothing);
         result.Should().BeFalse();
     }

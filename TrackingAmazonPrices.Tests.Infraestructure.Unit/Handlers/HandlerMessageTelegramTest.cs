@@ -141,6 +141,40 @@ public class HandlerMessageTelegramTest
     }
 
     [Fact]
+    public void SentMessageInline_ThrowException_InvalidObject() 
+    {
+        object someObject = new();
+
+        Func<Task> act = async () => await _sut.SentInlineKeyboardMessage(someObject, Arg.Any<string>(), Arg.Any<object>());
+
+        act.Should().ThrowAsync<ArgumentException>()
+            .WithMessage("invalid objectMessage, this is not Update for telegram client");
+    }
+    
+    [Fact]
+    public void SentMessageInline_NotThrowException_ValidObject() 
+    {
+        List<string[,]> menuRows = new()
+        {
+            new string[2, 2] {
+                { "ES " + TelegramEmojis.SPAINT_FLAG, "ESP" },
+                { "EN " + TelegramEmojis.GB_FLAG, "EN" } },
+        };
+        var menu = UtilsTelegramMessage.CreateMenu(menuRows);
+
+        Update message = GetMockCallback();
+
+        Func<Task> act = async () => await _sut.SentInlineKeyboardMessage(message, Arg.Any<string>(), menu);
+
+        act.Should().NotThrowAsync<ArgumentException>();
+        _botClient.BotClient.SendTextMessageAsync(
+            chatId: Arg.Any<long>(),
+            text: Arg.Any<string>(),
+            disableNotification: Arg.Any<bool>(),
+            parseMode: Arg.Any<ParseMode>());
+    }
+
+    [Fact]
     public void HandleUpdateAsync_ThrowInvalidController_WhenControllerNotValid() 
     {
         Update message = GetMockMessage();

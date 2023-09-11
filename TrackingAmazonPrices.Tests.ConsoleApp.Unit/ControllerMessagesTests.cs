@@ -24,6 +24,7 @@ public class ControllerMessagesTests
     [Fact]
     public void HandlerMessageImp_CheckCalls_WhenReceiveUpdateMessage_WithValidCommand()
     {
+
         ControllerMessages sut = Substitute.ForPartsOf<ControllerMessages>
             (_logger, _commandManager, _messageHandler, _poolingCommands);
 
@@ -41,7 +42,8 @@ public class ControllerMessagesTests
         };
 
         ICommand startCommand = Substitute.ForPartsOf<StartCommand>(_loggerStart, _messageHandler);
-
+        
+        _messageHandler.SentInlineKeyboardMessage(Arg.Any<Update>(), Arg.Any<string>(), Arg.Any<object>()).Returns(true);
         _messageHandler.IsValidMessage(update).Returns(true);
         _messageHandler.GetMessage(update).Returns(update.Message.Text);
         _messageHandler.GetChatId(update).Returns(update.Message.Chat.Id);

@@ -1,6 +1,7 @@
 ﻿using TrackingAmazonPrices.Application.Command;
 using TrackingAmazonPrices.Application.Handlers;
 using TrackingAmazonPrices.Domain.Enums;
+using TrackingAmazonPrices.Infraestructure.Handlers;
 
 namespace TrackingAmazonPrices.Infraestructure.Commands;
 
@@ -22,8 +23,26 @@ public class StartCommand : ICommand
 
     public async Task<bool> ExecuteAsync(object objectMessage)
     {
-        _logger.LogWarning("This is an start command");
-        bool result = await _messageHandler.SentMessage(objectMessage, string.Format("{0} Choise language", TelegramEmojis.QUESTIONMARK));
+        List<string[,]> menuRows = new()
+        {
+            new string[2, 2] { 
+                { "ES " + TelegramEmojis.SPAINT_FLAG, "ESP" }, 
+                { "EN " + TelegramEmojis.GB_FLAG, "EN" } },
+        };
+
+        var menu = UtilsTelegramMessage.CreateMenu(menuRows);
+
+        bool firstMessage = await _messageHandler.SentMessage(
+            objectMessage, 
+            string.Format("Welcom to Tracking Amazon Prices {0}", TelegramEmojis.SMILE));
+
+        bool result = false;
+        if (firstMessage) { 
+            result = await _messageHandler.SentInlineKeyboardMessage(
+                objectMessage, 
+                string.Format("{0} Select a language", TelegramEmojis.QUESTIONMARK),
+                menu);
+        }
 
         if (result) NextStep = Steps.Test;
 
