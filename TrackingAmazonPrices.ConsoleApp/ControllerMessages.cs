@@ -1,5 +1,4 @@
-﻿using Telegram.Bot.Types.Enums;
-using TrackingAmazonPrices.Application.ApplicationFlow;
+﻿using TrackingAmazonPrices.Application.ApplicationFlow;
 using TrackingAmazonPrices.Application.Command;
 using TrackingAmazonPrices.Application.Handlers;
 using TrackingAmazonPrices.Domain.Enums;
@@ -42,9 +41,11 @@ public class ControllerMessages : IControllerMessage
             case MessageTypes.Command:
                 ProcessCommand(objectMessage);
                 break;
+
             case MessageTypes.CallbackQuery:
                 ProcessCallback(objectMessage);
                 break;
+
             default:
                 _logger.LogWarning("Unsupported message type");
                 break;

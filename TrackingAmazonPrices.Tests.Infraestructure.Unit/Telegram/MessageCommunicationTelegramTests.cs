@@ -7,7 +7,6 @@ public class MessageCommunicationTelegramTests
     private readonly IBotClient<ITelegramBotClient> _botClient = Substitute.For<IBotClient<TelegramBotClient>>();
     private readonly IControllerMessage _controllerMessage = Substitute.For<IControllerMessage>();
 
-
     [Fact]
     public void StartComunication_ThrowArgumentException_WhenHandlerIsNotHandlerMessageTelegram()
     {

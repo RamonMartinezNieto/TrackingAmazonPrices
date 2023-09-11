@@ -1,5 +1,4 @@
-﻿using System.Threading;
-using Telegram.Bot;
+﻿using Telegram.Bot;
 using Telegram.Bot.Polling;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -28,7 +27,8 @@ public class HandlerMessageTelegram : IMessageHandler, IUpdateHandler
 
     public IControllerMessage SetControllerMessage(IControllerMessage controllerMessage)
     {
-        if (IsValidController(controllerMessage)) { 
+        if (IsValidController(controllerMessage))
+        {
             _controllerMessage = controllerMessage;
             return _controllerMessage;
         }
@@ -54,7 +54,7 @@ public class HandlerMessageTelegram : IMessageHandler, IUpdateHandler
     {
         if (!IsValidController(_controllerMessage))
             throw new InvalidControllerException();
-        
+
         await Task.Run(() => _controllerMessage.HandlerMessage(update), cancellationToken);
     }
 
@@ -65,7 +65,7 @@ public class HandlerMessageTelegram : IMessageHandler, IUpdateHandler
     }
 
     public bool IsCallBackQuery<TMessage>(TMessage typeMessage)
-        => typeMessage is Update updateMessage 
+        => typeMessage is Update updateMessage
            && updateMessage.CallbackQuery is { };
 
     public string GetMessage<TMessage>(TMessage objectMessage)
@@ -85,7 +85,7 @@ public class HandlerMessageTelegram : IMessageHandler, IUpdateHandler
             _logger.LogError("InvalidObjectMessage SentMessage");
             throw new ArgumentException("invalid objectMessage, this is not Update for telegram client");
         }
-        
+
         if (update.Message is not { } message)
             return false;
 
@@ -100,8 +100,8 @@ public class HandlerMessageTelegram : IMessageHandler, IUpdateHandler
     }
 
     public async Task<bool> SentInlineKeyboardMessage(
-        object objectMessage, 
-        string textMessage, 
+        object objectMessage,
+        string textMessage,
         object menu)
     {
         if (objectMessage is not Update update)
@@ -109,7 +109,7 @@ public class HandlerMessageTelegram : IMessageHandler, IUpdateHandler
             _logger.LogError("InvalidObjectMessage SentMessage");
             throw new ArgumentException("invalid objectMessage, this is not Update for telegram client");
         }
-        
+
         if (update.Message is not { } message)
             return false;
 
@@ -139,7 +139,8 @@ public class HandlerMessageTelegram : IMessageHandler, IUpdateHandler
 
     public MessageTypes GetTypeMessage(object objectMessage)
     {
-        if(TryCastUpdate(objectMessage, out Update updateMessage)) { 
+        if (TryCastUpdate(objectMessage, out Update updateMessage))
+        {
             return updateMessage switch
             {
                 { Message: { } } => MessageTypes.Command,

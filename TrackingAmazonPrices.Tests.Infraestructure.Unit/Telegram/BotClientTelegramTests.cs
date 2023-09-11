@@ -14,4 +14,3 @@ public class BotClientTelegramTEsts
         _sut.BotClient.Should().BeAssignableTo<TelegramBotClient>();
     }
 }
-

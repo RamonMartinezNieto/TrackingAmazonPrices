@@ -8,9 +8,11 @@ public interface IMessageHandler
     bool IsValidMessage<TMessage>(TMessage typeMessage);
 
     bool IsCallBackQuery<TMessage>(TMessage typeMessage);
+
     MessageTypes GetTypeMessage(object typeMessage);
 
     Task<bool> SentMessage(object objectMessage, string textMessage);
+
     Task<bool> SentInlineKeyboardMessage(
         object objectMessage,
         string textMessage,

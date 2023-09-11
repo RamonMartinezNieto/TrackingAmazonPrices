@@ -8,7 +8,7 @@ public static class UtilsTelegramMessage
     {
         List<InlineKeyboardButton[]> menuRows = new();
 
-        for (int i = 0; i < data.Count; i++) 
+        for (int i = 0; i < data.Count; i++)
         {
             List<InlineKeyboardButton> buttons = new();
 

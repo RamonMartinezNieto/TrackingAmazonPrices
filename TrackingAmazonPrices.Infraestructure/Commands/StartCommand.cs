@@ -27,21 +27,22 @@ public class StartCommand : ICommand
 
         List<string[,]> menuRows = new()
         {
-            new string[2, 2] { 
-                { "ES " + TelegramEmojis.SPAINT_FLAG, "ESP" }, 
+            new string[2, 2] {
+                { "ES " + TelegramEmojis.SPAINT_FLAG, "ESP" },
                 { "EN " + TelegramEmojis.GB_FLAG, "EN" } },
         };
 
         var menu = UtilsTelegramMessage.CreateMenu(menuRows);
 
         bool firstMessage = await _messageHandler.SentMessage(
-            objectMessage, 
+            objectMessage,
             string.Format("Welcom to Tracking Amazon Prices {0}", TelegramEmojis.SMILE));
 
         bool result = false;
-        if (firstMessage) { 
+        if (firstMessage)
+        {
             result = await _messageHandler.SentInlineKeyboardMessage(
-                objectMessage, 
+                objectMessage,
                 string.Format("{0} Select a language", TelegramEmojis.QUESTIONMARK),
                 menu);
         }

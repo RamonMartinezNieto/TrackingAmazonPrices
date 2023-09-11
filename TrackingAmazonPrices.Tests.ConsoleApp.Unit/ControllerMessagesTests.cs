@@ -1,8 +1,5 @@
 using Microsoft.Extensions.Logging;
-using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
 using NSubstitute;
-using NSubstitute.Core.Arguments;
-using System;
 using System.Threading.Tasks;
 using Telegram.Bot.Types;
 using TrackingAmazonPrices.Application.Command;
@@ -25,10 +22,8 @@ public class ControllerMessagesTests
     [Fact]
     public void HandlerMessageImp_CheckCalls_WhenReceiveUpdateMessage_WithValidCommand()
     {
-
         ControllerMessages sut = Substitute.ForPartsOf<ControllerMessages>
             (_logger, _commandManager, _messageHandler, _poolingCommands);
-
 
         Update update = new()
         {

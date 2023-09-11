@@ -52,7 +52,6 @@ public class HandlerMessageTelegramTest
         result.Should().BeFalse();
     }
 
-
     [Fact]
     public void IsCallback_ReturnTrue_WhenIsUpdateIsCallback()
     {
@@ -216,7 +215,6 @@ public class HandlerMessageTelegramTest
         _controllerMessage.Received().HandlerError(someException);
     }
 
-
     [Fact]
     public void HandlePollingErrorAsync_Execute_WhenControllerIsValid()
     {
@@ -235,7 +233,6 @@ public class HandlerMessageTelegramTest
     [Fact]
     public void GetTypeMessage_ReturnCommand_WhenIsMessage()
     {
-
         var result = _sut.GetTypeMessage(GetMockMessage());
 
         result.Should().Be(MessageTypes.Command);
@@ -244,7 +241,6 @@ public class HandlerMessageTelegramTest
     [Fact]
     public void GetTypeMessage_ReturnCallback_WhenIsCallback()
     {
-
         var result = _sut.GetTypeMessage(GetMockCallback());
 
         result.Should().Be(MessageTypes.CallbackQuery);
@@ -263,16 +259,13 @@ public class HandlerMessageTelegramTest
         result.Should().Be(MessageTypes.Nothing);
     }
 
-
     [Fact]
     public void GetTypeMessage_ReturnNothing_WhenIsNotValidMessage()
     {
-
         var result = _sut.GetTypeMessage(new object());
 
         result.Should().Be(MessageTypes.Nothing);
     }
-
 
     private static Update GetMockMessage()
     {
