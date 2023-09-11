@@ -2,6 +2,7 @@
 using Telegram.Bot.Polling;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
+using Telegram.Bot.Types.ReplyMarkups;
 using TrackingAmazonPrices.Application.ApplicationFlow;
 using TrackingAmazonPrices.Application.Handlers;
 using TrackingAmazonPrices.Application.Services;
@@ -90,6 +91,31 @@ public class HandlerMessageTelegram : IMessageHandler, IUpdateHandler
             .SendTextMessageAsync(
                  chatId: message.Chat.Id,
                  text: textMessage,
+                 disableNotification: true,
+                 parseMode: ParseMode.MarkdownV2);
+
+        return result != null;
+    }
+
+    public async Task<bool> SentInlineKeyboardMessage(
+        object objectMessage, 
+        string textMessage, 
+        object menu)
+    {
+        if (objectMessage is not Update update)
+        {
+            _logger.LogError("InvalidObjectMessage SentMessage");
+            throw new ArgumentException("invalid objectMessage, this is not Update for telegram client");
+        }
+        
+        if (update.Message is not { } message)
+            return false;
+
+        var result = await _botClient
+            .SendTextMessageAsync(
+                 chatId: message.Chat.Id,
+                 text: textMessage,
+                 replyMarkup: (InlineKeyboardMarkup)menu,
                  disableNotification: true,
                  parseMode: ParseMode.MarkdownV2);
 

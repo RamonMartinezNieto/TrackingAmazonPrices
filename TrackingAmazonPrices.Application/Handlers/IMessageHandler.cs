@@ -9,6 +9,10 @@ public interface IMessageHandler
     bool IsCallBackQuery<TMessage>(TMessage typeMessage);
 
     Task<bool> SentMessage(object objectMessage, string textMessage);
+    Task<bool> SentInlineKeyboardMessage(
+        object objectMessage,
+        string textMessage,
+        object menu);
 
     string GetMessage<TMessage>(TMessage objectMessage);
 
