@@ -1,6 +1,6 @@
 ﻿using Telegram.Bot.Types.ReplyMarkups;
 
-namespace TrackingAmazonPrices.Infraestructure.Handlers;
+namespace TrackingAmazonPrices.Infraestructure.Telegram;
 
 public static class UtilsTelegramMessage
 {

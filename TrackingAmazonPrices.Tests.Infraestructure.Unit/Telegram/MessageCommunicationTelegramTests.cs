@@ -1,4 +1,4 @@
-﻿namespace TrackingAmazonPrices.Tests.Infraestructure.Unit.Services;
+﻿namespace TrackingAmazonPrices.Tests.Infraestructure.Unit.Telegram;
 
 public class MessageCommunicationTelegramTests
 {

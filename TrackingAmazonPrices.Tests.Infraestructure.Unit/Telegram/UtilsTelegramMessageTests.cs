@@ -1,13 +1,11 @@
-﻿using System.Linq;
-using Telegram.Bot.Types.ReplyMarkups;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+﻿using Telegram.Bot.Types.ReplyMarkups;
 
-namespace TrackingAmazonPrices.Tests.Infraestructure.Unit.Handlers;
+namespace TrackingAmazonPrices.Tests.Infraestructure.Unit.Telegram;
 
 public class UtilsTelegramMessageTests
 {
     [Fact]
-    public void CreateMenuMultipleDimensions_ReturnMenu_WhenParamsAreCorrect() 
+    public void CreateMenuMultipleDimensions_ReturnMenu_WhenParamsAreCorrect()
     {
         List<string[,]> menuRows = new()
         {
@@ -26,10 +24,10 @@ public class UtilsTelegramMessageTests
 
         result.InlineKeyboard.First().ElementAt(0).Text.Should().Be("ES");
         result.InlineKeyboard.First().ElementAt(0).CallbackData.Should().Be("ESP");
-        
+
         result.InlineKeyboard.First().ElementAt(1).Text.Should().Be("EN");
         result.InlineKeyboard.First().ElementAt(1).CallbackData.Should().Be("UUEE");
-        
+
         result.InlineKeyboard.ElementAt(1).ElementAt(2).Text.Should().Be("EN22");
         result.InlineKeyboard.ElementAt(1).ElementAt(2).CallbackData.Should().Be("UUEE22");
     }

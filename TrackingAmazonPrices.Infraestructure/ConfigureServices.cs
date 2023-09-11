@@ -5,8 +5,7 @@ using TrackingAmazonPrices.Application.Handlers;
 using TrackingAmazonPrices.Application.Services;
 using TrackingAmazonPrices.Domain.Configurations;
 using TrackingAmazonPrices.Infraestructure.Commands;
-using TrackingAmazonPrices.Infraestructure.Handlers;
-using TrackingAmazonPrices.Infraestructure.Services;
+using TrackingAmazonPrices.Infraestructure.Telegram;
 
 namespace TrackingAmazonPrices.Infraestructure;
 

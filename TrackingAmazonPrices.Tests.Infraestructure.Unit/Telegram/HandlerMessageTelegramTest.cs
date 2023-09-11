@@ -1,7 +1,6 @@
-﻿using NSubstitute.Core.Arguments;
-using System.Threading;
+﻿using System.Threading;
 
-namespace TrackingAmazonPrices.Tests.Infraestructure.Unit.Handlers;
+namespace TrackingAmazonPrices.Tests.Infraestructure.Unit.Telegram;
 
 public class HandlerMessageTelegramTest
 {
@@ -53,7 +52,7 @@ public class HandlerMessageTelegramTest
         result.Should().BeFalse();
     }
 
-    
+
     [Fact]
     public void IsCallback_ReturnTrue_WhenIsUpdateIsCallback()
     {
@@ -75,7 +74,7 @@ public class HandlerMessageTelegramTest
     }
 
     [Fact]
-    public void GetMessage_ReturnText_WhenIsMessageWithSomeText() 
+    public void GetMessage_ReturnText_WhenIsMessageWithSomeText()
     {
         Update message = GetMockMessage();
 
@@ -83,9 +82,9 @@ public class HandlerMessageTelegramTest
 
         result.Should().Be("Some text message");
     }
-    
+
     [Fact]
-    public void GetMessage_ReturnEmpty_WhenIsNotMessage() 
+    public void GetMessage_ReturnEmpty_WhenIsNotMessage()
     {
         Update message = GetMockCallback();
 
@@ -93,9 +92,9 @@ public class HandlerMessageTelegramTest
 
         result.Should().Be(string.Empty);
     }
-    
+
     [Fact]
-    public void GetChatId_ReturnLongId_WhenUpdateIsMessage() 
+    public void GetChatId_ReturnLongId_WhenUpdateIsMessage()
     {
         Update message = GetMockMessage();
 
@@ -103,19 +102,19 @@ public class HandlerMessageTelegramTest
 
         result.Should().Be(123L);
     }
-    
+
     [Fact]
-    public void GetMessage_ReturnDefault_WhenIsNotMessage() 
+    public void GetMessage_ReturnDefault_WhenIsNotMessage()
     {
         Update message = GetMockCallback();
 
         var result = _sut.GetChatId(message);
 
         result.Should().Be(default);
-    }    
+    }
 
     [Fact]
-    public void SentMessage_ThrowException_InvalidObject() 
+    public void SentMessage_ThrowException_InvalidObject()
     {
         object someObject = new();
 
@@ -124,9 +123,9 @@ public class HandlerMessageTelegramTest
         act.Should().ThrowAsync<ArgumentException>()
             .WithMessage("invalid objectMessage, this is not Update for telegram client");
     }
-    
+
     [Fact]
-    public void SentMessage_NotThrowException_ValidObject() 
+    public void SentMessage_NotThrowException_ValidObject()
     {
         Update message = GetMockCallback();
 
@@ -141,7 +140,7 @@ public class HandlerMessageTelegramTest
     }
 
     [Fact]
-    public void SentMessageInline_ThrowException_InvalidObject() 
+    public void SentMessageInline_ThrowException_InvalidObject()
     {
         object someObject = new();
 
@@ -150,9 +149,9 @@ public class HandlerMessageTelegramTest
         act.Should().ThrowAsync<ArgumentException>()
             .WithMessage("invalid objectMessage, this is not Update for telegram client");
     }
-    
+
     [Fact]
-    public void SentMessageInline_NotThrowException_ValidObject() 
+    public void SentMessageInline_NotThrowException_ValidObject()
     {
         List<string[,]> menuRows = new()
         {
@@ -175,28 +174,28 @@ public class HandlerMessageTelegramTest
     }
 
     [Fact]
-    public void HandleUpdateAsync_ThrowInvalidController_WhenControllerNotValid() 
+    public void HandleUpdateAsync_ThrowInvalidController_WhenControllerNotValid()
     {
         Update message = GetMockMessage();
-        using CancellationTokenSource cts = new ();
-        
+        using CancellationTokenSource cts = new();
+
         Func<Task> act = async () => await _sut.HandleUpdateAsync(_botClient.BotClient, message, cts.Token);
 
         act.Should()
             .ThrowAsync<InvalidControllerException>()
             .WithMessage("Controller Message is not defined, call method SetControllerMessage");
     }
-        
+
     [Fact]
-    public async Task HandleUpdateAsync_Execute_WhenControllerValid() 
+    public async Task HandleUpdateAsync_Execute_WhenControllerValid()
     {
         Update message = GetMockMessage();
-        using CancellationTokenSource cts = new ();
+        using CancellationTokenSource cts = new();
 
         _sut.SetControllerMessage(_controllerMessage);
 
         await _sut.HandleUpdateAsync(_botClient.BotClient, message, cts.Token);
-        
+
         _controllerMessage.Received().HandlerMessage(Arg.Any<Update>());
     }
 
@@ -232,7 +231,7 @@ public class HandlerMessageTelegramTest
             .ThrowAsync<InvalidControllerException>()
             .WithMessage("Controller Message is not defined, call method SetControllerMessage");
     }
-    
+
     [Fact]
     public void GetTypeMessage_ReturnCommand_WhenIsMessage()
     {
@@ -241,7 +240,7 @@ public class HandlerMessageTelegramTest
 
         result.Should().Be(MessageTypes.Command);
     }
-       
+
     [Fact]
     public void GetTypeMessage_ReturnCallback_WhenIsCallback()
     {
@@ -250,7 +249,7 @@ public class HandlerMessageTelegramTest
 
         result.Should().Be(MessageTypes.CallbackQuery);
     }
-           
+
     [Fact]
     public void GetTypeMessage_ReturnNothing_WhenIsNotMessageOrCallback()
     {
@@ -264,7 +263,7 @@ public class HandlerMessageTelegramTest
         result.Should().Be(MessageTypes.Nothing);
     }
 
-               
+
     [Fact]
     public void GetTypeMessage_ReturnNothing_WhenIsNotValidMessage()
     {

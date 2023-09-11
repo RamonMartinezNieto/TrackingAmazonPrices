@@ -2,7 +2,7 @@
 using TrackingAmazonPrices.Application.Services;
 using TrackingAmazonPrices.Domain.Configurations;
 
-namespace TrackingAmazonPrices.Infraestructure.Services;
+namespace TrackingAmazonPrices.Infraestructure.Telegram;
 
 public class BotClientTelegram : IBotClient<ITelegramBotClient>
 {

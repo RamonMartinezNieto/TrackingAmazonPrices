@@ -1,7 +1,7 @@
 ﻿using TrackingAmazonPrices.Application.Command;
 using TrackingAmazonPrices.Application.Handlers;
 using TrackingAmazonPrices.Domain.Enums;
-using TrackingAmazonPrices.Infraestructure.Handlers;
+using TrackingAmazonPrices.Infraestructure.Telegram;
 
 namespace TrackingAmazonPrices.Infraestructure.Commands;
 

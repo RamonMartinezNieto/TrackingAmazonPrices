@@ -1,9 +1,9 @@
-﻿namespace TrackingAmazonPrices.Tests.Infraestructure.Unit.Services;
+﻿namespace TrackingAmazonPrices.Tests.Infraestructure.Unit.Telegram;
 
 public class BotClientTelegramTEsts
 {
     [Fact]
-    public void InstantiateBotClientTelegram_ShoulBeBotClientTelegram() 
+    public void InstantiateBotClientTelegram_ShoulBeBotClientTelegram()
     {
         string token = "askdjhs76fd87sfgdhasjdf";
         var botConfig = Options.Create(new BotConfig { Token = token });

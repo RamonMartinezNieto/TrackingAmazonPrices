@@ -10,7 +10,7 @@ using TrackingAmazonPrices.Application.Services;
 using TrackingAmazonPrices.Domain.Enums;
 using TrackingAmazonPrices.Domain.Exceptions;
 
-namespace TrackingAmazonPrices.Infraestructure.Handlers;
+namespace TrackingAmazonPrices.Infraestructure.Telegram;
 
 public class HandlerMessageTelegram : IMessageHandler, IUpdateHandler
 {

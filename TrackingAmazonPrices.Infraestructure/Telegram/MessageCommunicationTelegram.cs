@@ -4,9 +4,8 @@ using Telegram.Bot.Types.Enums;
 using TrackingAmazonPrices.Application.ApplicationFlow;
 using TrackingAmazonPrices.Application.Handlers;
 using TrackingAmazonPrices.Application.Services;
-using TrackingAmazonPrices.Infraestructure.Handlers;
 
-namespace TrackingAmazonPrices.Infraestructure.Services;
+namespace TrackingAmazonPrices.Infraestructure.Telegram;
 
 public class MessageCommunicationTelegram : IComunicationHandler
 {
