@@ -9,7 +9,7 @@ public interface IMessageHandler
 
     bool IsCallBackQuery<TMessage>(TMessage typeMessage);
 
-    MessageTypes GetTypeMessage(object typeMessage);
+    MessageTypes GetTypeMessage(object objectMessage);
 
     Task<bool> SentMessage(object objectMessage, string textMessage);
 
