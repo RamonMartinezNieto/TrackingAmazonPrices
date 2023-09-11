@@ -1,4 +1,5 @@
 ﻿using TrackingAmazonPrices.Application.ApplicationFlow;
+using TrackingAmazonPrices.Domain.Enums;
 
 namespace TrackingAmazonPrices.Application.Handlers;
 
@@ -7,6 +8,7 @@ public interface IMessageHandler
     bool IsValidMessage<TMessage>(TMessage typeMessage);
 
     bool IsCallBackQuery<TMessage>(TMessage typeMessage);
+    MessageTypes GetTypeMessage(object typeMessage);
 
     Task<bool> SentMessage(object objectMessage, string textMessage);
     Task<bool> SentInlineKeyboardMessage(

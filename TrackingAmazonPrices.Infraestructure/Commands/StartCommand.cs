@@ -23,6 +23,8 @@ public class StartCommand : ICommand
 
     public async Task<bool> ExecuteAsync(object objectMessage)
     {
+        _logger.LogInformation("Start command");
+
         List<string[,]> menuRows = new()
         {
             new string[2, 2] { 

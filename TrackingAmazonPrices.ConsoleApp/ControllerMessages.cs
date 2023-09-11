@@ -1,6 +1,8 @@
-﻿using TrackingAmazonPrices.Application.ApplicationFlow;
+﻿using Telegram.Bot.Types.Enums;
+using TrackingAmazonPrices.Application.ApplicationFlow;
 using TrackingAmazonPrices.Application.Command;
 using TrackingAmazonPrices.Application.Handlers;
+using TrackingAmazonPrices.Domain.Enums;
 
 namespace TrackingAmazonPrices.ConsoleApp;
 
@@ -33,11 +35,33 @@ public class ControllerMessages : IControllerMessage
     {
         _logger.LogInformation("receiving message");
 
+        var messageType = _handlerMessage.GetTypeMessage(objectMessage);
+
+        switch (messageType)
+        {
+            case MessageTypes.Command:
+                ProcessCommand(objectMessage);
+                break;
+            case MessageTypes.CallbackQuery:
+                ProcessCallback(objectMessage);
+                break;
+            default:
+                _logger.LogWarning("Unsupported message type");
+                break;
+        }
+    }
+
+    private void ProcessCallback(object objectMessage)
+    {
         if (_handlerMessage.IsCallBackQuery(objectMessage))
         {
             _logger.LogInformation("esto es un callback");
         }
-        else if (_handlerMessage.IsValidMessage(objectMessage))
+    }
+
+    private void ProcessCommand(object objectMessage)
+    {
+        if (_handlerMessage.IsValidMessage(objectMessage))
         {
             var message = _handlerMessage.GetMessage(objectMessage);
             long chatId = _handlerMessage.GetChatId(objectMessage);
@@ -45,7 +69,7 @@ public class ControllerMessages : IControllerMessage
             ICommand command = GetCommand(message, chatId);
 
             var taskExecute = Task.Run(() => TryExecuteCommand(command, objectMessage));
-            taskExecute.Wait(); 
+            taskExecute.Wait();
 
             (bool succes, ICommand nextCommand) = taskExecute.Result;
 

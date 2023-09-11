@@ -232,6 +232,47 @@ public class HandlerMessageTelegramTest
             .ThrowAsync<InvalidControllerException>()
             .WithMessage("Controller Message is not defined, call method SetControllerMessage");
     }
+    
+    [Fact]
+    public void GetTypeMessage_ReturnCommand_WhenIsMessage()
+    {
+
+        var result = _sut.GetTypeMessage(GetMockMessage());
+
+        result.Should().Be(MessageTypes.Command);
+    }
+       
+    [Fact]
+    public void GetTypeMessage_ReturnCallback_WhenIsCallback()
+    {
+
+        var result = _sut.GetTypeMessage(GetMockCallback());
+
+        result.Should().Be(MessageTypes.CallbackQuery);
+    }
+           
+    [Fact]
+    public void GetTypeMessage_ReturnNothing_WhenIsNotMessageOrCallback()
+    {
+        var message = new Update()
+        {
+            Poll = new()
+        };
+
+        var result = _sut.GetTypeMessage(message);
+
+        result.Should().Be(MessageTypes.Nothing);
+    }
+
+               
+    [Fact]
+    public void GetTypeMessage_ReturnNothing_WhenIsNotValidMessage()
+    {
+
+        var result = _sut.GetTypeMessage(new object());
+
+        result.Should().Be(MessageTypes.Nothing);
+    }
 
 
     private static Update GetMockMessage()

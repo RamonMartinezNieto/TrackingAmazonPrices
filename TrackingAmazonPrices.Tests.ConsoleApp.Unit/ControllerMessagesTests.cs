@@ -8,6 +8,7 @@ using Telegram.Bot.Types;
 using TrackingAmazonPrices.Application.Command;
 using TrackingAmazonPrices.Application.Handlers;
 using TrackingAmazonPrices.ConsoleApp;
+using TrackingAmazonPrices.Domain.Enums;
 using TrackingAmazonPrices.Infraestructure.Commands;
 using Xunit;
 
@@ -42,7 +43,8 @@ public class ControllerMessagesTests
         };
 
         ICommand startCommand = Substitute.ForPartsOf<StartCommand>(_loggerStart, _messageHandler);
-        
+
+        _messageHandler.GetTypeMessage(update).Returns(MessageTypes.Command);
         _messageHandler.SentInlineKeyboardMessage(Arg.Any<Update>(), Arg.Any<string>(), Arg.Any<object>()).Returns(true);
         _messageHandler.IsValidMessage(update).Returns(true);
         _messageHandler.GetMessage(update).Returns(update.Message.Text);
@@ -53,7 +55,6 @@ public class ControllerMessagesTests
 
         sut.HandlerMessageImp(update);
 
-        _messageHandler.Received().IsCallBackQuery(update);
         _messageHandler.Received().IsValidMessage(update);
         _messageHandler.Received().GetMessage(update);
         _messageHandler.Received().GetChatId(update);
@@ -68,6 +69,7 @@ public class ControllerMessagesTests
 
         CallbackQuery callBack = new();
 
+        _messageHandler.GetTypeMessage(Arg.Any<object>()).Returns(MessageTypes.CallbackQuery);
         _messageHandler.IsCallBackQuery(callBack).Returns(true);
 
         sut.HandlerMessageImp(callBack);

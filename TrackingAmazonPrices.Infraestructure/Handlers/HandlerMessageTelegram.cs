@@ -1,4 +1,5 @@
-﻿using Telegram.Bot;
+﻿using System.Threading;
+using Telegram.Bot;
 using Telegram.Bot.Polling;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -6,6 +7,7 @@ using Telegram.Bot.Types.ReplyMarkups;
 using TrackingAmazonPrices.Application.ApplicationFlow;
 using TrackingAmazonPrices.Application.Handlers;
 using TrackingAmazonPrices.Application.Services;
+using TrackingAmazonPrices.Domain.Enums;
 using TrackingAmazonPrices.Domain.Exceptions;
 
 namespace TrackingAmazonPrices.Infraestructure.Handlers;
@@ -133,5 +135,24 @@ public class HandlerMessageTelegram : IMessageHandler, IUpdateHandler
             return message.Chat.Id;
         }
         return default;
+    }
+
+    public MessageTypes GetTypeMessage(object objectMessage)
+    {
+        if(TryCastUpdate(objectMessage, out Update updateMessage)) { 
+            return updateMessage switch
+            {
+                { Message: { } } => MessageTypes.Command,
+                { CallbackQuery: { } } => MessageTypes.CallbackQuery,
+                _ => MessageTypes.Nothing
+            };
+        }
+        return MessageTypes.Nothing;
+    }
+
+    private static bool TryCastUpdate(object typeMessage, out Update updateMessage)
+    {
+        updateMessage = typeMessage as Update;
+        return updateMessage != null;
     }
 }
