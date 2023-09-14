@@ -1,12 +1,14 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Diagnostics.CodeAnalysis;
 using TrackingAmazonPrices.Application.ApplicationFlow;
 using TrackingAmazonPrices.Application.Handlers;
 using TrackingAmazonPrices.Infraestructure;
 
 namespace TrackingAmazonPrices.ConsoleApp;
 
+[ExcludeFromCodeCoverage]
 internal static class Program
 {
     private static void Main()

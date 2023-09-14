@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Driver;
+using System.Diagnostics.CodeAnalysis;
 using Telegram.Bot;
 using TrackingAmazonPrices.Application.Command;
 using TrackingAmazonPrices.Application.Handlers;
@@ -10,6 +11,7 @@ using TrackingAmazonPrices.Infraestructure.Telegram;
 
 namespace TrackingAmazonPrices.Infraestructure;
 
+[ExcludeFromCodeCoverage]
 public static class ConfigureServices
 {
     public static IServiceCollection AddConfigure(this IServiceCollection services)
