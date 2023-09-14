@@ -36,7 +36,7 @@ public class LanguageTest
     {
         Language language = new("es");
 
-        language.LanguageCode.Should().Be(LanguageType.English);
+        language.LanguageCode.Should().Be(LanguageType.Spanish);
     }
     [Fact]
     public void InstantiateLanguage_ReturnSpanish_StringConstructorDefault()
