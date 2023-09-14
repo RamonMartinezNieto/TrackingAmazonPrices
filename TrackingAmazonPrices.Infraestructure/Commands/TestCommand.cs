@@ -9,7 +9,7 @@ namespace TrackingAmazonPrices.Infraestructure.Commands;
 public class TestCommand : ICommand
 {
     public Steps NextStep { get; private set; }
-    
+
     private readonly IDatabaseUserService _databaseHandler;
     private readonly ILogger<TestCommand> _logger;
     private readonly IMessageHandler _messageHandler;
@@ -34,8 +34,9 @@ public class TestCommand : ICommand
         User user = _messageHandler.GetUser(objectMessage);
 
         var saved = await _databaseHandler.SaveUserAsync(user);
-        
-        if (saved) { 
+
+        if (saved)
+        {
             result = await _messageHandler.SentMessage(objectMessage, "TEST Message");
             NextStep = Steps.Nothing;
         }

@@ -9,13 +9,13 @@ public class Language
     public Language(string language)
     {
         LanguageCode = GetType(language);
-    } 
+    }
 
     public Language(LanguageType language)
     {
         LanguageCode = language;
-    } 
-    
+    }
+
     public Language()
     {
         LanguageCode = LanguageType.English;

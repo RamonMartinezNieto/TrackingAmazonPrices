@@ -15,8 +15,8 @@ public class User
     }
 
     public User(
-        string name, 
-        long userId, 
+        string name,
+        long userId,
         PlatformType platform) : this()
     {
         Name = name;
@@ -25,9 +25,9 @@ public class User
     }
 
     public User(
-        string name, 
-        long userId, 
-        PlatformType platform, 
+        string name,
+        long userId,
+        PlatformType platform,
         Language language)
     {
         Name = name;
@@ -35,5 +35,4 @@ public class User
         Platform = platform;
         Language = language;
     }
-
 }

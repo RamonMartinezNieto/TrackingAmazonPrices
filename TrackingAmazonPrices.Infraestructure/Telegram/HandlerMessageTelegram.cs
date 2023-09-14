@@ -159,7 +159,7 @@ public class HandlerMessageTelegram : IMessageHandler, IUpdateHandler
 
     public Domain.Entities.User GetUser(object objectMessage)
     {
-        if(objectMessage is Update updateMessage 
+        if (objectMessage is Update updateMessage
             && updateMessage.Message is Message message)
         {
             User user = message.From;

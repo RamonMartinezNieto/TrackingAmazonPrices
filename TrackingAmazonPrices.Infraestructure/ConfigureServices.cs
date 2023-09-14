@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using Telegram.Bot;
 using TrackingAmazonPrices.Application.Command;
@@ -32,19 +31,17 @@ public static class ConfigureServices
         services.AddSingleton<IComunicationHandler, MessageCommunicationTelegram>();
         services.AddSingleton<IPoolingCommands, PoolingCommands>();
 
-
         return services;
     }
 
     public static IServiceCollection AddDatabaseConnections(this IServiceCollection services)
     {
-        var connectionString = Environment.GetEnvironmentVariable("TrackingAmazonPrices.Atlas.ConnectionString"); 
+        var connectionString = Environment.GetEnvironmentVariable("TrackingAmazonPrices.Atlas.ConnectionString");
         services.AddTransient<IMongoClient>(x => new MongoClient(connectionString));
         services.AddSingleton<IDatabaseUserService, MongoUserService>();
 
         return services;
     }
-
 
     public static IServiceCollection AddCommands(this IServiceCollection services)
     {

@@ -6,7 +6,6 @@ namespace TrackingAmazonPrices.Tests.Infraestructure.Unit.Mappers;
 
 public class MongoMappersTests
 {
-    
     [Fact]
     public void ToMongoDto_ReturnCompleteUser_WhenAllDataIsValid_DefaultLanguage()
     {
@@ -21,9 +20,8 @@ public class MongoMappersTests
         result.Language.Should().Be(LanguageType.English);
     }
 
-
     [Fact]
-    public void ToMongoDto_ReturnCompleteUser_WhenAllDataIsValid() 
+    public void ToMongoDto_ReturnCompleteUser_WhenAllDataIsValid()
     {
         Domain.Entities.User user = GetUserWithLanguage();
 
@@ -35,7 +33,6 @@ public class MongoMappersTests
         result.Platform.Should().Be(user.Platform);
         result.Language.Should().Be(LanguageType.Spanish);
     }
-
 
     private static Domain.Entities.User GetUser()
     {

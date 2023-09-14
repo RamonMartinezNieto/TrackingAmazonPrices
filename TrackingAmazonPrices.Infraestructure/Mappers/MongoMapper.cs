@@ -5,7 +5,7 @@ namespace TrackingAmazonPrices.Infraestructure.Mappers;
 
 public static class MongoMapper
 {
-    public static MongoUserDto ToMongoDto(this User user) 
+    public static MongoUserDto ToMongoDto(this User user)
     {
         return new MongoUserDto
         {

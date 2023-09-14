@@ -7,7 +7,6 @@ namespace TrackingAmazonPrices.Tests.Infraestructure.Unit.MongoDataBase;
 
 public class MongoUserServiceTest
 {
-
     private readonly ILogger<MongoUserService> _logger = Substitute.For<ILogger<MongoUserService>>();
     private readonly IMongoClient _client = Substitute.For<IMongoClient>();
 
@@ -18,16 +17,15 @@ public class MongoUserServiceTest
         _sut = new MongoUserService(_logger, _client);
     }
 
-
     [Fact]
-    public async Task SaveUserAsync_ReturnTure_WhenUserIsValid() 
+    public async Task SaveUserAsync_ReturnTure_WhenUserIsValid()
     {
         var user = GetUser();
 
         IMongoDatabase dataBase = Substitute.For<IMongoDatabase>();
         IMongoCollection<MongoUserDto> collection = Substitute.For<IMongoCollection<MongoUserDto>>();
         ReplaceOneResult replaceResult = Substitute.For<ReplaceOneResult>();
-        var upsertedId = new BsonObjectId(ObjectId.GenerateNewId()); 
+        var upsertedId = new BsonObjectId(ObjectId.GenerateNewId());
 
         _client.GetDatabase(Arg.Any<string>()).Returns(dataBase);
         dataBase.GetCollection<MongoUserDto>(Arg.Any<string>()).Returns(collection);
@@ -54,6 +52,4 @@ public class MongoUserServiceTest
             UserId = 2222,
         };
     }
-
-
 }
