@@ -38,4 +38,11 @@ public class LanguageTest
 
         language.LanguageCode.Should().Be(LanguageType.English);
     }
+    [Fact]
+    public void InstantiateLanguage_ReturnSpanish_StringConstructorDefault()
+    {
+        Language language = new("fi");
+
+        language.LanguageCode.Should().Be(LanguageType.English);
+    }
 }
