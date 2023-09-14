@@ -1,4 +1,5 @@
 ﻿using System.Threading;
+using TrackingAmazonPrices.Domain.Entities;
 
 namespace TrackingAmazonPrices.Tests.Infraestructure.Unit.Telegram;
 
@@ -266,6 +267,28 @@ public class HandlerMessageTelegramTest
 
         result.Should().Be(MessageTypes.Nothing);
     }
+    
+    [Fact]
+    public void GetUser_ReturnUserEntity_WhenIsValidUser()
+    {
+        var user = GetMockMessage();
+
+        var result = _sut.GetUser(user);
+
+        result.Should().BeAssignableTo<Domain.Entities.User>();
+        result.UserId.Should().Be(user.Message.From.Id);
+        result.Name.Should().Be(user.Message.From.Username);
+        result.Platform.Should().Be(PlatformType.Telegram);
+        result.Language.LanguageCode.Should().Be(LanguageType.English);
+    }    
+
+    [Fact]
+    public void GetUser_ReturnDefaultUser_WhenNotValid()
+    {
+        var result = _sut.GetUser(new object());
+
+        result.Should().BeNull();
+    }
 
     private static Update GetMockMessage()
     {
@@ -277,6 +300,11 @@ public class HandlerMessageTelegramTest
         message.Message.Chat = new()
         {
             Id = 123L
+        };
+        message.Message.From = new() 
+        {
+            Id = 123L,
+            Username = "test"
         };
 
         return message;

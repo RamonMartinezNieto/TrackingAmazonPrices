@@ -11,9 +11,8 @@ public static class MongoMapper
         {
             Name = user.Name,
             UserId = user.UserId,
-            ChatId = user.ChatId,
             Platform = user.Platform,
-            Language = user.Language
+            Language = user.Language.LanguageCode
         };
     }
 
@@ -23,9 +22,8 @@ public static class MongoMapper
         {
             Name = mongoUserDto.Name,
             UserId = mongoUserDto.UserId,
-            ChatId = mongoUserDto.ChatId,
             Platform = mongoUserDto.Platform,
-            Language = mongoUserDto.Language
+            Language = new Language(mongoUserDto.Language)
         };
     }
 }

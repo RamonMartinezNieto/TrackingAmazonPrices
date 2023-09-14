@@ -3,11 +3,12 @@
 public class CommandManagerTests
 {
     private static readonly IMessageHandler _messageHandler = Substitute.For<IMessageHandler>();
+    private static readonly IDatabaseUserHandler _databaseUserHandler = Substitute.For<IDatabaseUserHandler>();
 
     private static readonly IEnumerable<ICommand> _commands = new List<ICommand>
         {
             new StartCommand(Substitute.For<ILogger<StartCommand>>(), _messageHandler),
-            new TestCommand(Substitute.For<ILogger<TestCommand>>(), _messageHandler),
+            new TestCommand(Substitute.For<ILogger<TestCommand>>(), _messageHandler, _databaseUserHandler),
             new NullCommand(),
         };
 

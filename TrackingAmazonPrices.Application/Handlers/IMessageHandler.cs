@@ -1,4 +1,5 @@
 ﻿using TrackingAmazonPrices.Application.ApplicationFlow;
+using TrackingAmazonPrices.Domain.Entities;
 using TrackingAmazonPrices.Domain.Enums;
 
 namespace TrackingAmazonPrices.Application.Handlers;
@@ -19,6 +20,8 @@ public interface IMessageHandler
         object menu);
 
     string GetMessage<TMessage>(TMessage objectMessage);
+
+    User GetUser(object objectMessage);
 
     IControllerMessage SetControllerMessage(IControllerMessage controllerMessage);
 

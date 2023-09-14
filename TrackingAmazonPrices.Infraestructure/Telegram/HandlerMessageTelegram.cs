@@ -156,4 +156,23 @@ public class HandlerMessageTelegram : IMessageHandler, IUpdateHandler
         updateMessage = typeMessage as Update;
         return updateMessage != null;
     }
+
+    public Domain.Entities.User GetUser(object objectMessage)
+    {
+        if(objectMessage is Update updateMessage 
+            && updateMessage.Message is Message message)
+        {
+            User user = message.From;
+
+            return new()
+            {
+                UserId = user.Id,
+                Name = user.Username,
+                Platform = PlatformType.Telegram,
+                Language = new Domain.Entities.Language(user.LanguageCode)
+            };
+        }
+
+        return default;
+    }
 }

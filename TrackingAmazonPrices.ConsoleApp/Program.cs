@@ -24,6 +24,7 @@ internal static class Program
 
                 services.AddConfigure();
                 services.AddServices();
+                services.AddDatabaseConnections();
                 services.AddCommands();
                 services.AddSingleton<IControllerMessage, ControllerMessages>();
             }).Build();
