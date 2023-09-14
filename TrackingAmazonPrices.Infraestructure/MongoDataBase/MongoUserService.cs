@@ -1,31 +1,32 @@
 ﻿using MongoDB.Driver;
-using Telegram.Bot.Types;
-using TrackingAmazonPrices.Application.Handlers;
+using TrackingAmazonPrices.Application.Services;
 using TrackingAmazonPrices.Infraestructure.Mappers;
 using TrackingAmazonPrices.Infraestructure.MongoDto;
-using ZstdSharp.Unsafe;
 
 namespace TrackingAmazonPrices.Infraestructure.MongoDataBase;
 
-public class MongoUserService : IDatabaseUserHandler
+public class MongoUserService : IDatabaseUserService
 {
+    private const string USER_DATABASE = "test_database";
+    private const string USER_COLLECTION = "users";
+
     private readonly ILogger<MongoUserService> _logger;
-    private readonly MongoConnection _connection;
+    private readonly IMongoClient _client;
 
     public MongoUserService(
         ILogger<MongoUserService> logger,
-        MongoConnection connection)
+        IMongoClient client)
     {
         _logger = logger;
-        _connection = connection;
+        _client = client;
     }
 
     public async Task<bool> SaveUserAsync(Domain.Entities.User user)
     {
         _logger.LogWarning("SAVE USER {Name}", user.Name);
 
-        var collection = _connection.GetCollection<MongoUserDto>("test_database", "users");
-
+        var database = GetDataBase();
+        var collection = database.GetCollection<MongoUserDto>(USER_COLLECTION);
         var mongoUser = user.ToMongoDto();
 
         var filter = FilterByUserId(mongoUser.UserId);
@@ -37,4 +38,17 @@ public class MongoUserService : IDatabaseUserHandler
 
     private static FilterDefinition<MongoUserDto> FilterByUserId(long userId)
         => Builders<MongoUserDto>.Filter.Eq(x => x.UserId, userId);
+
+    private IMongoDatabase GetDataBase()
+    {
+        try
+        {
+            return _client.GetDatabase(USER_DATABASE);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError("An exception has ocurr {ErrMessage}", ex.Message);
+            throw new MongoException("MongoUserService => GetDataBase => Some problem GettingDatabase", ex);
+        }
+    }
 }

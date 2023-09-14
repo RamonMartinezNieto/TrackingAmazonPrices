@@ -1,8 +1,5 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Driver;
-using NSubstitute;
-using NSubstitute.Core.Arguments;
-using TrackingAmazonPrices.Infraestructure.MongoDataBase;
 using TrackingAmazonPrices.Infraestructure.MongoDto;
 
 namespace TrackingAmazonPrices.Tests.Infraestructure.Unit.MongoDataBase;
@@ -10,14 +7,12 @@ namespace TrackingAmazonPrices.Tests.Infraestructure.Unit.MongoDataBase;
 public class MongoUserServiceTest
 {
 
-    private readonly ILogger<MongoUserService> _logger = Substitute.For<ILogger<MongoUserService>>();
-    private readonly MongoConnection _mongoConnection;
-    private readonly MongoUserService _sut; 
+    private readonly IDatabaseUserService _sut; 
 
     public MongoUserServiceTest()
     {
 
-        _sut = Substitute.ForPartsOf<MongoUserService>(_logger, _mongoConnection);
+        _sut = Substitute.For<IDatabaseUserService>();
     }
 
 

@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using TrackingAmazonPrices.Application.ApplicationFlow;
-using TrackingAmazonPrices.Application.Services;
+using TrackingAmazonPrices.Application.Handlers;
 using TrackingAmazonPrices.Infraestructure;
 
 namespace TrackingAmazonPrices.ConsoleApp;

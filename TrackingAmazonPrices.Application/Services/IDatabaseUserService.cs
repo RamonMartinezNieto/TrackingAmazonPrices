@@ -1,8 +1,8 @@
 ﻿using TrackingAmazonPrices.Domain.Entities;
 
-namespace TrackingAmazonPrices.Application.Handlers;
+namespace TrackingAmazonPrices.Application.Services;
 
-public interface IDatabaseUserHandler
+public interface IDatabaseUserService
 {
     Task<bool> SaveUserAsync(User user);
 }

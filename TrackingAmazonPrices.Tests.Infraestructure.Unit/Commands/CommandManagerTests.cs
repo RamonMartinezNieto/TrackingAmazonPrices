@@ -3,7 +3,7 @@
 public class CommandManagerTests
 {
     private static readonly IMessageHandler _messageHandler = Substitute.For<IMessageHandler>();
-    private static readonly IDatabaseUserHandler _databaseUserHandler = Substitute.For<IDatabaseUserHandler>();
+    private static readonly IDatabaseUserService _databaseUserHandler = Substitute.For<IDatabaseUserService>();
 
     private static readonly IEnumerable<ICommand> _commands = new List<ICommand>
         {

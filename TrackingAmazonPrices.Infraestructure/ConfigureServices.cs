@@ -40,8 +40,7 @@ public static class ConfigureServices
     {
         var connectionString = Environment.GetEnvironmentVariable("TrackingAmazonPrices.Atlas.ConnectionString"); 
         services.AddTransient<IMongoClient>(x => new MongoClient(connectionString));
-        services.AddTransient<MongoConnection>();
-        services.AddSingleton<IDatabaseUserHandler, MongoUserService>();
+        services.AddSingleton<IDatabaseUserService, MongoUserService>();
 
         return services;
     }

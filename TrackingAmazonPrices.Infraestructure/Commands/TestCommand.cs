@@ -1,5 +1,6 @@
 ﻿using TrackingAmazonPrices.Application.Command;
 using TrackingAmazonPrices.Application.Handlers;
+using TrackingAmazonPrices.Application.Services;
 using TrackingAmazonPrices.Domain.Entities;
 using TrackingAmazonPrices.Domain.Enums;
 
@@ -9,14 +10,14 @@ public class TestCommand : ICommand
 {
     public Steps NextStep { get; private set; }
     
-    private readonly IDatabaseUserHandler _databaseHandler;
+    private readonly IDatabaseUserService _databaseHandler;
     private readonly ILogger<TestCommand> _logger;
     private readonly IMessageHandler _messageHandler;
 
     public TestCommand(
         ILogger<TestCommand> logger,
         IMessageHandler messageHandler,
-        IDatabaseUserHandler databaseHandler)
+        IDatabaseUserService databaseHandler)
     {
         _logger = logger;
         _messageHandler = messageHandler;
