@@ -1,5 +1,6 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Driver;
+using TrackingAmazonPrices.Infraestructure.MongoDataBase;
 using TrackingAmazonPrices.Infraestructure.MongoDto;
 
 namespace TrackingAmazonPrices.Tests.Infraestructure.Unit.MongoDataBase;
@@ -7,12 +8,14 @@ namespace TrackingAmazonPrices.Tests.Infraestructure.Unit.MongoDataBase;
 public class MongoUserServiceTest
 {
 
-    private readonly IDatabaseUserService _sut; 
+    private readonly ILogger<MongoUserService> _logger = Substitute.For<ILogger<MongoUserService>>();
+    private readonly IMongoClient _client = Substitute.For<IMongoClient>();
+
+    private readonly IDatabaseUserService _sut;
 
     public MongoUserServiceTest()
     {
-
-        _sut = Substitute.For<IDatabaseUserService>();
+        _sut = new MongoUserService(_logger, _client);
     }
 
 
@@ -21,23 +24,25 @@ public class MongoUserServiceTest
     {
         var user = GetUser();
 
-        var mongoCollection = Substitute.For<IMongoCollection<MongoUserDto>>();
-        var replaceOneCol = Substitute.For<ReplaceOneResult>();
+        IMongoDatabase dataBase = Substitute.For<IMongoDatabase>();
+        IMongoCollection<MongoUserDto> collection = Substitute.For<IMongoCollection<MongoUserDto>>();
+        ReplaceOneResult replaceResult = Substitute.For<ReplaceOneResult>();
+        var upsertedId = new BsonObjectId(ObjectId.GenerateNewId()); 
 
-        
-        mongoCollection.ReplaceOneAsync(
+        _client.GetDatabase(Arg.Any<string>()).Returns(dataBase);
+        dataBase.GetCollection<MongoUserDto>(Arg.Any<string>()).Returns(collection);
+
+        collection.ReplaceOneAsync(
             Arg.Any<FilterDefinition<MongoUserDto>>(),
             Arg.Any<MongoUserDto>(),
-            Arg.Any<ReplaceOptions>())
-            .Returns(replaceOneCol);
+            Arg.Any<ReplaceOptions>()).Returns(replaceResult);
 
-        replaceOneCol.IsAcknowledged.Returns(true);
-        replaceOneCol.MatchedCount.Returns(0);
-        replaceOneCol.UpsertedId.Returns(Arg.Any<BsonValue>());
+        replaceResult.IsAcknowledged.Returns(true);
+        replaceResult.UpsertedId.Returns((BsonValue)upsertedId);
 
         var result = await _sut.SaveUserAsync(user);
 
-        result.Should().BeTrue();   
+        result.Should().BeTrue();
     }
 
     private static Domain.Entities.User GetUser()
