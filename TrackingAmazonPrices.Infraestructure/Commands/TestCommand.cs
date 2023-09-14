@@ -1,6 +1,7 @@
 ﻿using TrackingAmazonPrices.Application.Command;
 using TrackingAmazonPrices.Application.Handlers;
 using TrackingAmazonPrices.Application.Services;
+using TrackingAmazonPrices.Domain.Entities;
 
 namespace TrackingAmazonPrices.Infraestructure.Commands;
 
