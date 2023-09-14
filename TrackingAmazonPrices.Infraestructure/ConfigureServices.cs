@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+using MongoDB.Driver;
 using Telegram.Bot;
 using TrackingAmazonPrices.Application.Command;
 using TrackingAmazonPrices.Application.Handlers;
@@ -19,15 +21,6 @@ public static class ConfigureServices
             options.Token = Environment.GetEnvironmentVariable("TrackingAmazonBotToken");
         });
 
-        services.Configure<DatabaseConfig>(options =>
-        {
-            options.User = Environment.GetEnvironmentVariable("TrackingAmazonPrices.Atlas.User");
-            options.Host = Environment.GetEnvironmentVariable("TrackingAmazonPrices.Atlas.Host");
-            options.Protocol = Environment.GetEnvironmentVariable("TrackingAmazonPrices.Atlas.Protocol");
-            options.Password = Environment.GetEnvironmentVariable("TrackingAmazonPrices.Atlas.Password");
-            options.Database = Environment.GetEnvironmentVariable("TrackingAmazonPrices.Atlas.Database");
-        });
-
         return services;
     }
 
@@ -45,12 +38,14 @@ public static class ConfigureServices
 
     public static IServiceCollection AddDatabaseConnections(this IServiceCollection services)
     {
-        services.AddTransient<IDatabaseHandler, MongoDatabaseHandler>();
+        var connectionString = Environment.GetEnvironmentVariable("TrackingAmazonPrices.Atlas.ConnectionString"); 
+        services.AddTransient<IMongoClient>(x => new MongoClient(connectionString));
         services.AddTransient<MongoConnection>();
-        services.AddSingleton<IDatabaseUserHandler, MongoUserDatabaseHandler>();
+        services.AddSingleton<IDatabaseUserHandler, MongoUserService>();
 
         return services;
     }
+
 
     public static IServiceCollection AddCommands(this IServiceCollection services)
     {

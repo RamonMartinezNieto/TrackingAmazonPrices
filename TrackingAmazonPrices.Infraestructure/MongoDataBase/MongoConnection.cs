@@ -4,23 +4,17 @@ using TrackingAmazonPrices.Domain.Configurations;
 
 namespace TrackingAmazonPrices.Infraestructure.MongoDataBase;
 
-public sealed class MongoConnection
+public class MongoConnection
 {
     private readonly ILogger<MongoConnection> _logger;
-    private readonly DatabaseConfig _databaseConfig;
-    private readonly IDatabaseHandler _databaseHandler;
-    private readonly MongoClient _client;
+    private readonly IMongoClient _client;
 
     public MongoConnection(
         ILogger<MongoConnection> logger,
-        IOptions<DatabaseConfig> databaseConfig,
-        IDatabaseHandler databaseHandler)
+        IMongoClient client)
     {
         _logger = logger;
-        _databaseConfig = databaseConfig.Value;
-        _databaseHandler = databaseHandler;
-
-        _client = GetClient();
+        _client = client;
     }
 
     private IMongoDatabase GetDataBase(string dataBase)
@@ -31,39 +25,22 @@ public sealed class MongoConnection
         }
         catch (Exception ex)
         {
-            _logger.LogError($"An exception has ocurr {ex.Message}");
+            _logger.LogError("An exception has ocurr {ErrMessage}", ex.Message);
         }
         return null;
     }
     
-    public IMongoCollection<TDocument> GetCollection<TDocument>(string collectionName)
+    public IMongoCollection<TDocument> GetCollection<TDocument>(string databaseName, string collectionName)
     {
         try
         {
-            var database = GetDataBase(_databaseConfig.Database);
+            var database = GetDataBase(databaseName);
             return database.GetCollection<TDocument>(collectionName);
         }
         catch (Exception ex)
         {
-            _logger.LogError($"Imposible to get the collection " + ex.Message);
+            _logger.LogError("Imposible to get the collection {ErrMessage}", ex.Message);
         }
         return null;
-    }
-
-    private MongoClient GetClient()
-    {
-        try
-        {
-            return new MongoClient(_databaseHandler.GetConnectionString());
-        }
-        catch (MongoConnectionException ex)
-        {
-            _logger.LogError($"An exception has ocurr {ex.Message}");
-            throw new MongoConnectionException(ex.ConnectionId, "MongoConnectionGetClient : Is not possible to connect mongo");
-        }
-        catch (Exception ex)
-        {
-            throw new Exception("MongoConnectionGetClient : Is not possible to connect mongo", ex);
-        }
     }
 }
