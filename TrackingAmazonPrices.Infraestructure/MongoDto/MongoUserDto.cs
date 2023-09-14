@@ -1,6 +1,5 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
-using TrackingAmazonPrices.Domain.Enums;
 
 namespace TrackingAmazonPrices.Infraestructure.MongoDto;
 

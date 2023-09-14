@@ -1,6 +1,4 @@
 ﻿using TrackingAmazonPrices.Application.ApplicationFlow;
-using TrackingAmazonPrices.Domain.Entities;
-using TrackingAmazonPrices.Domain.Enums;
 
 namespace TrackingAmazonPrices.Application.Handlers;
 

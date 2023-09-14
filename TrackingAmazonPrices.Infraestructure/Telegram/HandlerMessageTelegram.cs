@@ -6,8 +6,6 @@ using Telegram.Bot.Types.ReplyMarkups;
 using TrackingAmazonPrices.Application.ApplicationFlow;
 using TrackingAmazonPrices.Application.Handlers;
 using TrackingAmazonPrices.Application.Services;
-using TrackingAmazonPrices.Domain.Enums;
-using TrackingAmazonPrices.Domain.Exceptions;
 
 namespace TrackingAmazonPrices.Infraestructure.Telegram;
 

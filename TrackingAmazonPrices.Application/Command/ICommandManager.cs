@@ -1,6 +1,4 @@
-﻿using TrackingAmazonPrices.Domain.Enums;
-
-namespace TrackingAmazonPrices.Application.Command;
+﻿namespace TrackingAmazonPrices.Application.Command;
 
 public interface ICommandManager
 {

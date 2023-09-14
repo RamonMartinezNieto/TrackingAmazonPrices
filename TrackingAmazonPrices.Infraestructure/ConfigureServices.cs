@@ -4,7 +4,6 @@ using Telegram.Bot;
 using TrackingAmazonPrices.Application.Command;
 using TrackingAmazonPrices.Application.Handlers;
 using TrackingAmazonPrices.Application.Services;
-using TrackingAmazonPrices.Domain.Configurations;
 using TrackingAmazonPrices.Infraestructure.Commands;
 using TrackingAmazonPrices.Infraestructure.MongoDataBase;
 using TrackingAmazonPrices.Infraestructure.Telegram;
