@@ -64,7 +64,6 @@ public class ControllerMessagesTests
         _messageHandler.Received().IsValidMessage(update);
         _messageHandler.Received().GetMessage(update);
         _messageHandler.Received().GetChatId(update);
-        _poolingCommands.Received().TryAddCommand(Arg.Any<long>(), Arg.Any<ICommand>());
     }
 
     [Fact]

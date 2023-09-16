@@ -2,7 +2,8 @@
 
 public enum Steps
 {
-    Nothing = 0,
-    Start = 1,
-    Test = 2
+    Nothing,
+    Start,
+    Language,
+    Test,
 }

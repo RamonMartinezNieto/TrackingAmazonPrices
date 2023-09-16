@@ -27,6 +27,7 @@ public class Language
             "es" => LanguageType.Spanish,
             "en" => LanguageType.English,
             "it" => LanguageType.Italian,
+            "fr" => LanguageType.French,
             _ => LanguageType.English,
         };
 }

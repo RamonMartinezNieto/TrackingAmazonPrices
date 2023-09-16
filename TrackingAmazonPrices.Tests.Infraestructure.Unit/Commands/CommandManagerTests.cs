@@ -5,13 +5,12 @@ namespace TrackingAmazonPrices.Tests.Infraestructure.Unit.Commands;
 public class CommandManagerTests
 {
     private static readonly IMessageHandler _messageHandler = Substitute.For<IMessageHandler>();
-    private static readonly IDatabaseUserService _databaseUserHandler = Substitute.For<IDatabaseUserService>();
     private static readonly ILiteralsService _literalsService = Substitute.For<ILiteralsService>();
-
+    
     private static readonly IEnumerable<ICommand> _commands = new List<ICommand>
         {
             new StartCommand(Substitute.For<ILogger<StartCommand>>(), _messageHandler, _literalsService),
-            new TestCommand(Substitute.For<ILogger<TestCommand>>(), _messageHandler, _databaseUserHandler, _literalsService),
+            new LanguageCommand(Substitute.For<ILogger<LanguageCommand>>(), _messageHandler, _literalsService),
             new NullCommand(),
         };
 
@@ -24,7 +23,7 @@ public class CommandManagerTests
 
     [Theory]
     [InlineData("/start")]
-    [InlineData("/test")]
+    [InlineData("/language")]
     public void IsValidCommand_True_WhenCommandIsValid(string commandMessage)
     {
         var result = _sut.IsCommand(commandMessage);
@@ -41,7 +40,7 @@ public class CommandManagerTests
 
     [Theory]
     [InlineData("/start")]
-    [InlineData("/test")]
+    [InlineData("/language")]
     public void GetCommand_ReturnCommand_WhenCommandIsValid(string commandMessage)
     {
         var result = _sut.GetCommand(commandMessage);

@@ -1,4 +1,5 @@
 ﻿using TrackingAmazonPrices.Application.Command;
+using TrackingAmazonPrices.Domain.Entities;
 
 namespace TrackingAmazonPrices.Infraestructure.Commands;
 
@@ -7,7 +8,7 @@ public class CommandManager : ICommandManager
     private readonly Dictionary<string, (Steps, Type)> _commands = new()
     {
         { "/start", (Steps.Start, typeof(StartCommand)) },
-        { "/test", (Steps.Test, typeof(TestCommand)) },
+        { "/language", (Steps.Language, typeof(LanguageCommand)) },
     };
 
     private readonly IEnumerable<ICommand> _commandProvider;
@@ -22,7 +23,9 @@ public class CommandManager : ICommandManager
         if (_commands.TryGetValue(messageCommand, out var commandType))
         {
             Type type = commandType.Item2;
-            return _commandProvider.FirstOrDefault(x => x.GetType() == type);
+            //TODO change
+            var eso = _commandProvider.FirstOrDefault(x => x.GetType() == type);
+            return eso;
         }
         return NullCommand();
     }

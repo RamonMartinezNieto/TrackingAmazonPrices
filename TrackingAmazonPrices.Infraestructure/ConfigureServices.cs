@@ -56,7 +56,7 @@ public static class ConfigureServices
     {
         services.AddTransient<ICommand, NullCommand>();
         services.AddTransient<ICommand, StartCommand>();
-        services.AddTransient<ICommand, TestCommand>();
+        services.AddTransient<ICommand, LanguageCommand>();
         return services;
     }
 }

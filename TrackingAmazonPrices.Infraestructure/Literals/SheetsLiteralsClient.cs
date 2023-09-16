@@ -76,24 +76,29 @@ public class SheetsLiteralsClient : ILiteralsClient
 
         var keys = valueRange[0];
         var literalsValues = valueRange.Take(1..);
-
-        foreach (var items in literalsValues)
+        try
         {
-            LiteralsEntity literalEntity = new();
-
-            for (int i = 0; i < items.Count; i++)
+            foreach (var items in literalsValues)
             {
-                if (i == 0)
-                    literalEntity.Language = Language.GetTypeLanguage((string)items[i]);
-                else
-                {
-                    string key = (string)keys[i];
-                    literalEntity.Values.Add((Literals)Enum.Parse(typeof(Literals), key), (string)items[i]);
-                }
-            }
-            values.Add(literalEntity.Language, literalEntity);
-        }
+                LiteralsEntity literalEntity = new();
 
+                for (int i = 0; i < items.Count; i++)
+                {
+                    if (i == 0)
+                        literalEntity.Language = Language.GetTypeLanguage((string)items[i]);
+                    else
+                    {
+                        string key = (string)keys[i];
+                        literalEntity.Values.TryAdd((Literals)Enum.Parse(typeof(Literals), key), (string)items[i]);
+                    }
+                }
+                values.Add(literalEntity.Language, literalEntity);
+            }
+        }
+        catch (Exception e) 
+        {
+            Console.WriteLine(e.Message);
+        }
         return values;
     }
 }

@@ -25,4 +25,14 @@ public static class UtilsTelegramMessage
 
         return new InlineKeyboardMarkup(menuRows);
     }
+
+    public static List<string[,]> GetMenuLanguageRows() 
+        => new()
+        {
+            new string[4, 2] {
+                { "ES " + TelegramEmojis.ES_FLAG, "ESP" },
+                { "EN " + TelegramEmojis.GB_FLAG, "EN" },
+                { "IT " + TelegramEmojis.IT_FLAG, "IT" },
+                { "FR " + TelegramEmojis.FR_FLAG, "FR" } }
+        };
 }

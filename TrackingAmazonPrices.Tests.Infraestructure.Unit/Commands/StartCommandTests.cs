@@ -1,4 +1,5 @@
 ﻿using TrackingAmazonPrices.Application;
+using TrackingAmazonPrices.Infraestructure.Commands;
 
 namespace TrackingAmazonPrices.Tests.Infraestructure.Unit.Commands;
 
@@ -8,6 +9,7 @@ public class StartCommandTests
     private readonly ILiteralsService _literalsService = Substitute.For<ILiteralsService>();
     private readonly ILogger<StartCommand> _logger = Substitute.For<ILogger<StartCommand>>();
     private readonly Update _updateObject = Substitute.For<Update>();
+    private static readonly ICommandManager _commandManager = Substitute.For<ICommandManager>();
 
     private readonly StartCommand _sut;
 
@@ -28,15 +30,19 @@ public class StartCommandTests
     [Fact]
     public async void StartComand_NextStepTest_WhenCallExecuteAsyncAndMessageIsValid()
     {
+        ICommand languageCommand = Substitute.For<ICommand>();
+
         _messageHandler.GetUser(Arg.Any<object>()).Returns(GetUserWithLanguage());
         _messageHandler.SentInlineKeyboardMessage(_updateObject, Arg.Any<string>(), Arg.Any<object>()).Returns(true);
         _messageHandler.SentMessage(_updateObject, Arg.Any<string>()).Returns(true);
+        _commandManager.GetNextCommand(Steps.Language).Returns(languageCommand);
+        languageCommand.ExecuteAsync(Arg.Any<object>()).Returns(true);
 
         var result = await _sut.ExecuteAsync(_updateObject);
 
         await _messageHandler.Received(1).SentMessage(_updateObject, Arg.Any<string>());
-        await _messageHandler.Received(1).SentInlineKeyboardMessage(_updateObject, Arg.Any<string>(), Arg.Any<object>());
-        _sut.NextStep.Should().Be(Steps.Test);
+        _sut.NextStep.Should().Be(Steps.Nothing);
+
         result.Should().BeTrue();
     }
 

@@ -7,8 +7,8 @@ namespace TrackingAmazonPrices.Infraestructure.Commands;
 
 public class StartCommand : ICommand
 {
-    public Steps NextStep { get; private set; }
-
+    public Steps NextStep { get; private set; } = Steps.Nothing;
+    
     private readonly ILogger<StartCommand> _logger;
     private readonly IMessageHandler _messageHandler;
     private readonly ILiteralsService _literalsService;
@@ -20,29 +20,18 @@ public class StartCommand : ICommand
     {
         _logger = logger;
         _messageHandler = messageHandler;
-        this._literalsService = literalsService;
-        NextStep = Steps.Nothing;
+        _literalsService = literalsService;
     }
 
     public async Task<bool> ExecuteAsync(object objectMessage)
     {
         _logger.LogInformation("Start command");
 
-        List<string[,]> menuRows = new()
-        {
-            new string[4, 2] {
-                { "ES " + TelegramEmojis.ES_FLAG, "ESP" },
-                { "EN " + TelegramEmojis.GB_FLAG, "EN" },
-                { "IT " + TelegramEmojis.IT_FLAG, "IT" },
-                { "FR " + TelegramEmojis.FR_FLAG, "FR" } }
-        };
-
-        var menu = UtilsTelegramMessage.CreateMenu(menuRows);
-
+    
         User user = _messageHandler.GetUser(objectMessage);
         var userLang = user.Language.LanguageCode;
 
-        bool firstMessage = await _messageHandler.SentMessage(
+        var firstResult =  await _messageHandler.SentMessage(
             objectMessage,
             string.Format("{0} {1}", 
                 await _literalsService.GetAsync(userLang, Literals.Welcome), 
@@ -50,17 +39,18 @@ public class StartCommand : ICommand
             );
 
         bool result = false;
-        if (firstMessage)
+        if (firstResult)
         {
+            var menu = UtilsTelegramMessage.CreateMenu(
+                UtilsTelegramMessage.GetMenuLanguageRows());
+
             result = await _messageHandler.SentInlineKeyboardMessage(
                 objectMessage,
-                string.Format("{0} {1}", 
+                string.Format("{0} {1}",
                     TelegramEmojis.QUESTIONMARK,
                     await _literalsService.GetAsync(userLang, Literals.SelectLan)),
                 menu);
         }
-
-        if (result) NextStep = Steps.Test;
 
         return result;
     }
