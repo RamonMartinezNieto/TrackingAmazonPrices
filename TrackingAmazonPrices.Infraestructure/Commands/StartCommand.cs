@@ -1,5 +1,6 @@
 ﻿using TrackingAmazonPrices.Application.Command;
 using TrackingAmazonPrices.Application.Handlers;
+using TrackingAmazonPrices.Domain.Entities;
 using TrackingAmazonPrices.Infraestructure.Telegram;
 
 namespace TrackingAmazonPrices.Infraestructure.Commands;
@@ -10,13 +11,16 @@ public class StartCommand : ICommand
 
     private readonly ILogger<StartCommand> _logger;
     private readonly IMessageHandler _messageHandler;
+    private readonly ILiteralsService _literalsService;
 
     public StartCommand(
         ILogger<StartCommand> logger,
-        IMessageHandler messageHandler)
+        IMessageHandler messageHandler,
+        ILiteralsService literalsService)
     {
         _logger = logger;
         _messageHandler = messageHandler;
+        this._literalsService = literalsService;
         NextStep = Steps.Nothing;
     }
 
@@ -33,16 +37,24 @@ public class StartCommand : ICommand
 
         var menu = UtilsTelegramMessage.CreateMenu(menuRows);
 
+        User user = _messageHandler.GetUser(objectMessage);
+        var userLang = user.Language.LanguageCode;
+
         bool firstMessage = await _messageHandler.SentMessage(
             objectMessage,
-            string.Format("Welcom to Tracking Amazon Prices {0}", TelegramEmojis.SMILE));
+            string.Format("{0} {1}", 
+                await _literalsService.GetAsync(userLang, Literals.Welcome), 
+                TelegramEmojis.SMILE)
+            );
 
         bool result = false;
         if (firstMessage)
         {
             result = await _messageHandler.SentInlineKeyboardMessage(
                 objectMessage,
-                string.Format("{0} Select a language", TelegramEmojis.QUESTIONMARK),
+                string.Format("{0} {1}", 
+                    TelegramEmojis.QUESTIONMARK,
+                    await _literalsService.GetAsync(userLang, Literals.SelectLan)),
                 menu);
         }
 

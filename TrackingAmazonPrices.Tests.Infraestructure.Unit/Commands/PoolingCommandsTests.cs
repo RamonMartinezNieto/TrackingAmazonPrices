@@ -8,7 +8,7 @@ public class PoolingCommandsTests
     private static readonly IDatabaseUserService _databaseUserHandler = Substitute.For<IDatabaseUserService>();
     private static readonly ILiteralsService _literalsService = Substitute.For<ILiteralsService>();
 
-    private readonly StartCommand _startCommand = new(Substitute.For<ILogger<StartCommand>>(), _messageHandler);
+    private readonly StartCommand _startCommand = new(Substitute.For<ILogger<StartCommand>>(), _messageHandler,_literalsService);
     private readonly TestCommand _testCommand = new(Substitute.For<ILogger<TestCommand>>(), _messageHandler, _databaseUserHandler, _literalsService);
     private readonly NullCommand _nullCommand = new();
     private readonly PoolingCommands _sut;

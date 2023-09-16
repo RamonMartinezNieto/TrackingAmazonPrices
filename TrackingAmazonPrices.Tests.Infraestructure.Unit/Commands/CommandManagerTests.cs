@@ -10,8 +10,8 @@ public class CommandManagerTests
 
     private static readonly IEnumerable<ICommand> _commands = new List<ICommand>
         {
-            new StartCommand(Substitute.For<ILogger<StartCommand>>(), _messageHandler),
-            new TestCommand(Substitute.For<ILogger<TestCommand>>(), _messageHandler, _databaseUserHandler,_literalsService),
+            new StartCommand(Substitute.For<ILogger<StartCommand>>(), _messageHandler, _literalsService),
+            new TestCommand(Substitute.For<ILogger<TestCommand>>(), _messageHandler, _databaseUserHandler, _literalsService),
             new NullCommand(),
         };
 

@@ -43,6 +43,7 @@ public class LiteralsServiceTests
         result.Should().NotBeNull();
         result.Should().Be("Welcome");
     }
+
     [Fact]
     public async Task GetLiterals_ReturnSelectLang_WhenLanguageIsEnglish()
     {
@@ -61,8 +62,7 @@ public class LiteralsServiceTests
         result.Should().Be("Selecciona un idioma");
     }
 
-
-    public static Dictionary<LanguageType, LiteralsEntity> GetMockLiterals()
+    private static Dictionary<LanguageType, LiteralsEntity> GetMockLiterals()
     {
         Dictionary<LanguageType, LiteralsEntity> literals = new()
         {
