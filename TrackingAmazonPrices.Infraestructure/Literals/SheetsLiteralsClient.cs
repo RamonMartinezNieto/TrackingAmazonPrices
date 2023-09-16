@@ -28,7 +28,7 @@ public class SheetsLiteralsClient : ILiteralsClient
     public async Task<Dictionary<LanguageType, LiteralsEntity>> LoadLiterals()
     {
         if (!await EnsureInitializedClientAsync())
-            throw new InvalidOperationException("Connection not establized");
+            throw new InvalidOperationException("Connection not established");
 
         var literals = await GetLiteralsFromSheetAsync();
         return ToDictionaryModel(literals);
@@ -54,7 +54,8 @@ public class SheetsLiteralsClient : ILiteralsClient
         {
             using var stream = new FileStream(_config.PathCredentials, FileMode.Open, FileAccess.Read);
             var credential = (await GoogleCredential.FromStreamAsync(stream, CancellationToken.None))
-                .CreateScoped(new[] { SheetsService.Scope.Spreadsheets });
+                .CreateScoped(SheetsService.Scope.Spreadsheets);
+
             _sheetsService = new SheetsService(new BaseClientService.Initializer()
             {
                 HttpClientInitializer = credential
@@ -69,10 +70,8 @@ public class SheetsLiteralsClient : ILiteralsClient
         return true;
     }
 
-    private Dictionary<LanguageType, LiteralsEntity> ToDictionaryModel(IList<IList<object>> valueRange)
+    public static Dictionary<LanguageType, LiteralsEntity> ToDictionaryModel(IList<IList<object>> valueRange)
     {
-        _logger.LogInformation("Parsing ValueRange to DictionaryModel with all literals");
-
         Dictionary<LanguageType, LiteralsEntity> values = new();
 
         var keys = valueRange[0];
