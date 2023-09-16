@@ -30,9 +30,11 @@ public class StartCommand : ICommand
 
         List<string[,]> menuRows = new()
         {
-            new string[2, 2] {
-                { "ES " + TelegramEmojis.SPAINT_FLAG, "ESP" },
-                { "EN " + TelegramEmojis.GB_FLAG, "EN" } },
+            new string[4, 2] {
+                { "ES " + TelegramEmojis.ES_FLAG, "ESP" },
+                { "EN " + TelegramEmojis.GB_FLAG, "EN" },
+                { "IT " + TelegramEmojis.IT_FLAG, "IT" },
+                { "FR " + TelegramEmojis.FR_FLAG, "FR" } }
         };
 
         var menu = UtilsTelegramMessage.CreateMenu(menuRows);

@@ -26,6 +26,7 @@ public class Language
         {
             "es" => LanguageType.Spanish,
             "en" => LanguageType.English,
+            "it" => LanguageType.Italian,
             _ => LanguageType.English,
         };
 }

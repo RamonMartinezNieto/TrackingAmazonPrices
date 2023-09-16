@@ -11,7 +11,7 @@ namespace TrackingAmazonPrices.Infraestructure;
 public class SheetsLiteralsClient : ILiteralsClient
 {
     private const string START_CELL = "A";
-    private const string END_CELL = "C";
+    private const string END_CELL = "E";
 
     private SheetsService _sheetsService;
     private readonly ILogger<LiteralsServiceSheets> _logger;

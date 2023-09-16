@@ -155,7 +155,7 @@ public class HandlerMessageTelegramTest
         List<string[,]> menuRows = new()
         {
             new string[2, 2] {
-                { "ES " + TelegramEmojis.SPAINT_FLAG, "ESP" },
+                { "ES " + TelegramEmojis.ES_FLAG, "ESP" },
                 { "EN " + TelegramEmojis.GB_FLAG, "EN" } },
         };
         var menu = UtilsTelegramMessage.CreateMenu(menuRows);
