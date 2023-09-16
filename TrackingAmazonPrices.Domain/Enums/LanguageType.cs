@@ -2,6 +2,7 @@
 
 public enum LanguageType
 {
+    Default,
     Spanish,
     English
 }

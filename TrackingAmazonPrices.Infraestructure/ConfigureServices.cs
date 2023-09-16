@@ -21,11 +21,19 @@ public static class ConfigureServices
             options.Token = Environment.GetEnvironmentVariable("TrackingAmazonBotToken");
         });
 
+        services.Configure<SheetConfiguration>(options =>
+        {
+            options.SheetId = "16t9X1i4SpNOP-gAYoARL54Mcn5DeiLEjLNlg2oAwtWU";
+            options.PathCredentials = Environment.GetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS");
+        });
+
         return services;
     }
 
     public static IServiceCollection AddServices(this IServiceCollection services)
     {
+        services.AddSingleton<ILiteralsClient, SheetsLiteralsClient>();
+        services.AddSingleton<ILiteralsService, LiteralsServiceSheets>();
         services.AddSingleton<IBotClient<ITelegramBotClient>, BotClientTelegram>();
         services.AddSingleton<ICommandManager, CommandManager>();
         services.AddSingleton<IMessageHandler, HandlerMessageTelegram>();

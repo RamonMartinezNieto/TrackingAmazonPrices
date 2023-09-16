@@ -5,7 +5,7 @@ namespace TrackingAmazonPrices.Infraestructure.Commands;
 
 public class PoolingCommands : IPoolingCommands
 {
-    public static ConcurrentDictionary<long, ICommand> PoolingTestCommands { get; set; }
+    public static ConcurrentDictionary<long, ICommand> PoolingTestCommands { get; private set; }
 
     public PoolingCommands()
     {

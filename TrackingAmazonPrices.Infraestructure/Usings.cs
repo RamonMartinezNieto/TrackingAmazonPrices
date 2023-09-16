@@ -8,3 +8,5 @@ global using System.Threading.Tasks;
 global using TrackingAmazonPrices.Domain.Enums;
 global using TrackingAmazonPrices.Domain.Configurations;
 global using TrackingAmazonPrices.Domain.Exceptions;
+global using TrackingAmazonPrices.Application;
+

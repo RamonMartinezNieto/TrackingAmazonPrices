@@ -1,12 +1,15 @@
-﻿namespace TrackingAmazonPrices.Tests.Infraestructure.Unit.Commands;
+﻿using TrackingAmazonPrices.Application;
+
+namespace TrackingAmazonPrices.Tests.Infraestructure.Unit.Commands;
 
 public class PoolingCommandsTests
 {
     private static readonly IMessageHandler _messageHandler = Substitute.For<IMessageHandler>();
     private static readonly IDatabaseUserService _databaseUserHandler = Substitute.For<IDatabaseUserService>();
+    private static readonly ILiteralsService _literalsService = Substitute.For<ILiteralsService>();
 
     private readonly StartCommand _startCommand = new(Substitute.For<ILogger<StartCommand>>(), _messageHandler);
-    private readonly TestCommand _testCommand = new(Substitute.For<ILogger<TestCommand>>(), _messageHandler, _databaseUserHandler);
+    private readonly TestCommand _testCommand = new(Substitute.For<ILogger<TestCommand>>(), _messageHandler, _databaseUserHandler, _literalsService);
     private readonly NullCommand _nullCommand = new();
     private readonly PoolingCommands _sut;
     private static readonly long _chatId = 123456L;

@@ -44,7 +44,7 @@ public class MongoMappersTests
             Name = "Test",
             UserId = 123L,
             Platform = 0,
-            Language = 0
+            Language = LanguageType.Spanish,
         };
 
         var result = mongoUser.ToUser();

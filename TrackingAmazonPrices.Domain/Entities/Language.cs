@@ -8,7 +8,7 @@ public class Language
 
     public Language(string language)
     {
-        LanguageCode = GetType(language);
+        LanguageCode = GetTypeLanguage(language);
     }
 
     public Language(LanguageType language)
@@ -21,7 +21,7 @@ public class Language
         LanguageCode = LanguageType.English;
     }
 
-    private static LanguageType GetType(string value)
+    public static LanguageType GetTypeLanguage(string value)
         => value switch
         {
             "es" => LanguageType.Spanish,

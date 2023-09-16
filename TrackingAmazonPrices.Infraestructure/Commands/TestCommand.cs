@@ -10,17 +10,20 @@ public class TestCommand : ICommand
     public Steps NextStep { get; private set; }
 
     private readonly IDatabaseUserService _databaseHandler;
+    private readonly ILiteralsService _literalsService;
     private readonly ILogger<TestCommand> _logger;
     private readonly IMessageHandler _messageHandler;
 
     public TestCommand(
         ILogger<TestCommand> logger,
         IMessageHandler messageHandler,
-        IDatabaseUserService databaseHandler)
+        IDatabaseUserService databaseHandler,
+        ILiteralsService literalsService)
     {
         _logger = logger;
         _messageHandler = messageHandler;
         _databaseHandler = databaseHandler;
+        _literalsService = literalsService;
         NextStep = Steps.Nothing;
     }
 
@@ -34,9 +37,11 @@ public class TestCommand : ICommand
 
         var saved = await _databaseHandler.SaveUserAsync(user);
 
+
         if (saved)
         {
-            result = await _messageHandler.SentMessage(objectMessage, "TEST Message");
+            var message = await _literalsService.GetAsync(user.Language.LanguageCode, Literals.Test);
+            result = await _messageHandler.SentMessage(objectMessage, message);
             NextStep = Steps.Nothing;
         }
 
