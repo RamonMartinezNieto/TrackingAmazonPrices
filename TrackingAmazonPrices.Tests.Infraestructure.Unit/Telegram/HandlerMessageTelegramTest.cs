@@ -323,6 +323,37 @@ public class HandlerMessageTelegramTest
             .WithMessage("invalid objectMessage, this is not callback telegram");
     }
 
+    [Fact]
+    public void GetCallbackMessage_UpdateWithCallback_ReturnsCallbackData()
+    {
+        var update = GetMockCallback();
+
+        var result = _sut.GetCallbackMessage(update);
+
+        result.Should().Be("some_callback_data");
+    }
+
+    [Fact]
+    public void GetCallbackMessage_UpdateWithoutCallback_ReturnsEmptyString()
+    {
+        var update = GetMockMessage();
+
+        var result = _sut.GetCallbackMessage(update);
+
+        result.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void GetCallbackMessage_NullUpdate_ReturnsEmptyString()
+    {
+        Update nullUpdate = null;
+
+        var result = _sut.GetCallbackMessage(nullUpdate);
+
+        result.Should().BeEmpty();
+    }
+
+
     private static Update GetMockMessage()
     {
         Update message = new()
@@ -345,6 +376,9 @@ public class HandlerMessageTelegramTest
 
     private static Update GetMockCallback() => new()
     {
-        CallbackQuery = new()
+        CallbackQuery = new() 
+        {
+            Data = "some_callback_data"
+        }
     };
 }
