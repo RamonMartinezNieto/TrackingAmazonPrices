@@ -3,7 +3,7 @@ using TrackingAmazonPrices.Infraestructure.Commands;
 
 namespace TrackingAmazonPrices.Infraestructure.Callbacks;
 
-internal class CallbackManager : ICallbackManager
+public class CallbackManager : ICallbackManager
 {
     private readonly Dictionary<string, Type> _callbacks = new()
     {
@@ -40,5 +40,5 @@ internal class CallbackManager : ICallbackManager
     }
 
     public ICallback NullCallback()
-        => _callbackProvider.FirstOrDefault(x => x.GetType() == typeof(NullCommand));
+        => _callbackProvider.FirstOrDefault(x => x.GetType() == typeof(NullCallback));
 }
