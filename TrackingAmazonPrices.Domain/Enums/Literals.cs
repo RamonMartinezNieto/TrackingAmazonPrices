@@ -4,5 +4,6 @@ public enum Literals
 {
     Welcome,
     SelectLan,
-    Test
+    Test,
+    UserUpdate
 }

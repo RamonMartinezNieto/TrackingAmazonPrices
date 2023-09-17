@@ -1,4 +1,5 @@
 ﻿using System.Threading;
+using TrackingAmazonPrices.Domain;
 
 namespace TrackingAmazonPrices.Tests.Infraestructure.Unit.Telegram;
 
@@ -7,12 +8,13 @@ public class HandlerMessageTelegramTest
     private readonly IBotClient<ITelegramBotClient> _botClient = Substitute.For<IBotClient<ITelegramBotClient>>();
     private readonly ILogger<HandlerMessageTelegram> _logger = Substitute.For<ILogger<HandlerMessageTelegram>>();
     private readonly IControllerMessage _controllerMessage = Substitute.For<IControllerMessage>();
+    private readonly IDatabaseUserService _userDatabase = Substitute.For<IDatabaseUserService>();
 
     private readonly HandlerMessageTelegram _sut;
 
     public HandlerMessageTelegramTest()
     {
-        _sut = new(_logger, _botClient);
+        _sut = new(_logger, _botClient, _userDatabase);
     }
 
     [Fact]
@@ -268,23 +270,23 @@ public class HandlerMessageTelegramTest
     }
 
     [Fact]
-    public void GetUser_ReturnUserEntity_WhenIsValidUser()
+    public async Task GetUser_ReturnUserEntity_WhenIsValidUser()
     {
         var user = GetMockMessage();
 
-        var result = _sut.GetUser(user);
+        Domain.Entities.User result = await _sut.GetUser(user);
 
         result.Should().BeAssignableTo<Domain.Entities.User>();
         result.UserId.Should().Be(user.Message.From.Id);
         result.Name.Should().Be(user.Message.From.Username);
         result.Platform.Should().Be(PlatformType.Telegram);
-        result.Language.LanguageCode.Should().Be(LanguageType.English);
+        result.Language.LanguageCode.Should().Be(LanguageType.Default);
     }
 
     [Fact]
-    public void GetUser_ReturnDefaultUser_WhenNotValid()
+    public async Task GetUser_ReturnDefaultUser_WhenNotValid()
     {
-        var result = _sut.GetUser(new object());
+        var result = await _sut.GetUser(new object());
 
         result.Should().BeNull();
     }

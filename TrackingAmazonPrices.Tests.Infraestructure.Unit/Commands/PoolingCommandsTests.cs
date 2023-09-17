@@ -6,8 +6,9 @@ public class PoolingCommandsTests
 {
     private static readonly IMessageHandler _messageHandler = Substitute.For<IMessageHandler>();
     private static readonly ILiteralsService _literalsService = Substitute.For<ILiteralsService>();
+    private static readonly IDatabaseUserService _userService = Substitute.For<IDatabaseUserService>();
 
-    private readonly StartCommand _startCommand = new(Substitute.For<ILogger<StartCommand>>(), _messageHandler,_literalsService);
+    private readonly StartCommand _startCommand = new(Substitute.For<ILogger<StartCommand>>(), _messageHandler,_literalsService, _userService);
     private readonly NullCommand _nullCommand = new();
     private readonly PoolingCommands _sut;
     private static readonly long _chatId = 123456L;

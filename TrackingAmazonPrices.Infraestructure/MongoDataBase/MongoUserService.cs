@@ -1,5 +1,6 @@
 ﻿using MongoDB.Driver;
 using TrackingAmazonPrices.Application.Services;
+using TrackingAmazonPrices.Domain;
 using TrackingAmazonPrices.Infraestructure.Mappers;
 using TrackingAmazonPrices.Infraestructure.MongoDto;
 
@@ -23,21 +24,43 @@ public class MongoUserService : IDatabaseUserService
 
     public async Task<bool> SaveUserAsync(Domain.Entities.User user)
     {
-        _logger.LogWarning("SAVE USER {Name}", user.Name);
+        _logger.LogInformation("SAVE USER {Name}", user.Name);
 
-        var database = GetDataBase();
-        var collection = database.GetCollection<MongoUserDto>(USER_COLLECTION);
-        var mongoUser = user.ToMongoDto();
+        var collection = GetUserCollertion();
+        var filter = FilterByUserId(user.UserId);
 
-        var filter = FilterByUserId(mongoUser.UserId);
-
-        var result = await collection.ReplaceOneAsync(filter, mongoUser, new ReplaceOptions { IsUpsert = true });
+        var result = await collection.ReplaceOneAsync(
+            filter,
+            user.ToMongoDto(),
+            new ReplaceOptions { IsUpsert = true });
 
         return result.IsAcknowledged && (result.MatchedCount > 0 || result.UpsertedId != null);
     }
 
+    public Task<LanguageType> GetLanguage(long id)
+    {
+        _logger.LogInformation("Getting user language {id}", id);
+
+        var collection = GetUserCollertion();
+
+        var filter = Builders<MongoUserDto>.Filter.Eq(x => x.UserId, id);
+
+        var userLanguage = collection.Find(filter).FirstOrDefault();
+
+        if (userLanguage is null)
+            return Task.FromResult(LanguageType.Default);
+
+        return Task.FromResult(userLanguage.Language);
+    }
+
     private static FilterDefinition<MongoUserDto> FilterByUserId(long userId)
         => Builders<MongoUserDto>.Filter.Eq(x => x.UserId, userId);
+
+    private IMongoCollection<MongoUserDto> GetUserCollertion()
+    {
+        var database = GetDataBase();
+        return database.GetCollection<MongoUserDto>(USER_COLLECTION);
+    }
 
     private IMongoDatabase GetDataBase()
     {

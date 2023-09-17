@@ -1,4 +1,7 @@
-﻿using TrackingAmazonPrices.Domain.Entities;
+﻿using TrackingAmazonPrices.Application;
+using TrackingAmazonPrices.Domain;
+using TrackingAmazonPrices.Domain.Entities;
+using TrackingAmazonPrices.Domain.Enums;
 
 namespace TrackingAmazonPrices.Infraestructure;
 
@@ -20,7 +23,7 @@ public class LiteralsServiceSheets : ILiteralsService
     {
         _allLiterals ??= await _literalsClient.LoadLiterals();
 
-        if (lang is LanguageType.Default) 
+        if (lang is LanguageType.Default)
             return _allLiterals[DEFAULT_LANG].Values[literal];
 
         return _allLiterals[lang].Values[literal];

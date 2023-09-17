@@ -7,7 +7,7 @@ public class User
     public string Name { get; init; }
     public long UserId { get; init; }
     public PlatformType Platform { get; init; }
-    public Language Language { get; init; }
+    public Language Language { get; set; }
 
     public User()
     {

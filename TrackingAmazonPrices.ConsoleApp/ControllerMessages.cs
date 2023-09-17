@@ -1,4 +1,5 @@
 ﻿using TrackingAmazonPrices.Application.ApplicationFlow;
+using TrackingAmazonPrices.Application.Callbacks;
 using TrackingAmazonPrices.Application.Command;
 using TrackingAmazonPrices.Application.Handlers;
 using TrackingAmazonPrices.Domain.Enums;
@@ -9,6 +10,7 @@ public class ControllerMessages : IControllerMessage
 {
     private readonly ILogger<ControllerMessages> _logger;
     private readonly ICommandManager _commandManager;
+    private readonly ICallbackManager _callbackManager;
     private readonly IMessageHandler _handlerMessage;
     private readonly IPoolingCommands _poolingCommands;
 
@@ -18,11 +20,13 @@ public class ControllerMessages : IControllerMessage
     public ControllerMessages(
         ILogger<ControllerMessages> logger,
         ICommandManager commandManager,
+        ICallbackManager callbackManager,
         IMessageHandler handlerMessage,
         IPoolingCommands poolingCommands)
     {
         _logger = logger;
         _commandManager = commandManager;
+        _callbackManager = callbackManager;
         _handlerMessage = handlerMessage;
         _poolingCommands = poolingCommands;
 
@@ -56,7 +60,12 @@ public class ControllerMessages : IControllerMessage
     {
         if (_handlerMessage.IsCallBackQuery(objectMessage))
         {
-            _logger.LogInformation("esto es un callback");
+            string message = _handlerMessage.GetCallbackMessage(objectMessage);
+            string data = _callbackManager.GetData(message);
+
+            ICallback callback = _callbackManager.GetCallback(message);
+
+            _ = Task.Run(() => callback.ExecuteAsync(objectMessage, data));
         }
     }
 

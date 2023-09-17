@@ -1,4 +1,5 @@
-﻿using TrackingAmazonPrices.Domain.Entities;
+﻿using TrackingAmazonPrices.Domain;
+using TrackingAmazonPrices.Domain.Entities;
 using TrackingAmazonPrices.Infraestructure.MongoDto;
 
 namespace TrackingAmazonPrices.Infraestructure.Mappers;

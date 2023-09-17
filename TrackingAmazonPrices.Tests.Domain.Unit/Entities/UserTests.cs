@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using TrackingAmazonPrices.Domain.Entities;
 using TrackingAmazonPrices.Domain.Enums;
+using TrackingAmazonPrices.Domain;
 using Xunit;
 
 namespace TrackingAmazonPrices.Tests.Domain.Unit.Entities;

@@ -6,6 +6,9 @@ using Telegram.Bot.Types.ReplyMarkups;
 using TrackingAmazonPrices.Application.ApplicationFlow;
 using TrackingAmazonPrices.Application.Handlers;
 using TrackingAmazonPrices.Application.Services;
+using TrackingAmazonPrices.Domain;
+using TrackingAmazonPrices.Domain.Enums;
+using TrackingAmazonPrices.Domain.Exceptions;
 
 namespace TrackingAmazonPrices.Infraestructure.Telegram;
 
@@ -13,14 +16,17 @@ public class HandlerMessageTelegram : IMessageHandler, IUpdateHandler
 {
     private readonly ITelegramBotClient _botClient;
     private readonly ILogger<HandlerMessageTelegram> _logger;
+    private readonly IDatabaseUserService _userService;
     private IControllerMessage _controllerMessage;
 
     public HandlerMessageTelegram(
         ILogger<HandlerMessageTelegram> logger,
-        IBotClient<ITelegramBotClient> botClient)
+        IBotClient<ITelegramBotClient> botClient,
+        IDatabaseUserService userService)
     {
         _botClient = botClient.BotClient;
         _logger = logger;
+        _userService = userService;
     }
 
     public IControllerMessage SetControllerMessage(IControllerMessage controllerMessage)
@@ -76,6 +82,16 @@ public class HandlerMessageTelegram : IMessageHandler, IUpdateHandler
         return string.Empty;
     }
 
+    public string GetCallbackMessage<TMessage>(TMessage objectMessage)
+    {
+        if (objectMessage is Update callbackMessage && IsCallBackQuery(objectMessage))
+        {
+            return callbackMessage.CallbackQuery.Data;
+        }
+
+        return string.Empty;
+    }
+
     public async Task<bool> SentMessage(object objectMessage, string textMessage)
     {
         if (objectMessage is not Update update)
@@ -84,17 +100,37 @@ public class HandlerMessageTelegram : IMessageHandler, IUpdateHandler
             throw new ArgumentException("invalid objectMessage, this is not Update for telegram client");
         }
 
-        if (update.Message is not { } message)
+        if (update.Message is not { } message &&
+            update.CallbackQuery is not { } callback)
             return false;
 
         var result = await _botClient
             .SendTextMessageAsync(
-                 chatId: message.Chat.Id,
+                 chatId: update.Message?.Chat.Id ?? update.CallbackQuery?.Message?.Chat.Id,
                  text: textMessage,
                  disableNotification: true,
                  parseMode: ParseMode.MarkdownV2);
 
         return result != null;
+    }
+
+    public async Task<bool> AnswerdCallback(object objectMessage, string textMessage)
+    {
+        if (objectMessage is not Update update)
+        {
+            _logger.LogError("InvalidObjectMessage SentMessage");
+            throw new ArgumentException("invalid objectMessage, this is not Update for telegram client");
+        }
+
+        if (update.CallbackQuery is not { } callback)
+            return false;
+
+        await _botClient
+            .AnswerCallbackQueryAsync(
+                callbackQueryId: callback.Id,
+                text: textMessage);
+
+        return true;
     }
 
     public async Task<bool> SentInlineKeyboardMessage(
@@ -155,22 +191,35 @@ public class HandlerMessageTelegram : IMessageHandler, IUpdateHandler
         return updateMessage != null;
     }
 
-    public Domain.Entities.User GetUser(object objectMessage)
+    public async Task<Domain.Entities.User> GetUser(object objectMessage)
     {
+        User user = null;
+
         if (objectMessage is Update updateMessage
             && updateMessage.Message is Message message)
         {
-            User user = message.From;
+            user = message.From;
+        }
+
+        if (objectMessage is Update updateM &&
+            updateM.CallbackQuery is CallbackQuery callback)
+        {
+            user = callback.From;
+        }
+
+        if (user != null)
+        {
+            Domain.LanguageType storedLang = await _userService.GetLanguage(user.Id);
 
             return new()
             {
                 UserId = user.Id,
                 Name = user.Username,
                 Platform = PlatformType.Telegram,
-                Language = new Domain.Entities.Language(user.LanguageCode)
+                Language = new Language(storedLang)
             };
         }
 
-        return default;
+        return null;
     }
 }

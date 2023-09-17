@@ -7,8 +7,11 @@ using TrackingAmazonPrices.Application.Command;
 using TrackingAmazonPrices.Application.Handlers;
 using TrackingAmazonPrices.ConsoleApp;
 using TrackingAmazonPrices.Domain.Enums;
+using TrackingAmazonPrices.Domain;
 using TrackingAmazonPrices.Infraestructure.Commands;
 using Xunit;
+using TrackingAmazonPrices.Application.Callbacks;
+using TrackingAmazonPrices.Application.Services;
 
 namespace TrackingAmazonPrices.Tests.ConsoleApp.Unit;
 
@@ -20,12 +23,14 @@ public class ControllerMessagesTests
     private readonly IMessageHandler _messageHandler = Substitute.For<IMessageHandler>();
     private readonly IPoolingCommands _poolingCommands = Substitute.For<IPoolingCommands>();
     private readonly ILiteralsService _literals = Substitute.For<ILiteralsService>();
+    private readonly ICallbackManager _callbackManager = Substitute.For<ICallbackManager>();
+    private readonly IDatabaseUserService _userService = Substitute.For<IDatabaseUserService>();
 
     [Fact]
     public void HandlerMessageImp_CheckCalls_WhenReceiveUpdateMessage_WithValidCommand()
     {
         ControllerMessages sut = Substitute.ForPartsOf<ControllerMessages>
-            (_logger, _commandManager, _messageHandler, _poolingCommands);
+            (_logger, _commandManager, _callbackManager, _messageHandler, _poolingCommands);
 
         Update update = new()
         {
@@ -41,13 +46,13 @@ public class ControllerMessagesTests
 
         Domain.Entities.User user = new()
         {
-            Language = new Domain.Entities.Language() 
+            Language = new Language() 
             {
                 LanguageCode = LanguageType.English
             },
         };
 
-        ICommand startCommand = Substitute.ForPartsOf<StartCommand>(_loggerStart, _messageHandler, _literals);
+        ICommand startCommand = Substitute.ForPartsOf<StartCommand>(_loggerStart, _messageHandler, _literals, _userService);
 
         _messageHandler.GetTypeMessage(update).Returns(MessageTypes.Command);
         _messageHandler.SentInlineKeyboardMessage(Arg.Any<Update>(), Arg.Any<string>(), Arg.Any<object>()).Returns(true);
@@ -70,7 +75,7 @@ public class ControllerMessagesTests
     public void HandlerMessageImp_CheckCalls_WhenReceiveCallBakc_WithCommand()
     {
         ControllerMessages sut = Substitute.ForPartsOf<ControllerMessages>
-            (_logger, _commandManager, _messageHandler, _poolingCommands);
+            (_logger, _commandManager, _callbackManager,  _messageHandler, _poolingCommands);
 
         CallbackQuery callBack = new();
 

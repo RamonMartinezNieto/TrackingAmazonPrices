@@ -1,5 +1,5 @@
 ﻿using TrackingAmazonPrices.Application.Command;
-using TrackingAmazonPrices.Domain.Entities;
+using TrackingAmazonPrices.Domain.Enums;
 
 namespace TrackingAmazonPrices.Infraestructure.Commands;
 
@@ -13,7 +13,8 @@ public class CommandManager : ICommandManager
 
     private readonly IEnumerable<ICommand> _commandProvider;
 
-    public CommandManager(IEnumerable<ICommand> commandProvider)
+    public CommandManager(
+        IEnumerable<ICommand> commandProvider)
     {
         _commandProvider = commandProvider;
     }
@@ -23,9 +24,7 @@ public class CommandManager : ICommandManager
         if (_commands.TryGetValue(messageCommand, out var commandType))
         {
             Type type = commandType.Item2;
-            //TODO change
-            var eso = _commandProvider.FirstOrDefault(x => x.GetType() == type);
-            return eso;
+            return _commandProvider.FirstOrDefault(x => x.GetType() == type);
         }
         return NullCommand();
     }

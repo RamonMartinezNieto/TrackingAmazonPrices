@@ -6,6 +6,7 @@ public class MessageCommunicationTelegramTests
     private readonly ILogger<HandlerMessageTelegram> _loggerHandler = Substitute.For<ILogger<HandlerMessageTelegram>>();
     private readonly IBotClient<ITelegramBotClient> _botClient = Substitute.For<IBotClient<TelegramBotClient>>();
     private readonly IControllerMessage _controllerMessage = Substitute.For<IControllerMessage>();
+    private readonly IDatabaseUserService _userService = Substitute.For<IDatabaseUserService>();
 
     [Fact]
     public void StartComunication_ThrowArgumentException_WhenHandlerIsNotHandlerMessageTelegram()
@@ -22,7 +23,7 @@ public class MessageCommunicationTelegramTests
     public void StartComunication_ReturnIHandlerMessage_WhenStartCommunication()
     {
         TelegramBotClient telegramBotClient = new("some_token");
-        IMessageHandler handler = new HandlerMessageTelegram(_loggerHandler, _botClient);
+        IMessageHandler handler = new HandlerMessageTelegram(_loggerHandler, _botClient, _userService);
 
         _botClient.BotClient.Returns(telegramBotClient);
 

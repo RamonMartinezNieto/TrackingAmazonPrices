@@ -1,4 +1,5 @@
 ﻿using TrackingAmazonPrices.Application;
+using TrackingAmazonPrices.Domain;
 using TrackingAmazonPrices.Infraestructure.Commands;
 
 namespace TrackingAmazonPrices.Tests.Infraestructure.Unit.Commands;
@@ -10,12 +11,13 @@ public class StartCommandTests
     private readonly ILogger<StartCommand> _logger = Substitute.For<ILogger<StartCommand>>();
     private readonly Update _updateObject = Substitute.For<Update>();
     private static readonly ICommandManager _commandManager = Substitute.For<ICommandManager>();
+    private readonly IDatabaseUserService _userDatabase = Substitute.For<IDatabaseUserService>();
 
     private readonly StartCommand _sut;
 
     public StartCommandTests()
     {
-        _sut = new(_logger, _messageHandler, _literalsService);
+        _sut = new(_logger, _messageHandler, _literalsService, _userDatabase);
     }
 
     [Fact]
@@ -66,7 +68,7 @@ public class StartCommandTests
     {
         return new()
         {
-            Language = new Domain.Entities.Language()
+            Language = new Language()
             {
                 LanguageCode = LanguageType.English
             },

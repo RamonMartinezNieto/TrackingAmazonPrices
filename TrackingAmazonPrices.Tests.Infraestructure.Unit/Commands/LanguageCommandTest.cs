@@ -1,5 +1,5 @@
 ﻿using TrackingAmazonPrices.Application;
-using TrackingAmazonPrices.Infraestructure.Commands;
+using TrackingAmazonPrices.Domain;
 
 namespace TrackingAmazonPrices.Tests.Infraestructure.Unit.Commands;
 
@@ -10,12 +10,13 @@ public class LanguageCommandTest
     private readonly ILogger<LanguageCommand> _logger = Substitute.For<ILogger<LanguageCommand>>();
     private readonly Update _updateObject = Substitute.For<Update>();
     private static readonly ICommandManager _commandManager = Substitute.For<ICommandManager>();
+    private readonly IDatabaseUserService _userDatabase = Substitute.For<IDatabaseUserService>();
 
     private readonly LanguageCommand _sut;
 
     public LanguageCommandTest()
     {
-        _sut = new(_logger, _messageHandler, _literalsService);
+        _sut = new(_logger, _messageHandler, _literalsService, _userDatabase);
     }
 
     [Fact]
@@ -64,7 +65,7 @@ public class LanguageCommandTest
     {
         return new()
         {
-            Language = new Domain.Entities.Language()
+            Language = new Language()
             {
                 LanguageCode = LanguageType.English
             },

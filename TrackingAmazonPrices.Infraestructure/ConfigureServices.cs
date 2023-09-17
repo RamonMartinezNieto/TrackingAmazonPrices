@@ -2,9 +2,13 @@
 using MongoDB.Driver;
 using System.Diagnostics.CodeAnalysis;
 using Telegram.Bot;
+using TrackingAmazonPrices.Application;
+using TrackingAmazonPrices.Application.Callbacks;
 using TrackingAmazonPrices.Application.Command;
 using TrackingAmazonPrices.Application.Handlers;
 using TrackingAmazonPrices.Application.Services;
+using TrackingAmazonPrices.Domain.Configurations;
+using TrackingAmazonPrices.Infraestructure.Callbacks;
 using TrackingAmazonPrices.Infraestructure.Commands;
 using TrackingAmazonPrices.Infraestructure.MongoDataBase;
 using TrackingAmazonPrices.Infraestructure.Telegram;
@@ -32,13 +36,14 @@ public static class ConfigureServices
 
     public static IServiceCollection AddServices(this IServiceCollection services)
     {
-        services.AddSingleton<ILiteralsClient, SheetsLiteralsClient>();
-        services.AddSingleton<ILiteralsService, LiteralsServiceSheets>();
-        services.AddSingleton<IBotClient<ITelegramBotClient>, BotClientTelegram>();
-        services.AddSingleton<ICommandManager, CommandManager>();
-        services.AddSingleton<IMessageHandler, HandlerMessageTelegram>();
-        services.AddSingleton<IComunicationHandler, MessageCommunicationTelegram>();
-        services.AddSingleton<IPoolingCommands, PoolingCommands>();
+        services.AddSingleton<ILiteralsClient, SheetsLiteralsClient>()
+                .AddSingleton<ILiteralsService, LiteralsServiceSheets>()
+                .AddSingleton<IBotClient<ITelegramBotClient>, BotClientTelegram>()
+                .AddSingleton<ICommandManager, CommandManager>()
+                .AddSingleton<ICallbackManager, CallbackManager>()
+                .AddSingleton<IMessageHandler, HandlerMessageTelegram>()
+                .AddSingleton<IComunicationHandler, MessageCommunicationTelegram>()
+                .AddSingleton<IPoolingCommands, PoolingCommands>();
 
         return services;
     }
@@ -46,17 +51,27 @@ public static class ConfigureServices
     public static IServiceCollection AddDatabaseConnections(this IServiceCollection services)
     {
         var connectionString = Environment.GetEnvironmentVariable("TrackingAmazonPrices.Atlas.ConnectionString");
-        services.AddTransient<IMongoClient>(x => new MongoClient(connectionString));
-        services.AddSingleton<IDatabaseUserService, MongoUserService>();
+        
+        services.AddTransient<IMongoClient>(x => new MongoClient(connectionString))
+                .AddSingleton<IDatabaseUserService, MongoUserService>();
 
         return services;
     }
 
     public static IServiceCollection AddCommands(this IServiceCollection services)
     {
-        services.AddTransient<ICommand, NullCommand>();
-        services.AddTransient<ICommand, StartCommand>();
-        services.AddTransient<ICommand, LanguageCommand>();
+        services.AddTransient<ICommand, NullCommand>()
+                .AddTransient<ICommand, StartCommand>()
+                .AddTransient<ICommand, LanguageCommand>();
+
+        return services;
+    }
+
+    public static IServiceCollection AddCallbacks(this IServiceCollection services)
+    {
+        services.AddTransient<ICallback, NullCallback>()
+                .AddTransient<ICallback, CallbackLanguage>();
+
         return services;
     }
 }

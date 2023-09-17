@@ -12,6 +12,8 @@ public interface IMessageHandler
 
     Task<bool> SentMessage(object objectMessage, string textMessage);
 
+    Task<bool> AnswerdCallback(object objectMessage, string textMessage);
+
     Task<bool> SentInlineKeyboardMessage(
         object objectMessage,
         string textMessage,
@@ -19,7 +21,9 @@ public interface IMessageHandler
 
     string GetMessage<TMessage>(TMessage objectMessage);
 
-    User GetUser(object objectMessage);
+    string GetCallbackMessage<TMessage>(TMessage objectMessage);
+
+    Task<User> GetUser(object objectMessage);
 
     IControllerMessage SetControllerMessage(IControllerMessage controllerMessage);
 

@@ -1,4 +1,4 @@
-﻿using TrackingAmazonPrices.Domain.Entities;
+﻿using TrackingAmazonPrices.Domain;
 using TrackingAmazonPrices.Infraestructure.Mappers;
 using TrackingAmazonPrices.Infraestructure.MongoDto;
 

@@ -6,11 +6,12 @@ public class CommandManagerTests
 {
     private static readonly IMessageHandler _messageHandler = Substitute.For<IMessageHandler>();
     private static readonly ILiteralsService _literalsService = Substitute.For<ILiteralsService>();
-    
+    private static readonly IDatabaseUserService _userService = Substitute.For<IDatabaseUserService>();
+
     private static readonly IEnumerable<ICommand> _commands = new List<ICommand>
         {
-            new StartCommand(Substitute.For<ILogger<StartCommand>>(), _messageHandler, _literalsService),
-            new LanguageCommand(Substitute.For<ILogger<LanguageCommand>>(), _messageHandler, _literalsService),
+            new StartCommand(Substitute.For<ILogger<StartCommand>>(), _messageHandler, _literalsService, _userService),
+            new LanguageCommand(Substitute.For<ILogger<LanguageCommand>>(), _messageHandler, _literalsService, _userService),
             new NullCommand(),
         };
 

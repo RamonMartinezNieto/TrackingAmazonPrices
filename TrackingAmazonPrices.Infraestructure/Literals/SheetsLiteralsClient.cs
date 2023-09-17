@@ -3,7 +3,11 @@ using Google.Apis.Services;
 using Google.Apis.Sheets.v4;
 using Google.Apis.Sheets.v4.Data;
 using System.IO;
+using TrackingAmazonPrices.Application;
+using TrackingAmazonPrices.Domain;
+using TrackingAmazonPrices.Domain.Configurations;
 using TrackingAmazonPrices.Domain.Entities;
+using TrackingAmazonPrices.Domain.Enums;
 using static Google.Apis.Sheets.v4.SpreadsheetsResource.ValuesResource.GetRequest;
 
 namespace TrackingAmazonPrices.Infraestructure;
@@ -95,10 +99,11 @@ public class SheetsLiteralsClient : ILiteralsClient
                 values.Add(literalEntity.Language, literalEntity);
             }
         }
-        catch (Exception e) 
+        catch (Exception e)
         {
-            Console.WriteLine(e.Message);
+            throw new InvalidCastException("Imposible to cast literals", e);
         }
+
         return values;
     }
 }
