@@ -115,14 +115,13 @@ public class HandlerMessageTelegram : IMessageHandler, IUpdateHandler
 
     public async Task<bool> AnswerdCallback(object objectMessage, string textMessage)
     {
-        if (objectMessage is not Update update)
-        {
-            _logger.LogError("InvalidObjectMessage SentMessage");
-            throw new ArgumentException("invalid objectMessage, this is not Update for telegram client");
-        }
 
-        if (update.CallbackQuery is not { } callback)
-            return false;
+        if (objectMessage is not Update update || 
+            update.CallbackQuery is not { } callback)
+        {
+            _logger.LogError("InvalidObjectMessage in AnswerdCallback, is not a update or callback");
+            throw new ArgumentException("invalid objectMessage, this is not callback telegram");
+        }
 
         await _botClient
             .AnswerCallbackQueryAsync(

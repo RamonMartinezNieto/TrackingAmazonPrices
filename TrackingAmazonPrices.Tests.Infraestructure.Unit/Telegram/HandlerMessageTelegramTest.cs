@@ -291,6 +291,38 @@ public class HandlerMessageTelegramTest
         result.Should().BeNull();
     }
 
+    [Fact]
+    public async Task AnswerdCallback_ValidUpdate_CallsAnswerCallbackQueryAsync()
+    {
+        var update = new Update
+        {
+            CallbackQuery = new CallbackQuery
+            {
+                Id = "123456",
+                Data = "some_callback_data"
+            }
+        };
+
+        var result = await _sut.AnswerdCallback(update, "Response message");
+
+        result.Should().BeTrue();
+    }
+
+    [Fact]
+    public async Task AnswerdCallback_InvalidUpdate_ThrowsArgumentException()
+    {
+        var invalidUpdate = new Update
+        {
+            Message = new Message { Text = "some_text" }
+        };
+
+        Func<Task> act = async () => await _sut.AnswerdCallback(invalidUpdate, "Response message");
+
+        await act.Should()
+            .ThrowAsync<ArgumentException>()
+            .WithMessage("invalid objectMessage, this is not callback telegram");
+    }
+
     private static Update GetMockMessage()
     {
         Update message = new()
