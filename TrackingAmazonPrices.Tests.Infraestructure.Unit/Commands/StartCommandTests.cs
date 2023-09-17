@@ -36,13 +36,13 @@ public class StartCommandTests
 
         _messageHandler.GetUser(Arg.Any<object>()).Returns(GetUserWithLanguage());
         _messageHandler.SentInlineKeyboardMessage(_updateObject, Arg.Any<string>(), Arg.Any<object>()).Returns(true);
-        _messageHandler.SentMessage(_updateObject, Arg.Any<string>()).Returns(true);
+        _messageHandler.SentMessageAsync(_updateObject, Arg.Any<string>()).Returns(true);
         _commandManager.GetNextCommand(Steps.Language).Returns(languageCommand);
         languageCommand.ExecuteAsync(Arg.Any<object>()).Returns(true);
 
         var result = await _sut.ExecuteAsync(_updateObject);
 
-        await _messageHandler.Received(1).SentMessage(_updateObject, Arg.Any<string>());
+        await _messageHandler.Received(1).SentMessageAsync(_updateObject, Arg.Any<string>());
         _sut.NextStep.Should().Be(Steps.Nothing);
 
         result.Should().BeTrue();
@@ -53,7 +53,7 @@ public class StartCommandTests
     public async void StartCommand_NextStepNothing_WhenCallExecuteAsyncAndMessageIsInValid()
     {
         _messageHandler.GetUser(Arg.Any<object>()).Returns(GetUserWithLanguage());
-        _messageHandler.SentMessage(_updateObject, Arg.Any<string>()).Returns(false);
+        _messageHandler.SentMessageAsync(_updateObject, Arg.Any<string>()).Returns(false);
 
         var result = await _sut.ExecuteAsync(_updateObject);
 

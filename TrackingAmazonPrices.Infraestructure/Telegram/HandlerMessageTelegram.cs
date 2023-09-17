@@ -92,7 +92,7 @@ public class HandlerMessageTelegram : IMessageHandler, IUpdateHandler
         return string.Empty;
     }
 
-    public async Task<bool> SentMessage(object objectMessage, string textMessage)
+    public async Task<bool> SentMessageAsync(object objectMessage, string textMessage)
     {
         if (objectMessage is not Update update)
         {
@@ -100,8 +100,7 @@ public class HandlerMessageTelegram : IMessageHandler, IUpdateHandler
             throw new ArgumentException("invalid objectMessage, this is not Update for telegram client");
         }
 
-        if (update.Message is not { } message &&
-            update.CallbackQuery is not { } callback)
+        if (update.Message is null && update.CallbackQuery is null)
             return false;
 
         var result = await _botClient

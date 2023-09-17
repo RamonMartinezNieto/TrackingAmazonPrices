@@ -16,18 +16,15 @@ public class LanguageCommand : ICommand
     private readonly ILogger<LanguageCommand> _logger;
     private readonly IMessageHandler _messageHandler;
     private readonly ILiteralsService _literalsService;
-    private readonly IDatabaseUserService _userService;
 
     public LanguageCommand(
         ILogger<LanguageCommand> logger,
         IMessageHandler messageHandler,
-        ILiteralsService literalsService,
-        IDatabaseUserService userService)
+        ILiteralsService literalsService)
     {
         _logger = logger;
         _messageHandler = messageHandler;
         _literalsService = literalsService;
-        _userService = userService;
     }
 
     public async Task<bool> ExecuteAsync(object objectMessage)

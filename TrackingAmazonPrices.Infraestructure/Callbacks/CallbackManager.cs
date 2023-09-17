@@ -20,7 +20,7 @@ internal class CallbackManager : ICallbackManager
 
     public ICallback GetCallback(string message)
     {
-        string command = message.Split("_").First();
+        string command = message.Split("_")[0];
 
         if (_callbacks.TryGetValue(command, out var commandType))
         {
@@ -31,11 +31,11 @@ internal class CallbackManager : ICallbackManager
     }
 
     public string GetData(string message)
-        => message.Split("_").Last();
+        => message.Split("_")[^1];
 
     public bool IsCallback(string command)
     {
-        string commandKey = command.Split("_").First();
+        string commandKey = command.Split("_")[0];
         return _callbacks.ContainsKey(commandKey);
     }
 

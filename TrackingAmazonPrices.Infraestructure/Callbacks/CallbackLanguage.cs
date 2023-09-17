@@ -40,7 +40,7 @@ public class CallbackLanguage : ICallback
         {
             string message = await _literals.GetAsync(user.Language.LanguageCode, Literals.UserUpdate);
             _ = await _messageHandler.AnswerdCallback(objectMessage, message);
-            _ = await _messageHandler.SentMessage(objectMessage, message);
+            _ = await _messageHandler.SentMessageAsync(objectMessage, message);
         }
 
         if (result)

@@ -119,7 +119,7 @@ public class HandlerMessageTelegramTest
     {
         object someObject = new();
 
-        Func<Task> act = async () => await _sut.SentMessage(someObject, Arg.Any<string>());
+        Func<Task> act = async () => await _sut.SentMessageAsync(someObject, Arg.Any<string>());
 
         act.Should().ThrowAsync<ArgumentException>()
             .WithMessage("invalid objectMessage, this is not Update for telegram client");
@@ -130,7 +130,7 @@ public class HandlerMessageTelegramTest
     {
         Update message = GetMockCallback();
 
-        Func<Task> act = async () => await _sut.SentMessage(message, Arg.Any<string>());
+        Func<Task> act = async () => await _sut.SentMessageAsync(message, Arg.Any<string>());
 
         act.Should().NotThrowAsync<ArgumentException>();
         _botClient.BotClient.SendTextMessageAsync(

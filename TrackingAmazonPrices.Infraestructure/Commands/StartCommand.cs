@@ -41,7 +41,7 @@ public class StartCommand : ICommand
             userLang = user.Language.LanguageCode;
         }
 
-        var firstResult = await _messageHandler.SentMessage(
+        var firstResult = await _messageHandler.SentMessageAsync(
             objectMessage,
             string.Format("{0} {1}",
                 await _literalsService.GetAsync(userLang, Literals.Welcome),

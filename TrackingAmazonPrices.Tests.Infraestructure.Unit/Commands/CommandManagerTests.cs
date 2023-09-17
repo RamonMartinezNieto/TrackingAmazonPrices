@@ -11,7 +11,7 @@ public class CommandManagerTests
     private static readonly IEnumerable<ICommand> _commands = new List<ICommand>
         {
             new StartCommand(Substitute.For<ILogger<StartCommand>>(), _messageHandler, _literalsService, _userService),
-            new LanguageCommand(Substitute.For<ILogger<LanguageCommand>>(), _messageHandler, _literalsService, _userService),
+            new LanguageCommand(Substitute.For<ILogger<LanguageCommand>>(), _messageHandler, _literalsService),
             new NullCommand(),
         };
 

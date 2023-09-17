@@ -10,7 +10,7 @@ public interface IMessageHandler
 
     MessageTypes GetTypeMessage(object objectMessage);
 
-    Task<bool> SentMessage(object objectMessage, string textMessage);
+    Task<bool> SentMessageAsync(object objectMessage, string textMessage);
 
     Task<bool> AnswerdCallback(object objectMessage, string textMessage);
 
