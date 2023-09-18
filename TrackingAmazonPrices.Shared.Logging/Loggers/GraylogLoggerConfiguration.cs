@@ -8,4 +8,5 @@ public class GraylogLoggerConfiguration
     public string Host { get; set; } = string.Empty;
     public int Port { get; set; }
     public LogEventLevel MinimumLevel { get; set; }
+    public bool UseSsl { get; set; }
 }

@@ -18,18 +18,18 @@ public static class LoggerConfigurationExtensions
 
     public static LoggerConfiguration AddGraylogLogger(
         this LoggerConfiguration loggerConfiguration,
-        GraylogLoggerConfiguration graylogLoggerConfiguration)
+        GraylogLoggerConfiguration grayLogConfig)
     {
         GraylogSinkOptions options = new()
         {
-            HostnameOrAddress = graylogLoggerConfiguration.Host,
-            Port = graylogLoggerConfiguration.Port,
+            HostnameOrAddress = grayLogConfig.Host,
+            Port = grayLogConfig.Port,
             TransportType = TransportType.Udp,
-            UseSsl = false,
-            MinimumLogEventLevel = graylogLoggerConfiguration.MinimumLevel
+            UseSsl = grayLogConfig.UseSsl,
+            MinimumLogEventLevel = grayLogConfig.MinimumLevel
         };
 
-        return graylogLoggerConfiguration.Enabled
+        return grayLogConfig.Enabled
             ? loggerConfiguration.WriteTo.Graylog(options)
             : loggerConfiguration;
     }
