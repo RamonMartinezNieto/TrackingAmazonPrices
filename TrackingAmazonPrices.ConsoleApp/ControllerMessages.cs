@@ -40,11 +40,11 @@ public class ControllerMessages : IControllerMessage
         switch (messageType)
         {
             case MessageTypes.Command:
-                ProcessCommand(objectMessage);
+                _ = ProcessCommand(objectMessage);
                 break;
 
             case MessageTypes.CallbackQuery:
-                ProcessCallback(objectMessage);
+                _ = ProcessCallback(objectMessage);
                 break;
 
             default:
@@ -53,7 +53,7 @@ public class ControllerMessages : IControllerMessage
         }
     }
 
-    private void ProcessCallback(object objectMessage)
+    private async Task ProcessCallback(object objectMessage)
     {
         if (_handlerMessage.IsCallBackQuery(objectMessage))
         {
@@ -62,20 +62,19 @@ public class ControllerMessages : IControllerMessage
 
             ICallback callback = _callbackManager.GetCallback(message);
 
-            _ = Task.Run(() => callback.ExecuteAsync(objectMessage, data));
+            _ = await callback.ExecuteAsync(objectMessage, data);
         }
     }
 
-    private void ProcessCommand(object objectMessage)
+    private async Task ProcessCommand(object objectMessage)
     {
         if (_handlerMessage.IsValidMessage(objectMessage))
         {
             var message = _handlerMessage.GetMessage(objectMessage);
-            long chatId = _handlerMessage.GetChatId(objectMessage);
 
             ICommand command = GetCommand(message);
 
-            var taskExecute = Task.Run(() => TryExecuteCommand(command, objectMessage));
+            _ = await TryExecuteCommand(command, objectMessage);
         }
     }
 

@@ -57,7 +57,6 @@ public class ControllerMessagesTests
         _messageHandler.SentInlineKeyboardMessage(Arg.Any<Update>(), Arg.Any<string>(), Arg.Any<object>()).Returns(true);
         _messageHandler.IsValidMessage(update).Returns(true);
         _messageHandler.GetMessage(update).Returns(update.Message.Text);
-        _messageHandler.GetChatId(update).Returns(update.Message.Chat.Id);
         _commandManager.IsCommand(update.Message.Text).Returns(true);
         _messageHandler.GetUser(Arg.Any<object>()).Returns(user);
         _commandManager.GetCommand(update.Message.Text).Returns(startCommand);
@@ -67,7 +66,6 @@ public class ControllerMessagesTests
 
         _messageHandler.Received().IsValidMessage(update);
         _messageHandler.Received().GetMessage(update);
-        _messageHandler.Received().GetChatId(update);
     }
 
     [Fact]
