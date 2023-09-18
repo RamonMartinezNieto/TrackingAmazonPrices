@@ -7,41 +7,38 @@ namespace TrackingAmazonPrices.Tests.Domain.Unit.Entities;
 public class LanguageTest
 {
     [Fact]
-    public void InstantiateLanguage_ReturnEngliss_VoidLanguage()
+    public void InstantiateLanguage_ReturnEnglish_VoidLanguage()
     {
         Language language = new();
 
         language.LanguageCode.Should().Be(LanguageType.English);
     }
 
-    [Fact]
-    public void InstantiateLanguage_ReturnSpanish_TypeConstructor()
+    [Theory]
+    [InlineData(LanguageType.Spanish)]
+    [InlineData(LanguageType.English)]
+    [InlineData(LanguageType.Italian)]
+    [InlineData(LanguageType.French)]
+    public void InstantiateLanguage_ReturnSpanish_TypeConstructor(
+        LanguageType inputAndExpected)
     {
-        Language language = new(LanguageType.Spanish);
+        Language language = new(inputAndExpected);
 
-        language.LanguageCode.Should().Be(LanguageType.Spanish);
+        language.LanguageCode.Should().Be(inputAndExpected);
     }
 
-    [Fact]
-    public void InstantiateLanguage_ReturnSpanish_StringConstructorEn()
+    [Theory]
+    [InlineData("es", LanguageType.Spanish)]
+    [InlineData("en", LanguageType.English)]
+    [InlineData("fi", LanguageType.English)]
+    [InlineData("it", LanguageType.Italian)]
+    [InlineData("fr", LanguageType.French)]
+    public void InstantiateLanguage_ReturnSpanish_StringConstructorEn(
+        string inputBigrama,
+        LanguageType expectedLanguage)
     {
-        Language language = new("en");
+        Language language = new(inputBigrama);
 
-        language.LanguageCode.Should().Be(LanguageType.English);
-    }
-
-    [Fact]
-    public void InstantiateLanguage_ReturnSpanish_StringConstructorEs()
-    {
-        Language language = new("es");
-
-        language.LanguageCode.Should().Be(LanguageType.Spanish);
-    }
-    [Fact]
-    public void InstantiateLanguage_ReturnSpanish_StringConstructorDefault()
-    {
-        Language language = new("fi");
-
-        language.LanguageCode.Should().Be(LanguageType.English);
+        language.LanguageCode.Should().Be(expectedLanguage);
     }
 }
