@@ -12,7 +12,6 @@ public class ControllerMessages : IControllerMessage
     private readonly ICommandManager _commandManager;
     private readonly ICallbackManager _callbackManager;
     private readonly IMessageHandler _handlerMessage;
-    private readonly IPoolingCommands _poolingCommands;
 
     public Func<Exception, Exception> HandlerError { get; }
     public Action<object> HandlerMessage { get; }
@@ -21,14 +20,12 @@ public class ControllerMessages : IControllerMessage
         ILogger<ControllerMessages> logger,
         ICommandManager commandManager,
         ICallbackManager callbackManager,
-        IMessageHandler handlerMessage,
-        IPoolingCommands poolingCommands)
+        IMessageHandler handlerMessage)
     {
         _logger = logger;
         _commandManager = commandManager;
         _callbackManager = callbackManager;
         _handlerMessage = handlerMessage;
-        _poolingCommands = poolingCommands;
 
         HandlerError = HandleExceptionImp;
         HandlerMessage = HandlerMessageImp;
@@ -76,25 +73,14 @@ public class ControllerMessages : IControllerMessage
             var message = _handlerMessage.GetMessage(objectMessage);
             long chatId = _handlerMessage.GetChatId(objectMessage);
 
-            ICommand command = GetCommand(message, chatId);
+            ICommand command = GetCommand(message);
 
             var taskExecute = Task.Run(() => TryExecuteCommand(command, objectMessage));
-            taskExecute.Wait();
-
-            (bool succes, ICommand nextCommand) = taskExecute.Result;
-
-            if (succes)
-            {
-                _poolingCommands.TryAddCommand(chatId, nextCommand);
-            }
         }
     }
 
-    private ICommand GetCommand(string message, long chatId)
+    private ICommand GetCommand(string message)
     {
-        if (_poolingCommands.TryGetPendingCommandResponse(chatId, out ICommand command))
-            return command;
-
         if (_commandManager.IsCommand(message))
         {
             return _commandManager.GetCommand(message);

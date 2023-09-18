@@ -21,7 +21,6 @@ public class ControllerMessagesTests
     private readonly ILogger<StartCommand> _loggerStart = Substitute.For<ILogger<StartCommand>>();
     private readonly ICommandManager _commandManager = Substitute.For<ICommandManager>();
     private readonly IMessageHandler _messageHandler = Substitute.For<IMessageHandler>();
-    private readonly IPoolingCommands _poolingCommands = Substitute.For<IPoolingCommands>();
     private readonly ILiteralsService _literals = Substitute.For<ILiteralsService>();
     private readonly ICallbackManager _callbackManager = Substitute.For<ICallbackManager>();
     private readonly IDatabaseUserService _userService = Substitute.For<IDatabaseUserService>();
@@ -30,7 +29,7 @@ public class ControllerMessagesTests
     public void HandlerMessageImp_CheckCalls_WhenReceiveUpdateMessage_WithValidCommand()
     {
         ControllerMessages sut = Substitute.ForPartsOf<ControllerMessages>
-            (_logger, _commandManager, _callbackManager, _messageHandler, _poolingCommands);
+            (_logger, _commandManager, _callbackManager, _messageHandler);
 
         Update update = new()
         {
@@ -75,7 +74,7 @@ public class ControllerMessagesTests
     public void HandlerMessageImp_CheckCalls_WhenReceiveCallBakc_WithCommand()
     {
         ControllerMessages sut = Substitute.ForPartsOf<ControllerMessages>
-            (_logger, _commandManager, _callbackManager,  _messageHandler, _poolingCommands);
+            (_logger, _commandManager, _callbackManager,  _messageHandler);
 
         CallbackQuery callBack = new();
 

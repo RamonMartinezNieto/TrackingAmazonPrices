@@ -43,8 +43,7 @@ public static class ConfigureServices
                 .AddSingleton<ICommandManager, CommandManager>()
                 .AddSingleton<ICallbackManager, CallbackManager>()
                 .AddSingleton<IMessageHandler, HandlerMessageTelegram>()
-                .AddSingleton<IComunicationHandler, MessageCommunicationTelegram>()
-                .AddSingleton<IPoolingCommands, PoolingCommands>();
+                .AddSingleton<IComunicationHandler, MessageCommunicationTelegram>();
 
         return services;
     }
