@@ -1,10 +1,9 @@
-﻿using Serilog.Events;
+﻿using FluentAssertions;
 using Serilog;
+using Serilog.Core;
+using Serilog.Events;
 using TrackingAmazonPrices.Shared.Logging.Loggers;
 using Xunit;
-using FluentAssertions;
-using Serilog.Core;
-using Microsoft.Extensions.Logging;
 
 namespace TrackingAmazonPrices.Tests.Shared.Logging.Unit;
 
@@ -13,8 +12,8 @@ public class LoggerConfigurationExtensionsTests
     [Fact]
     public void AddConsoleLogger_Enabled_AddsConsoleLoggerInformationLevel()
     {
-        LoggerConfiguration loggerConfiguration = new ();
-        ConsoleLoggerConfiguration consoleConfiguration 
+        LoggerConfiguration loggerConfiguration = new();
+        ConsoleLoggerConfiguration consoleConfiguration
             = GetConsoleConfiguration(LogEventLevel.Information, true);
 
         var result = loggerConfiguration.AddConsoleLogger(consoleConfiguration);
@@ -23,19 +22,19 @@ public class LoggerConfigurationExtensionsTests
 
         var infoEnable = logger.IsEnabled(LogEventLevel.Information);
         var debugEnable = logger.IsEnabled(LogEventLevel.Debug);
-        
+
         result.Should().NotBeNull();
         infoEnable.Should().BeTrue();
         debugEnable.Should().BeFalse();
         logger.Should().NotBeNull();
         logger.Should().BeAssignableTo<Logger>();
-    }   
-    
+    }
+
     [Fact]
     public void AddConsoleLogger_Enabled_AddsConsoleLoggerErrorLevel()
     {
-        LoggerConfiguration loggerConfiguration = new ();
-        ConsoleLoggerConfiguration consoleConfiguration 
+        LoggerConfiguration loggerConfiguration = new();
+        ConsoleLoggerConfiguration consoleConfiguration
             = GetConsoleConfiguration(LogEventLevel.Error, true);
 
         var result = loggerConfiguration.AddConsoleLogger(consoleConfiguration);
@@ -44,7 +43,7 @@ public class LoggerConfigurationExtensionsTests
 
         var verboseLevel = logger.IsEnabled(LogEventLevel.Verbose);
         var errorLevel = logger.IsEnabled(LogEventLevel.Error);
-        
+
         result.Should().NotBeNull();
         verboseLevel.Should().BeFalse();
         errorLevel.Should().BeTrue();
@@ -58,8 +57,10 @@ public class LoggerConfigurationExtensionsTests
 
         var result = loggerConfiguration.AddGraylogLogger(graylogLoggerConfiguration);
 
-        Assert.NotNull(result);
+        result.Should().NotBeNull();
+
         var logger = result.CreateLogger();
+
         logger.Should().NotBeNull();
     }
 

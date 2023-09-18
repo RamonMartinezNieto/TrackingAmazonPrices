@@ -13,7 +13,7 @@ public static class ConfigureLogger
         => builder.UseSerilog((context, loggerConfiguration)
             => ConfigureSerilogLogger(loggerConfiguration, context.Configuration));
 
-    private static LoggerConfiguration ConfigureSerilogLogger(
+    private static void ConfigureSerilogLogger(
         LoggerConfiguration loggerConfiguration,
         IConfiguration configuration)
     {
@@ -23,8 +23,8 @@ public static class ConfigureLogger
         ConsoleLoggerConfiguration consoleLogger = new ();
         configuration.GetSection("Logging:Console").Bind(consoleLogger);
 
-        return loggerConfiguration
-                .AddConsoleLogger(consoleLogger)
-                .AddGraylogLogger(graylogLogger);
+        loggerConfiguration
+            .AddConsoleLogger(consoleLogger)
+            .AddGraylogLogger(graylogLogger);
     }
 }
