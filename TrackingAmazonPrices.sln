@@ -19,7 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrackingAmazonPrices.Tests.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrackingAmazonPrices.Tests.ConsoleApp.Unit", "TrackingAmazonPrices.Tests.ConsoleApp.Unit\TrackingAmazonPrices.Tests.ConsoleApp.Unit.csproj", "{D09D25AC-4B53-4115-B993-8131E7801431}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackingAmazonPrices.Tests.Domain.Unit", "TrackingAmazonPrices.Tests.Domain.Unit\TrackingAmazonPrices.Tests.Domain.Unit.csproj", "{E2EF6EFE-FD17-4FC2-AE50-00C8F5E4110C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrackingAmazonPrices.Tests.Domain.Unit", "TrackingAmazonPrices.Tests.Domain.Unit\TrackingAmazonPrices.Tests.Domain.Unit.csproj", "{E2EF6EFE-FD17-4FC2-AE50-00C8F5E4110C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackingAmazonPrices.Shared.Logging", "TrackingAmazonPrices.Shared.Logging\TrackingAmazonPrices.Shared.Logging.csproj", "{75DD67D3-EB68-4D67-B996-EAD011B8FE2C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,6 +57,10 @@ Global
 		{E2EF6EFE-FD17-4FC2-AE50-00C8F5E4110C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E2EF6EFE-FD17-4FC2-AE50-00C8F5E4110C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E2EF6EFE-FD17-4FC2-AE50-00C8F5E4110C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75DD67D3-EB68-4D67-B996-EAD011B8FE2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75DD67D3-EB68-4D67-B996-EAD011B8FE2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75DD67D3-EB68-4D67-B996-EAD011B8FE2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75DD67D3-EB68-4D67-B996-EAD011B8FE2C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -67,6 +73,7 @@ Global
 		{FC475AC4-1216-4653-9E80-3DE5F354EAB9} = {C364B16A-1560-490C-ABE7-8F89C87D086F}
 		{D09D25AC-4B53-4115-B993-8131E7801431} = {C364B16A-1560-490C-ABE7-8F89C87D086F}
 		{E2EF6EFE-FD17-4FC2-AE50-00C8F5E4110C} = {C364B16A-1560-490C-ABE7-8F89C87D086F}
+		{75DD67D3-EB68-4D67-B996-EAD011B8FE2C} = {77E7F64C-5055-41D2-808C-13A6F83C7A2A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {56E646B0-DF3D-490F-B485-C669939D9F96}

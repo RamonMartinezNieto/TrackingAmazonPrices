@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\TrackingAmazonPrices.Application\TrackingAmazonPrices.Application.csproj" />
     <ProjectReference Include="..\TrackingAmazonPrices.Domain\TrackingAmazonPrices.Domain.csproj" />
+    <ProjectReference Include="..\TrackingAmazonPrices.Shared.Logging\TrackingAmazonPrices.Shared.Logging.csproj" />
   </ItemGroup>
 
 </Project>

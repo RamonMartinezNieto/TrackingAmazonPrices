@@ -12,6 +12,7 @@ using TrackingAmazonPrices.Infraestructure.Callbacks;
 using TrackingAmazonPrices.Infraestructure.Commands;
 using TrackingAmazonPrices.Infraestructure.MongoDataBase;
 using TrackingAmazonPrices.Infraestructure.Telegram;
+using TrackingAmazonPrices.Shared.Logging.Loggers;
 
 namespace TrackingAmazonPrices.Infraestructure;
 
@@ -30,7 +31,7 @@ public static class ConfigureServices
             options.SheetId = "16t9X1i4SpNOP-gAYoARL54Mcn5DeiLEjLNlg2oAwtWU";
             options.PathCredentials = Environment.GetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS");
         });
-
+                
         return services;
     }
 

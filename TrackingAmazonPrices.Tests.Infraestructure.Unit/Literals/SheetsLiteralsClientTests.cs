@@ -1,7 +1,7 @@
 ﻿using Google.Apis.Sheets.v4.Data;
 using TrackingAmazonPrices.Application;
-using TrackingAmazonPrices.Domain.Entities;
 using TrackingAmazonPrices.Domain;
+using TrackingAmazonPrices.Domain.Entities;
 using TrackingAmazonPrices.Infraestructure;
 
 namespace TrackingAmazonPrices.Tests.Infraestructure.Unit;
@@ -14,7 +14,6 @@ public class SheetsLiteralsClientTests
     [Fact]
     public async void LoadLiterals_ShouldThrowException_WhenConnectionFail()
     {
-
         var sheetConfiguration = new SheetConfiguration
         {
             SheetId = "someSheetId",
@@ -35,7 +34,6 @@ public class SheetsLiteralsClientTests
     [Fact]
     public void ToDictionaryModel_ReturnsDictionary_WhenSendValueRange()
     {
-
         var simulatedValueRange = new ValueRange
         {
             Values = new List<IList<object>>
@@ -45,7 +43,6 @@ public class SheetsLiteralsClientTests
                 new List<object> { "en", "Welcome to Tracking Amazon Prices", "Select a language" }
             }
         };
-
 
         Dictionary<LanguageType, LiteralsEntity> result = SheetsLiteralsClient.ToDictionaryModel(simulatedValueRange.Values);
 
