@@ -1,6 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Driver;
 using NSubstitute.Core;
+using TrackingAmazonPrices.Domain;
 using TrackingAmazonPrices.Infraestructure.Mappers;
 using TrackingAmazonPrices.Infraestructure.MongoDataBase;
 using TrackingAmazonPrices.Infraestructure.MongoDto;
@@ -90,7 +91,13 @@ public class MongoUserServiceTest
         {
             Name = "Pepe",
             Platform = PlatformType.Telegram,
+            Language = new (LanguageType.Spanish),
             UserId = 2222,
         };
+    }
+
+    public static FilterDefinition<MongoUserDto> FilterByUserId(long id)
+    {
+        return Builders<MongoUserDto>.Filter.Eq(x => x.UserId, id);
     }
 }

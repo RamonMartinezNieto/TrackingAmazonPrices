@@ -43,9 +43,6 @@ public class DeleteUserCallbackTests
         await _handlerMessage.Received(1).GetUser(Arg.Any<object>());
         await _handlerMessage.Received(1).AnswerdCallback(user, "Que tengas un buen día!");
         await _literals.Received(1).GetAsync(LanguageType.Spanish, Literals.GoodDay);
-
-        _userService.DidNotReceive();
-        _logger.DidNotReceive();
     }
     
     [Fact]
