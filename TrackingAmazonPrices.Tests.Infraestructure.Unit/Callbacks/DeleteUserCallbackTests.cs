@@ -40,8 +40,9 @@ public class DeleteUserCallbackTests
         var result = await _sut.ExecuteAsync(user, dataCallback);
 
         result.Should().BeTrue();
-        _handlerMessage.Received(2);
-        _literals.Received(1);
+        await _handlerMessage.Received(1).GetUser(Arg.Any<object>());
+        await _handlerMessage.Received(1).AnswerdCallback(user, "Que tengas un buen día!");
+        await _literals.Received(1).GetAsync(LanguageType.Spanish, Literals.GoodDay);
 
         _userService.DidNotReceive();
         _logger.DidNotReceive();
@@ -72,10 +73,10 @@ public class DeleteUserCallbackTests
         var result = await _sut.ExecuteAsync(user, dataCallback);
 
         result.Should().BeTrue();
-        _handlerMessage.Received(2);
-        _literals.Received(1);
-        _userService.Received(1);
-        _logger.DidNotReceive();
+        await _handlerMessage.Received(1).GetUser(Arg.Any<object>());
+        await _handlerMessage.Received(1).AnswerdCallback(Arg.Any<object>(), "You don't have a registered user");
+        await _literals.Received(1).GetAsync(Literals.NoUser);
+        await _userService.Received(1).UserExists(user.UserId);
     }    
 
     [Fact]
@@ -111,10 +112,12 @@ public class DeleteUserCallbackTests
         var result = await _sut.ExecuteAsync(user, dataCallback);
 
         result.Should().BeTrue();
-        _handlerMessage.Received(2);
-        _literals.Received(2);
-        _userService.Received(1);
-        _logger.Received(2);
+        await _handlerMessage.Received(1).GetUser(Arg.Any<object>());
+        await _handlerMessage.Received(1).AnswerdCallback(Arg.Any<object>(), "Usuario eliminado Que tengas un buen día!");
+        await _literals.Received(1).GetAsync(LanguageType.Spanish, Literals.UserDeleted);
+        await _literals.Received(1).GetAsync(LanguageType.Spanish, Literals.GoodDay);
+        await _userService.Received(1).UserExists(user.UserId);
+        await _userService.Received(1).DeleteUser(user.UserId);
     }
 
     private static Domain.Entities.User Getuser()

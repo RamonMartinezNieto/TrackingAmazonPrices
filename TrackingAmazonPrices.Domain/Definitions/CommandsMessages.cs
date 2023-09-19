@@ -1,6 +1,6 @@
 ﻿namespace TrackingAmazonPrices.Domain.Definitions;
 
-public class CommandsMessages
+public static class CommandsMessages
 {
     public const string START_COMMAND = "/start";
     public const string LANGUAGE_COMMAND = "/language";

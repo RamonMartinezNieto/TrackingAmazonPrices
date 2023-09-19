@@ -38,9 +38,10 @@ public class DeleteUserCommandTests
         var result = await _sut.ExecuteAsync(user);
 
         result.Should().BeTrue();
-        _messageHandler.Received(2);
-        _databaseUserService.Received(1);
-        _literalsService.Received(1);
+        await _messageHandler.Received(1).GetUser(user);
+        await _messageHandler.Received(1).SentMessageAsync(Arg.Any<object>(), "You don't have a registered user");
+        await _databaseUserService.Received(1).UserExists(user.UserId);
+        await _literalsService.Received(1).GetAsync(Literals.NoUser);
     }
 
 
@@ -62,11 +63,9 @@ public class DeleteUserCommandTests
         var result = await _sut.ExecuteAsync(user);
 
         result.Should().BeTrue();
-        _messageHandler.Received(2);
-        _databaseUserService.Received(1);
-        _literalsService.Received(1);
-
-        _logger.Received(1);
+        await _messageHandler.Received(1).GetUser(user);
+        await _messageHandler.Received(1).SentInlineKeyboardMessage(user, Arg.Any<string>(), Arg.Any<InlineKeyboardMarkup>());
+        await _databaseUserService.Received(1).UserExists(user.UserId);
     }
 
     private static Domain.Entities.User Getuser()
