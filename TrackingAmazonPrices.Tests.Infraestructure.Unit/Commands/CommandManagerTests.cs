@@ -67,23 +67,4 @@ public class CommandManagerTests
         result.Should().BeAssignableTo<ICommand>();
         result.Should().BeOfType<NullCommand>();
     }
-
-    [Fact]
-    public void GetNextCommand_ReturnAnotherCommand_WhenCallWithCommandWithNextStep()
-    {
-        var startCommand = _commands.First();
-        var result = _sut.GetNextCommand(startCommand.NextStep);
-
-        result.Should().BeAssignableTo<ICommand>();
-    }
-
-    [Fact]
-    public void GetNextCommand_ReturnNullCommandObject_WhenCallWithCommandWithoutNextStep()
-    {
-        var startCommand = _commands.First();
-        var result = _sut.GetNextCommand(startCommand.NextStep);
-
-        result.Should().BeAssignableTo<ICommand>();
-        result.Should().BeOfType<NullCommand>();
-    }
 }

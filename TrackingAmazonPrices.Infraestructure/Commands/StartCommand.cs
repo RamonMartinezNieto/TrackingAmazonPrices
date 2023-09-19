@@ -10,8 +10,6 @@ namespace TrackingAmazonPrices.Infraestructure.Commands;
 
 public class StartCommand : ICommand
 {
-    public Steps NextStep { get; private set; } = Steps.Nothing;
-
     private readonly ILogger<StartCommand> _logger;
     private readonly IMessageHandler _messageHandler;
     private readonly ILiteralsService _literalsService;

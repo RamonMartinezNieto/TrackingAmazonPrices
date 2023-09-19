@@ -6,7 +6,5 @@ public interface ICommandManager
 
     ICommand GetCommand(string messageCommand);
 
-    ICommand GetNextCommand(Steps? step);
-
     ICommand NullCommand();
 }

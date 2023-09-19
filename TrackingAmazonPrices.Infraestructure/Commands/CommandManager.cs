@@ -29,22 +29,6 @@ public class CommandManager : ICommandManager
         return NullCommand();
     }
 
-    public ICommand GetNextCommand(Steps? step)
-    {
-        if (step.HasValue)
-        {
-            var matchingEntry = _commands.FirstOrDefault(entry => entry.Value.Item1 == step.Value);
-
-            if (!matchingEntry.Equals(default(KeyValuePair<string, (Steps, Type)>)))
-            {
-                Type type = matchingEntry.Value.Item2;
-                return _commandProvider.FirstOrDefault(x => x.GetType() == type);
-            }
-        }
-
-        return NullCommand();
-    }
-
     public bool IsCommand(string command)
         => _commands.ContainsKey(command);
 

@@ -5,8 +5,6 @@ namespace TrackingAmazonPrices.Infraestructure.Commands;
 
 public class NullCommand : ICommand
 {
-    public Steps NextStep => Steps.Nothing;
-
     public Task<bool> ExecuteAsync(object objectMessage)
         => Task.FromResult(false);
 }

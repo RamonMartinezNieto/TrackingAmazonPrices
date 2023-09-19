@@ -25,7 +25,7 @@ public class StartCommandTests
     {
         _messageHandler.GetUser(Arg.Any<object>()).Returns(GetUserWithLanguage());
         var result = await _sut.ExecuteAsync(new object());
-        _sut.NextStep.Should().Be(Steps.Nothing);
+
         result.Should().BeFalse();
     }
 
@@ -37,14 +37,11 @@ public class StartCommandTests
         _messageHandler.GetUser(Arg.Any<object>()).Returns(GetUserWithLanguage());
         _messageHandler.SentInlineKeyboardMessage(_updateObject, Arg.Any<string>(), Arg.Any<object>()).Returns(true);
         _messageHandler.SentMessageAsync(_updateObject, Arg.Any<string>()).Returns(true);
-        _commandManager.GetNextCommand(Steps.Language).Returns(languageCommand);
         languageCommand.ExecuteAsync(Arg.Any<object>()).Returns(true);
 
         var result = await _sut.ExecuteAsync(_updateObject);
 
         await _messageHandler.Received(1).SentMessageAsync(_updateObject, Arg.Any<string>());
-        _sut.NextStep.Should().Be(Steps.Nothing);
-
         result.Should().BeTrue();
     }
 
@@ -59,7 +56,6 @@ public class StartCommandTests
 
         await _messageHandler.DidNotReceive().SentInlineKeyboardMessage(_updateObject, Arg.Any<string>(), Arg.Any<object>());
 
-        _sut.NextStep.Should().Be(Steps.Nothing);
         result.Should().BeFalse();
     }
 

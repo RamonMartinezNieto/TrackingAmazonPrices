@@ -11,8 +11,6 @@ namespace TrackingAmazonPrices.Infraestructure.Commands;
 
 public class LanguageCommand : ICommand
 {
-    public Steps NextStep { get; private set; } = Steps.Nothing;
-
     private readonly ILogger<LanguageCommand> _logger;
     private readonly IMessageHandler _messageHandler;
     private readonly ILiteralsService _literalsService;

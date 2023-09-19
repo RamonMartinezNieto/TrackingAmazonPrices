@@ -74,7 +74,7 @@ public class ControllerMessages : IControllerMessage
 
             ICommand command = GetCommand(message);
 
-            _ = await TryExecuteCommand(command, objectMessage);
+            _ = await command.ExecuteAsync(objectMessage);
         }
     }
 
@@ -86,18 +86,6 @@ public class ControllerMessages : IControllerMessage
         }
 
         return _commandManager.NullCommand();
-    }
-
-    private async Task<(bool succes, ICommand nextCommand)> TryExecuteCommand(
-        ICommand command,
-        object objectMessage)
-    {
-        if (await command.ExecuteAsync(objectMessage))
-        {
-            var nextCommand = _commandManager.GetNextCommand(command.NextStep);
-            return (true, nextCommand);
-        }
-        return (false, _commandManager.NullCommand());
     }
 
     public Exception HandleExceptionImp(Exception exception)
