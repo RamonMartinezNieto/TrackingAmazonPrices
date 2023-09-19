@@ -9,6 +9,7 @@ public class CommandManager : ICommandManager
     {
         { "/start", (Steps.Start, typeof(StartCommand)) },
         { "/language", (Steps.Language, typeof(LanguageCommand)) },
+        { "/delete", (Steps.Language, typeof(DeleteUserCommand)) },
     };
 
     private readonly IEnumerable<ICommand> _commandProvider;

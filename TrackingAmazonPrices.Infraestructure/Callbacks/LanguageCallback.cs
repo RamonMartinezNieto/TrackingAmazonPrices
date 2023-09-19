@@ -7,15 +7,15 @@ using TrackingAmazonPrices.Domain.Enums;
 
 namespace TrackingAmazonPrices.Infraestructure.Callbacks;
 
-public class CallbackLanguage : ICallback
+public class LanguageCallback : ICallback
 {
-    private readonly ILogger<CallbackLanguage> _logger;
+    private readonly ILogger<LanguageCallback> _logger;
     private readonly IMessageHandler _messageHandler;
     private readonly ILiteralsService _literals;
     private readonly IDatabaseUserService _userService;
 
-    public CallbackLanguage(
-        ILogger<CallbackLanguage> logger,
+    public LanguageCallback(
+        ILogger<LanguageCallback> logger,
         IMessageHandler messageHandler,
         ILiteralsService literals,
         IDatabaseUserService userService)

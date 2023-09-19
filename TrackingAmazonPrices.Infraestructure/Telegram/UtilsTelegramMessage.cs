@@ -1,6 +1,7 @@
 ﻿using Telegram.Bot.Types.ReplyMarkups;
 using TrackingAmazonPrices.Domain.Enums;
 using static TrackingAmazonPrices.Domain.Language;
+using static TrackingAmazonPrices.Domain.Definitions.CallbackMessages; 
 
 namespace TrackingAmazonPrices.Infraestructure.Telegram;
 
@@ -30,14 +31,13 @@ public static class UtilsTelegramMessage
         return new InlineKeyboardMarkup(menuRows);
     }
 
-    private const string LANGUAGE_CALLBACK = "/callbackLanguage_";
     public static List<string[,]> GetMenuLanguageRows() 
         => new()
         {
             new string[4, 2] {
-                { "ES " + TelegramEmojis.ES_FLAG, LANGUAGE_CALLBACK + SPANISH},
-                { "EN " + TelegramEmojis.GB_FLAG, LANGUAGE_CALLBACK + ENGLISH },
-                { "IT " + TelegramEmojis.IT_FLAG, LANGUAGE_CALLBACK + ITALIAN },
-                { "FR " + TelegramEmojis.FR_FLAG, LANGUAGE_CALLBACK + FRENCH } }
+                { "ES " + TelegramEmojis.ES_FLAG, GetCallback(LANGUAGE_CALLBACK, SPANISH) },
+                { "EN " + TelegramEmojis.GB_FLAG, GetCallback(LANGUAGE_CALLBACK, ENGLISH ) },
+                { "IT " + TelegramEmojis.IT_FLAG, GetCallback(LANGUAGE_CALLBACK, ITALIAN ) },
+                { "FR " + TelegramEmojis.FR_FLAG, GetCallback(LANGUAGE_CALLBACK, FRENCH ) } }
         };
 }

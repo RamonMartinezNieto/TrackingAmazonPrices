@@ -103,9 +103,11 @@ public class HandlerMessageTelegram : IMessageHandler, IUpdateHandler
         if (update.Message is null && update.CallbackQuery is null)
             return false;
 
+        var chatId = update.Message?.Chat.Id ?? update.CallbackQuery?.Message?.Chat.Id;
+
         var result = await _botClient
             .SendTextMessageAsync(
-                 chatId: update.Message?.Chat.Id ?? update.CallbackQuery?.Message?.Chat.Id,
+                 chatId: chatId,
                  text: textMessage,
                  disableNotification: true,
                  parseMode: ParseMode.MarkdownV2);
@@ -207,7 +209,7 @@ public class HandlerMessageTelegram : IMessageHandler, IUpdateHandler
 
         if (user != null)
         {
-            Domain.LanguageType storedLang = await _userService.GetLanguage(user.Id);
+            LanguageType storedLang = await _userService.GetLanguage(user.Id);
 
             return new()
             {

@@ -5,5 +5,11 @@ public enum Literals
     Welcome,
     SelectLan,
     Test,
-    UserUpdate
+    UserUpdate,
+    UserDeleted,
+    Yes,
+    No,
+    NoUser,
+    QuestionIfSure,
+    GoodDay
 }

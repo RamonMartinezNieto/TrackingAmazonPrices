@@ -12,7 +12,7 @@ namespace TrackingAmazonPrices.Tests.Infraestructure.Unit.Callbacks;
 
 public class CallbackManagerTest
 {
-    private readonly ILogger<CallbackLanguage> _logger = Substitute.For<ILogger<CallbackLanguage>>();
+    private readonly ILogger<LanguageCallback> _logger = Substitute.For<ILogger<LanguageCallback>>();
     private readonly IMessageHandler _messageHandler = Substitute.For<IMessageHandler>();
     private readonly ILiteralsService _literals = Substitute.For<ILiteralsService>();
     private readonly IDatabaseUserService _userService = Substitute.For<IDatabaseUserService>();
@@ -24,7 +24,7 @@ public class CallbackManagerTest
     {
         _callbackProvider = new List<ICallback>
         {
-            new CallbackLanguage(_logger, _messageHandler, _literals, _userService),
+            new LanguageCallback(_logger, _messageHandler, _literals, _userService),
             new NullCallback()
         };
 
@@ -38,7 +38,7 @@ public class CallbackManagerTest
 
         var callback = _sut.GetCallback(validMessage);
 
-        callback.Should().BeOfType<CallbackLanguage>();
+        callback.Should().BeOfType<LanguageCallback>();
     }
 
     [Fact]

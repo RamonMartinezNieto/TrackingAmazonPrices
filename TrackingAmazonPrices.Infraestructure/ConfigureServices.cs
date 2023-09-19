@@ -62,7 +62,8 @@ public static class ConfigureServices
     {
         services.AddTransient<ICommand, NullCommand>()
                 .AddTransient<ICommand, StartCommand>()
-                .AddTransient<ICommand, LanguageCommand>();
+                .AddTransient<ICommand, LanguageCommand>()
+                .AddTransient<ICommand, DeleteUserCommand>();
 
         return services;
     }
@@ -70,7 +71,8 @@ public static class ConfigureServices
     public static IServiceCollection AddCallbacks(this IServiceCollection services)
     {
         services.AddTransient<ICallback, NullCallback>()
-                .AddTransient<ICallback, CallbackLanguage>();
+                .AddTransient<ICallback, LanguageCallback>()
+                .AddTransient<ICallback, DeleteUserCallback>();
 
         return services;
     }

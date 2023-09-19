@@ -26,7 +26,7 @@ public class MongoUserService : IDatabaseUserService
     {
         _logger.LogInformation("SAVE USER {Name}", user.Name);
 
-        var collection = GetUserCollertion();
+        var collection = GetUserCollection();
         var filter = FilterByUserId(user.UserId);
 
         var result = await collection.ReplaceOneAsync(
@@ -41,9 +41,9 @@ public class MongoUserService : IDatabaseUserService
     {
         _logger.LogInformation("Getting user language {id}", id);
 
-        var collection = GetUserCollertion();
+        var collection = GetUserCollection();
 
-        var filter = Builders<MongoUserDto>.Filter.Eq(x => x.UserId, id);
+        var filter = FilterByUserId(id);
 
         var userLanguage = collection.Find(filter).FirstOrDefault();
 
@@ -52,21 +52,41 @@ public class MongoUserService : IDatabaseUserService
 
         return Task.FromResult(userLanguage.Language);
     }
-
-    private static FilterDefinition<MongoUserDto> FilterByUserId(long userId)
-        => Builders<MongoUserDto>.Filter.Eq(x => x.UserId, userId);
-
-    private IMongoCollection<MongoUserDto> GetUserCollertion()
+    
+    public async Task<bool> DeleteUser(long id)
     {
-        var database = GetDataBase();
-        return database.GetCollection<MongoUserDto>(USER_COLLECTION);
+        _logger.LogInformation("Deleting user {id}", id);
+
+        var collection = GetUserCollection();
+
+        var filter = FilterByUserId(id); 
+
+        var deleteResult = await collection.DeleteOneAsync(filter);
+
+        return deleteResult.IsAcknowledged && deleteResult.DeletedCount > 0;
+
     }
 
-    private IMongoDatabase GetDataBase()
+    public async Task<bool> UserExists(long id)
+    {
+        var collection = GetUserCollection();
+
+        var filter = FilterByUserId(id);
+
+        var user = await collection.Find(filter).FirstOrDefaultAsync();
+
+        return user != null;
+    }
+
+    private static FilterDefinition<MongoUserDto> FilterByUserId(long id)
+        => Builders<MongoUserDto>.Filter.Eq(x => x.UserId, id);
+
+    private IMongoCollection<MongoUserDto> GetUserCollection()
     {
         try
         {
-            return _client.GetDatabase(USER_DATABASE);
+            var database = _client.GetDatabase(USER_DATABASE);
+            return database.GetCollection<MongoUserDto>(USER_COLLECTION);
         }
         catch (Exception ex)
         {
@@ -74,4 +94,5 @@ public class MongoUserService : IDatabaseUserService
             throw new MongoException("MongoUserService => GetDataBase => Some problem GettingDatabase", ex);
         }
     }
+
 }

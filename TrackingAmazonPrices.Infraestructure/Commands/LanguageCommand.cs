@@ -1,7 +1,6 @@
 ﻿using TrackingAmazonPrices.Application;
 using TrackingAmazonPrices.Application.Command;
 using TrackingAmazonPrices.Application.Handlers;
-using TrackingAmazonPrices.Application.Services;
 using TrackingAmazonPrices.Domain;
 using TrackingAmazonPrices.Domain.Entities;
 using TrackingAmazonPrices.Domain.Enums;
@@ -41,6 +40,6 @@ public class LanguageCommand : ICommand
             string.Format("{0} {1}",
                 TelegramEmojis.QUESTIONMARK,
                 await _literalsService.GetAsync(lang, Literals.SelectLan)),
-            menu);
+                menu);
     }
 }
