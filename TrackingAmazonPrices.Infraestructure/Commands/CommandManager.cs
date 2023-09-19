@@ -1,4 +1,5 @@
 ﻿using TrackingAmazonPrices.Application.Command;
+using TrackingAmazonPrices.Domain.Definitions;
 using TrackingAmazonPrices.Domain.Enums;
 
 namespace TrackingAmazonPrices.Infraestructure.Commands;
@@ -7,9 +8,9 @@ public class CommandManager : ICommandManager
 {
     private readonly Dictionary<string, (Steps, Type)> _commands = new()
     {
-        { "/start", (Steps.Start, typeof(StartCommand)) },
-        { "/language", (Steps.Language, typeof(LanguageCommand)) },
-        { "/delete", (Steps.Language, typeof(DeleteUserCommand)) },
+        { CommandsMessages.START_COMMAND, (Steps.Start, typeof(StartCommand)) },
+        { CommandsMessages.LANGUAGE_COMMAND, (Steps.Language, typeof(LanguageCommand)) },
+        { CommandsMessages.DELETE_COMMAND, (Steps.Language, typeof(DeleteUserCommand)) },
     };
 
     private readonly IEnumerable<ICommand> _commandProvider;

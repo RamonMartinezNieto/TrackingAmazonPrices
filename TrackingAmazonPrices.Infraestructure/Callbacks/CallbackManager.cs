@@ -1,4 +1,5 @@
 ﻿using TrackingAmazonPrices.Application.Callbacks;
+using TrackingAmazonPrices.Domain.Definitions;
 
 namespace TrackingAmazonPrices.Infraestructure.Callbacks;
 
@@ -6,8 +7,8 @@ public class CallbackManager : ICallbackManager
 {
     private readonly Dictionary<string, Type> _callbacks = new()
     {
-        { "/callbackLanguage", typeof(LanguageCallback) },
-        { "/callbackDeleteUser", typeof(DeleteUserCallback) },
+        { CallbackMessages.LANGUAGE_CALLBACK, typeof(LanguageCallback) },
+        { CallbackMessages.DELETE_USER_CALLBACK, typeof(DeleteUserCallback) },
     };
 
     private readonly IEnumerable<ICallback> _callbackProvider;

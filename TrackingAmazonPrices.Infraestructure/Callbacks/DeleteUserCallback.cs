@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using Telegram.Bot.Types;
 using TrackingAmazonPrices.Application;
 using TrackingAmazonPrices.Application.Callbacks;
 using TrackingAmazonPrices.Application.Handlers;
@@ -8,7 +7,7 @@ using TrackingAmazonPrices.Domain.Enums;
 
 namespace TrackingAmazonPrices.Infraestructure.Callbacks
 {
-    internal class DeleteUserCallback : ICallback
+    public class DeleteUserCallback : ICallback
     {
         private readonly ILogger<DeleteUserCallback> _logger;
         private readonly IMessageHandler _handlerMessage;
@@ -34,16 +33,14 @@ namespace TrackingAmazonPrices.Infraestructure.Callbacks
 
             if (dataCallback.Equals("no"))
             {
-                _ = await _handlerMessage.AnswerdCallback(
+                return await _handlerMessage.AnswerdCallback(
                     objectMessage,
                     await _literalsService.GetAsync(userLanguage, Literals.GoodDay));
-
-                return true;
             }
 
             if (!await _userService.UserExists(user.UserId))
             {
-                _ = await _handlerMessage.AnswerdCallback(
+                return await _handlerMessage.AnswerdCallback(
                     objectMessage,
                     await _literalsService.GetAsync(Literals.NoUser));
             }
@@ -52,15 +49,16 @@ namespace TrackingAmazonPrices.Infraestructure.Callbacks
 
             bool result = await _userService.DeleteUser(user.UserId);
 
-            if (result) { 
+            if (result)
+            {
                 _logger.LogInformation("User deleted {id}", user.UserId);
 
-                string userDeleted = await _literalsService.GetAsync(userLanguage, Literals.UserDeleted);
-                string goodDay = await _literalsService.GetAsync(userLanguage, Literals.GoodDay);
-                string message = $"{userDeleted} {goodDay}";
+                StringBuilder sb = new();
+                sb.Append(await _literalsService.GetAsync(userLanguage, Literals.UserDeleted));
+                sb.Append(' ');
+                sb.Append(await _literalsService.GetAsync(userLanguage, Literals.GoodDay));
 
-                _ = await _handlerMessage.AnswerdCallback(objectMessage, message);
-                _ = await _handlerMessage.SentMessageAsync(objectMessage, message);
+                result = await _handlerMessage.AnswerdCallback(objectMessage, sb.ToString());
             }
 
             return result;
