@@ -1,4 +1,5 @@
-﻿using TrackingAmazonPrices.Application;
+﻿using Telegram.Bot.Types;
+using TrackingAmazonPrices.Application;
 using TrackingAmazonPrices.Tests.Infraestructure.Unit.Mocks;
 
 namespace TrackingAmazonPrices.Tests.Infraestructure.Unit.Commands;

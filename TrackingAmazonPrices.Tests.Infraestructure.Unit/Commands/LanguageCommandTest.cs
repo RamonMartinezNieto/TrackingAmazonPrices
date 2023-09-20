@@ -1,5 +1,6 @@
-﻿using TrackingAmazonPrices.Application;
-using TrackingAmazonPrices.Domain.Entities;
+﻿using Telegram.Bot.Types;
+using TrackingAmazonPrices.Application;
+using TrackingAmazonPrices.Tests.Infraestructure.Unit.Mocks;
 
 namespace TrackingAmazonPrices.Tests.Infraestructure.Unit.Commands;
 
@@ -24,7 +25,7 @@ public class LanguageCommandTest
     {
         ICommand languageCommand = Substitute.For<ICommand>();
 
-        _messageHandler.GetUser(Arg.Any<object>()).Returns(GetUserWithLanguage());
+        _messageHandler.GetUser(Arg.Any<object>()).Returns(UserMocks.GetUserWithLanguage());
         _messageHandler.SentInlineKeyboardMessage(_updateObject, Arg.Any<string>(), Arg.Any<object>()).Returns(true);
         _messageHandler.SentMessageAsync(_updateObject, Arg.Any<string>()).Returns(true);
         languageCommand.ExecuteAsync(Arg.Any<object>()).Returns(true);
@@ -40,15 +41,11 @@ public class LanguageCommandTest
     [Fact]
     public async void StartCommand_NextStepNothing_WhenCallExecuteAsyncAndMessageIsInValid()
     {
-        _messageHandler.GetUser(Arg.Any<object>()).Returns(GetUserWithLanguage());
+        _messageHandler.GetUser(Arg.Any<object>()).Returns(UserMocks.GetUserWithLanguage());
         _messageHandler.SentInlineKeyboardMessage(_updateObject, Arg.Any<string>(), Arg.Any<object>()).Returns(false);
 
         var result = await _sut.ExecuteAsync(_updateObject);
 
         result.Should().BeFalse();
     }
-
-
-    private static Domain.Entities.User GetUserWithLanguage()
-        => new() { Language = LanguageType.English };
 }

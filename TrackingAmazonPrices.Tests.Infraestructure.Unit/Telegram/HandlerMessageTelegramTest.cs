@@ -1,4 +1,6 @@
-﻿using System.Threading;
+﻿using static TrackingAmazonPrices.Tests.Infraestructure.Unit.Mocks.MockMessages;
+using System.Threading;
+using Telegram.Bot.Types;
 
 namespace TrackingAmazonPrices.Tests.Infraestructure.Unit.Telegram;
 
@@ -351,33 +353,4 @@ public class HandlerMessageTelegramTest
 
         result.Should().BeEmpty();
     }
-
-
-    private static Update GetMockMessage()
-    {
-        Update message = new()
-        {
-            Message = new()
-        };
-        message.Message.Text = "Some text message";
-        message.Message.Chat = new()
-        {
-            Id = 123L
-        };
-        message.Message.From = new()
-        {
-            Id = 123L,
-            Username = "test"
-        };
-
-        return message;
-    }
-
-    private static Update GetMockCallback() => new()
-    {
-        CallbackQuery = new() 
-        {
-            Data = "some_callback_data"
-        }
-    };
 }

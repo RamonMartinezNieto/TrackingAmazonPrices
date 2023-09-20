@@ -9,10 +9,7 @@ public class User
     public PlatformType Platform { get; init; }
     public Language Language { get; set; }
 
-    public User()
-    {
-        Language = new();
-    }
+    public User() => Language = new();
 
     public User(
         string name,

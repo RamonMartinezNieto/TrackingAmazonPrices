@@ -1,5 +1,6 @@
 ﻿using TrackingAmazonPrices.Infraestructure.Mappers;
 using TrackingAmazonPrices.Infraestructure.MongoDto;
+using static TrackingAmazonPrices.Tests.Infraestructure.Unit.Mocks.UserMocks;
 
 namespace TrackingAmazonPrices.Tests.Infraestructure.Unit.Mappers;
 
@@ -8,7 +9,7 @@ public class MongoMappersTests
     [Fact]
     public void ToMongoDto_ReturnCompleteUser_WhenAllDataIsValid_DefaultLanguage()
     {
-        Domain.Entities.User user = GetUser();
+        Domain.Entities.User user = GetUserDefaultLang();
 
         var result = user.ToMongoDto();
 
@@ -22,7 +23,7 @@ public class MongoMappersTests
     [Fact]
     public void ToMongoDto_ReturnCompleteUser_WhenAllDataIsValid()
     {
-        Domain.Entities.User user = GetUserWithLanguage();
+        Domain.Entities.User user = GetUser();
 
         var result = user.ToMongoDto();
 
@@ -33,11 +34,10 @@ public class MongoMappersTests
         result.Language.Should().Be(LanguageType.Spanish);
     }
 
-
     [Fact]
     public void ToUser_ReturnCompleteUser_WhenAllDataIsValid()
     {
-        MongoUserDto mongoUser = new() 
+        MongoUserDto mongoUser = new()
         {
             Id = "123",
             Name = "Test",
@@ -52,27 +52,5 @@ public class MongoMappersTests
         result.Name.Should().Be("Test");
         result.Platform.Should().Be(PlatformType.Telegram);
         result.Language.LanguageCode.Should().Be(LanguageType.Spanish);
-    }
-
-
-    private static Domain.Entities.User GetUser()
-    {
-        return new()
-        {
-            Name = "Pepe",
-            Platform = PlatformType.Telegram,
-            UserId = 2222,
-        };
-    }
-
-    private static Domain.Entities.User GetUserWithLanguage()
-    {
-        return new()
-        {
-            Name = "Pepe",
-            Platform = PlatformType.Telegram,
-            UserId = 2222,
-            Language = "es"
-        };
     }
 }

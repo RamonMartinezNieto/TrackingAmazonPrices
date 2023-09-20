@@ -1,9 +1,8 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Driver;
-using NSubstitute.Core;
-using TrackingAmazonPrices.Infraestructure.Mappers;
 using TrackingAmazonPrices.Infraestructure.MongoDataBase;
 using TrackingAmazonPrices.Infraestructure.MongoDto;
+using static TrackingAmazonPrices.Tests.Infraestructure.Unit.Mocks.UserMocks;
 
 namespace TrackingAmazonPrices.Tests.Infraestructure.Unit.MongoDataBase;
 
@@ -22,7 +21,6 @@ public class MongoUserServiceTest
 
         _client.GetDatabase(Arg.Any<string>()).Returns(_dataBase);
         _dataBase.GetCollection<MongoUserDto>(Arg.Any<string>()).Returns(_collection);
-
     }
 
     [Fact]
@@ -47,7 +45,7 @@ public class MongoUserServiceTest
     }
 
     [Fact]
-    public async Task DeleteUser_True_WhenUserIsDeleted() 
+    public async Task DeleteUser_True_WhenUserIsDeleted()
     {
         var user = GetUser();
 
@@ -66,7 +64,7 @@ public class MongoUserServiceTest
     }
 
     [Fact]
-    public async Task DeleteUser_False_WhenUserNotDeleted() 
+    public async Task DeleteUser_False_WhenUserNotDeleted()
     {
         var user = GetUser();
 
@@ -82,21 +80,5 @@ public class MongoUserServiceTest
         var result = await _sut.DeleteUser(user.UserId);
 
         result.Should().BeFalse();
-    }
-
-    private static Domain.Entities.User GetUser()
-    {
-        return new()
-        {
-            Name = "Pepe",
-            Platform = PlatformType.Telegram,
-            Language = LanguageType.Spanish,
-            UserId = 2222,
-        };
-    }
-
-    public static FilterDefinition<MongoUserDto> FilterByUserId(long id)
-    {
-        return Builders<MongoUserDto>.Filter.Eq(x => x.UserId, id);
     }
 }

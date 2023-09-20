@@ -1,6 +1,7 @@
 ﻿using TrackingAmazonPrices.Application;
 using TrackingAmazonPrices.Domain.Entities;
 using TrackingAmazonPrices.Infraestructure.Callbacks;
+using TrackingAmazonPrices.Tests.Infraestructure.Unit.Mocks;
 
 namespace TrackingAmazonPrices.Tests.Infraestructure.Unit.Callbacks;
 
@@ -21,7 +22,7 @@ public class DeleteUserCallbackTests
     [Fact]
     public async Task ExecuteAsync_AnswerdGoodDayReturnTrue_WhenDataIsNo()
     {
-        var user = Getuser();
+        var user = UserMocks.GetUser();
         var dataCallback = "no";
 
         _handlerMessage
@@ -47,7 +48,7 @@ public class DeleteUserCallbackTests
     [Fact]
     public async Task ExecuteAsync_AnswerdNoUser_True_WhenUserNotExists()
     {
-        var user = Getuser();
+        var user = UserMocks.GetUser();
         var dataCallback = "yes";
 
         _handlerMessage
@@ -78,7 +79,7 @@ public class DeleteUserCallbackTests
     [Fact]
     public async Task ExecuteAsync_AnswerdUserDeleted_True_WhenUserExistsAndDataIsYes()
     {
-        var user = Getuser();
+        var user = UserMocks.GetUser();
         var dataCallback = "yes";
 
         _handlerMessage
@@ -115,11 +116,4 @@ public class DeleteUserCallbackTests
         await _userService.Received(1).UserExists(user.UserId);
         await _userService.Received(1).DeleteUser(user.UserId);
     }
-
-    private static Domain.Entities.User Getuser()
-        => new(
-            "Ramon",
-            123L,
-            PlatformType.Telegram,
-            LanguageType.Spanish);
 }

@@ -1,5 +1,6 @@
 ﻿using Telegram.Bot.Types.ReplyMarkups;
 using TrackingAmazonPrices.Application;
+using TrackingAmazonPrices.Tests.Infraestructure.Unit.Mocks;
 
 namespace TrackingAmazonPrices.Tests.Infraestructure.Unit.Commands;
 
@@ -20,7 +21,7 @@ public class DeleteUserCommandTests
     [Fact]
     public async Task Execute_SentMessageNoUser_WhenThereIsNotUserInDatabase()
     {
-        var user = Getuser();
+        var user = UserMocks.GetUser();
 
         _messageHandler
             .GetUser(user)
@@ -48,7 +49,7 @@ public class DeleteUserCommandTests
     [Fact]
     public async Task Execute_SentMenu_WhenExistsUser()
     {
-        var user = Getuser();
+        var user = UserMocks.GetUser();
 
         _messageHandler
             .GetUser(user)
@@ -66,13 +67,5 @@ public class DeleteUserCommandTests
         await _messageHandler.Received(1).GetUser(user);
         await _messageHandler.Received(1).SentInlineKeyboardMessage(user, Arg.Any<string>(), Arg.Any<InlineKeyboardMarkup>());
         await _databaseUserService.Received(1).UserExists(user.UserId);
-    }
-
-    private static Domain.Entities.User Getuser()
-    {
-        return new(
-            "Ramon",
-            123L,
-            PlatformType.Telegram);
     }
 }
