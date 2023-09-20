@@ -1,6 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using TrackingAmazonPrices.Domain.Enums;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+﻿using TrackingAmazonPrices.Domain.Enums;
 
 namespace TrackingAmazonPrices.Domain.Entities;
 
@@ -25,6 +23,8 @@ public class Language
     public static implicit operator Language(string lang) => new (lang);
 
     public static implicit operator Language(LanguageType lang) => new (lang);
+
+    public static implicit operator LanguageType(Language lang) => lang.LanguageCode;
 
     public static LanguageType GetTypeLanguage(string value)
         => value switch

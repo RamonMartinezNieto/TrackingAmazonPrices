@@ -32,7 +32,7 @@ public class LanguageCommand : ICommand
 
         User user = await _messageHandler.GetUser(objectMessage);
 
-        LanguageType lang = user == null ? LanguageType.Default : user.Language.LanguageCode;
+        LanguageType lang = user == null ? LanguageType.Default : user.Language;
 
         return await _messageHandler.SentInlineKeyboardMessage(
             objectMessage,
