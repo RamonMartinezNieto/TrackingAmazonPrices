@@ -1,7 +1,6 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Driver;
 using NSubstitute.Core;
-using TrackingAmazonPrices.Domain;
 using TrackingAmazonPrices.Infraestructure.Mappers;
 using TrackingAmazonPrices.Infraestructure.MongoDataBase;
 using TrackingAmazonPrices.Infraestructure.MongoDto;
@@ -91,7 +90,7 @@ public class MongoUserServiceTest
         {
             Name = "Pepe",
             Platform = PlatformType.Telegram,
-            Language = new (LanguageType.Spanish),
+            Language = LanguageType.Spanish,
             UserId = 2222,
         };
     }

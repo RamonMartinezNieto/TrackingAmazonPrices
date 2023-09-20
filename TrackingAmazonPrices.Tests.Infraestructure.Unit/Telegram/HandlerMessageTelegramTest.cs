@@ -1,5 +1,4 @@
 ﻿using System.Threading;
-using TrackingAmazonPrices.Domain;
 
 namespace TrackingAmazonPrices.Tests.Infraestructure.Unit.Telegram;
 

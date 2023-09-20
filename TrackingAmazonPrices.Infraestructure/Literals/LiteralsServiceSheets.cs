@@ -1,5 +1,4 @@
 ﻿using TrackingAmazonPrices.Application;
-using TrackingAmazonPrices.Domain;
 using TrackingAmazonPrices.Domain.Entities;
 using TrackingAmazonPrices.Domain.Enums;
 

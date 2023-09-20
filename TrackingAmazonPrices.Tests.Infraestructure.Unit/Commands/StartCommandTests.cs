@@ -1,6 +1,5 @@
 ﻿using TrackingAmazonPrices.Application;
-using TrackingAmazonPrices.Domain;
-using TrackingAmazonPrices.Infraestructure.Commands;
+using TrackingAmazonPrices.Tests.Infraestructure.Unit.Mocks;
 
 namespace TrackingAmazonPrices.Tests.Infraestructure.Unit.Commands;
 
@@ -23,7 +22,7 @@ public class StartCommandTests
     [Fact]
     public async void StartCommand_NextStepNothing_WhenCallExecuteAsyncAndMessageIsInvalid()
     {
-        _messageHandler.GetUser(Arg.Any<object>()).Returns(GetUserWithLanguage());
+        _messageHandler.GetUser(Arg.Any<object>()).Returns(UserMocks.GetUserWithLanguage());
         var result = await _sut.ExecuteAsync(new object());
 
         result.Should().BeFalse();
@@ -34,7 +33,7 @@ public class StartCommandTests
     {
         ICommand languageCommand = Substitute.For<ICommand>();
 
-        _messageHandler.GetUser(Arg.Any<object>()).Returns(GetUserWithLanguage());
+        _messageHandler.GetUser(Arg.Any<object>()).Returns(UserMocks.GetUserWithLanguage());
         _messageHandler.SentInlineKeyboardMessage(_updateObject, Arg.Any<string>(), Arg.Any<object>()).Returns(true);
         _messageHandler.SentMessageAsync(_updateObject, Arg.Any<string>()).Returns(true);
         languageCommand.ExecuteAsync(Arg.Any<object>()).Returns(true);
@@ -45,11 +44,10 @@ public class StartCommandTests
         result.Should().BeTrue();
     }
 
-
     [Fact]
     public async void StartCommand_NextStepNothing_WhenCallExecuteAsyncAndMessageIsInValid()
     {
-        _messageHandler.GetUser(Arg.Any<object>()).Returns(GetUserWithLanguage());
+        _messageHandler.GetUser(Arg.Any<object>()).Returns(UserMocks.GetUserWithLanguage());
         _messageHandler.SentMessageAsync(_updateObject, Arg.Any<string>()).Returns(false);
 
         var result = await _sut.ExecuteAsync(_updateObject);
@@ -57,17 +55,5 @@ public class StartCommandTests
         await _messageHandler.DidNotReceive().SentInlineKeyboardMessage(_updateObject, Arg.Any<string>(), Arg.Any<object>());
 
         result.Should().BeFalse();
-    }
-
-
-    private static Domain.Entities.User GetUserWithLanguage()
-    {
-        return new()
-        {
-            Language = new Language()
-            {
-                LanguageCode = LanguageType.English
-            },
-        };
     }
 }

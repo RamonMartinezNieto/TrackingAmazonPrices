@@ -1,6 +1,6 @@
 ﻿using MongoDB.Driver;
 using TrackingAmazonPrices.Application.Services;
-using TrackingAmazonPrices.Domain;
+using TrackingAmazonPrices.Domain.Enums;
 using TrackingAmazonPrices.Infraestructure.Mappers;
 using TrackingAmazonPrices.Infraestructure.MongoDto;
 

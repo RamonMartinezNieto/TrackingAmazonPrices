@@ -1,6 +1,5 @@
 ﻿using TrackingAmazonPrices.Application;
-using TrackingAmazonPrices.Domain;
-using TrackingAmazonPrices.Domain.Enums;
+using TrackingAmazonPrices.Domain.Entities;
 using TrackingAmazonPrices.Infraestructure.Callbacks;
 
 namespace TrackingAmazonPrices.Tests.Infraestructure.Unit.Callbacks;
@@ -122,5 +121,5 @@ public class DeleteUserCallbackTests
             "Ramon",
             123L,
             PlatformType.Telegram,
-            new Language(LanguageType.Spanish));
+            LanguageType.Spanish);
 }

@@ -1,5 +1,4 @@
 ﻿using TrackingAmazonPrices.Application;
-using TrackingAmazonPrices.Domain;
 using TrackingAmazonPrices.Infraestructure.Callbacks;
 
 namespace TrackingAmazonPrices.Tests.Infraestructure.Unit.Callbacks;

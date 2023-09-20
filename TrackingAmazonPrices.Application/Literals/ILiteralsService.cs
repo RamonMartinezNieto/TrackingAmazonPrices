@@ -1,6 +1,4 @@
-﻿using TrackingAmazonPrices.Domain;
-
-namespace TrackingAmazonPrices.Application;
+﻿namespace TrackingAmazonPrices.Application;
 
 public interface ILiteralsService
 {

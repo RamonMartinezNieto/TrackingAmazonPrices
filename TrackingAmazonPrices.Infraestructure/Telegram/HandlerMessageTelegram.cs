@@ -6,7 +6,6 @@ using Telegram.Bot.Types.ReplyMarkups;
 using TrackingAmazonPrices.Application.ApplicationFlow;
 using TrackingAmazonPrices.Application.Handlers;
 using TrackingAmazonPrices.Application.Services;
-using TrackingAmazonPrices.Domain;
 using TrackingAmazonPrices.Domain.Enums;
 using TrackingAmazonPrices.Domain.Exceptions;
 
@@ -216,7 +215,7 @@ public class HandlerMessageTelegram : IMessageHandler, IUpdateHandler
                 UserId = user.Id,
                 Name = user.Username,
                 Platform = PlatformType.Telegram,
-                Language = new Language(storedLang)
+                Language = storedLang
             };
         }
 

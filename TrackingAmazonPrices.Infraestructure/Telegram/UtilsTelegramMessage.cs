@@ -1,7 +1,7 @@
 ﻿using Telegram.Bot.Types.ReplyMarkups;
 using TrackingAmazonPrices.Domain.Enums;
-using static TrackingAmazonPrices.Domain.Language;
-using static TrackingAmazonPrices.Domain.Definitions.CallbackMessages; 
+using static TrackingAmazonPrices.Domain.Entities.Language;
+using static TrackingAmazonPrices.Domain.Definitions.CallbackMessages;
 
 namespace TrackingAmazonPrices.Infraestructure.Telegram;
 

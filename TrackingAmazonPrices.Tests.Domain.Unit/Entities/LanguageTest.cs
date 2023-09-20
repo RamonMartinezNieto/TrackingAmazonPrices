@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
-using TrackingAmazonPrices.Domain;
+using TrackingAmazonPrices.Domain.Entities;
+using TrackingAmazonPrices.Domain.Enums;
 using Xunit;
 
 namespace TrackingAmazonPrices.Tests.Domain.Unit.Entities;
@@ -22,7 +23,7 @@ public class LanguageTest
     public void InstantiateLanguage_ReturnSpanish_TypeConstructor(
         LanguageType inputAndExpected)
     {
-        Language language = new(inputAndExpected);
+        Language language = inputAndExpected;
 
         language.LanguageCode.Should().Be(inputAndExpected);
     }
@@ -37,7 +38,7 @@ public class LanguageTest
         string inputBigrama,
         LanguageType expectedLanguage)
     {
-        Language language = new(inputBigrama);
+        Language language = inputBigrama;
 
         language.LanguageCode.Should().Be(expectedLanguage);
     }

@@ -7,11 +7,11 @@ using TrackingAmazonPrices.Application.Command;
 using TrackingAmazonPrices.Application.Handlers;
 using TrackingAmazonPrices.ConsoleApp;
 using TrackingAmazonPrices.Domain.Enums;
-using TrackingAmazonPrices.Domain;
 using TrackingAmazonPrices.Infraestructure.Commands;
 using Xunit;
 using TrackingAmazonPrices.Application.Callbacks;
 using TrackingAmazonPrices.Application.Services;
+using TrackingAmazonPrices.Domain.Entities;
 
 namespace TrackingAmazonPrices.Tests.ConsoleApp.Unit;
 
@@ -45,10 +45,7 @@ public class ControllerMessagesTests
 
         Domain.Entities.User user = new()
         {
-            Language = new Language() 
-            {
-                LanguageCode = LanguageType.English
-            },
+            Language =  LanguageType.English
         };
 
         ICommand startCommand = Substitute.ForPartsOf<StartCommand>(_loggerStart, _messageHandler, _literals, _userService);

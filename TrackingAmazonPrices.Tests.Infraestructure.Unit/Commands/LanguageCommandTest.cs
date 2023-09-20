@@ -1,5 +1,5 @@
 ﻿using TrackingAmazonPrices.Application;
-using TrackingAmazonPrices.Domain;
+using TrackingAmazonPrices.Domain.Entities;
 
 namespace TrackingAmazonPrices.Tests.Infraestructure.Unit.Commands;
 
@@ -50,13 +50,5 @@ public class LanguageCommandTest
 
 
     private static Domain.Entities.User GetUserWithLanguage()
-    {
-        return new()
-        {
-            Language = new Language()
-            {
-                LanguageCode = LanguageType.English
-            },
-        };
-    }
+        => new() { Language = LanguageType.English };
 }

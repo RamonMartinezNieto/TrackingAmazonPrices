@@ -1,6 +1,5 @@
 ﻿using TrackingAmazonPrices.Application;
 using TrackingAmazonPrices.Domain.Entities;
-using TrackingAmazonPrices.Domain;
 using TrackingAmazonPrices.Infraestructure;
 
 namespace TrackingAmazonPrices.Tests.Infraestructure.Unit.LiteralsTest;

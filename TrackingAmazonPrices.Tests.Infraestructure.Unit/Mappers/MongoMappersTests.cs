@@ -1,5 +1,4 @@
-﻿using TrackingAmazonPrices.Domain;
-using TrackingAmazonPrices.Infraestructure.Mappers;
+﻿using TrackingAmazonPrices.Infraestructure.Mappers;
 using TrackingAmazonPrices.Infraestructure.MongoDto;
 
 namespace TrackingAmazonPrices.Tests.Infraestructure.Unit.Mappers;
@@ -73,7 +72,7 @@ public class MongoMappersTests
             Name = "Pepe",
             Platform = PlatformType.Telegram,
             UserId = 2222,
-            Language = new Language("es")
+            Language = "es"
         };
     }
 }

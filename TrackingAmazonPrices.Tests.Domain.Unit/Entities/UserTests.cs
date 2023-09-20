@@ -1,7 +1,6 @@
 ﻿using FluentAssertions;
 using TrackingAmazonPrices.Domain.Entities;
 using TrackingAmazonPrices.Domain.Enums;
-using TrackingAmazonPrices.Domain;
 using Xunit;
 
 namespace TrackingAmazonPrices.Tests.Domain.Unit.Entities;
@@ -33,7 +32,7 @@ public class UserTests
     [Fact]
     public void InstantiateUser_ReturnUsing_ConstructorWithLanguage()
     {
-        var user = new User("ramon", 123L, PlatformType.Telegram, new Language("es"));
+        var user = new User("ramon", 123L, PlatformType.Telegram, "es");
 
         user.Language.LanguageCode.Should().Be(LanguageType.Spanish);
         user.Name.Should().Be("ramon");

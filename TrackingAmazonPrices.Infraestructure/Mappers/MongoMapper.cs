@@ -24,7 +24,7 @@ public static class MongoMapper
             Name = mongoUserDto.Name,
             UserId = mongoUserDto.UserId,
             Platform = mongoUserDto.Platform,
-            Language = new Language(mongoUserDto.Language)
+            Language = mongoUserDto.Language
         };
     }
 }

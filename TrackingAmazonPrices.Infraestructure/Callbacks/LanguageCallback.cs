@@ -32,7 +32,7 @@ public class LanguageCallback : ICallback
 
         Domain.Entities.User user = await _messageHandler.GetUser(objectMessage);
 
-        user.Language = new Language(dataCallback);
+        user.Language = dataCallback;
 
         var result = await _userService.SaveUserAsync(user);
 

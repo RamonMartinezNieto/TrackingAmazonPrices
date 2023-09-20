@@ -1,7 +1,6 @@
 ﻿using TrackingAmazonPrices.Application;
 using TrackingAmazonPrices.Application.Command;
 using TrackingAmazonPrices.Application.Handlers;
-using TrackingAmazonPrices.Domain;
 using TrackingAmazonPrices.Domain.Entities;
 using TrackingAmazonPrices.Domain.Enums;
 using TrackingAmazonPrices.Infraestructure.Telegram;

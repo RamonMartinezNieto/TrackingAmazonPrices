@@ -1,6 +1,4 @@
-﻿using TrackingAmazonPrices.Domain;
-
-namespace TrackingAmazonPrices.Application.Services;
+﻿namespace TrackingAmazonPrices.Application.Services;
 
 public interface IDatabaseUserService
 {

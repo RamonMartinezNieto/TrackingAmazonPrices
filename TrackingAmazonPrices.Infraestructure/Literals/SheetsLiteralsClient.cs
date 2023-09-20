@@ -4,7 +4,6 @@ using Google.Apis.Sheets.v4;
 using Google.Apis.Sheets.v4.Data;
 using System.IO;
 using TrackingAmazonPrices.Application;
-using TrackingAmazonPrices.Domain;
 using TrackingAmazonPrices.Domain.Configurations;
 using TrackingAmazonPrices.Domain.Entities;
 using TrackingAmazonPrices.Domain.Enums;
