@@ -116,8 +116,7 @@ public class HandlerMessageTelegram : IMessageHandler, IUpdateHandler
 
     public async Task<bool> AnswerdCallback(object objectMessage, string textMessage)
     {
-
-        if (objectMessage is not Update update || 
+        if (objectMessage is not Update update ||
             update.CallbackQuery is not { } callback)
         {
             _logger.LogError("InvalidObjectMessage in AnswerdCallback, is not a update or callback");

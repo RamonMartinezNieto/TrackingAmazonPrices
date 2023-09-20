@@ -1,5 +1,4 @@
 ﻿using TrackingAmazonPrices.Application;
-using TrackingAmazonPrices.Domain.Entities;
 using TrackingAmazonPrices.Infraestructure.Callbacks;
 using TrackingAmazonPrices.Tests.Infraestructure.Unit.Mocks;
 
@@ -44,7 +43,7 @@ public class DeleteUserCallbackTests
         await _handlerMessage.Received(1).AnswerdCallback(user, "Que tengas un buen día!");
         await _literals.Received(1).GetAsync(LanguageType.Spanish, Literals.GoodDay);
     }
-    
+
     [Fact]
     public async Task ExecuteAsync_AnswerdNoUser_True_WhenUserNotExists()
     {
@@ -74,7 +73,7 @@ public class DeleteUserCallbackTests
         await _handlerMessage.Received(1).AnswerdCallback(Arg.Any<object>(), "You don't have a registered user");
         await _literals.Received(1).GetAsync(Literals.NoUser);
         await _userService.Received(1).UserExists(user.UserId);
-    }    
+    }
 
     [Fact]
     public async Task ExecuteAsync_AnswerdUserDeleted_True_WhenUserExistsAndDataIsYes()

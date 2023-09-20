@@ -1,6 +1,6 @@
-﻿using static TrackingAmazonPrices.Tests.Infraestructure.Unit.Mocks.MockMessages;
-using System.Threading;
+﻿using System.Threading;
 using Telegram.Bot.Types;
+using static TrackingAmazonPrices.Tests.Infraestructure.Unit.Mocks.MockMessages;
 
 namespace TrackingAmazonPrices.Tests.Infraestructure.Unit.Telegram;
 

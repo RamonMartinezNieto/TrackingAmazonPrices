@@ -20,9 +20,9 @@ public class Language
     public Language()
         => LanguageCode = LanguageType.English;
 
-    public static implicit operator Language(string lang) => new (lang);
+    public static implicit operator Language(string lang) => new(lang);
 
-    public static implicit operator Language(LanguageType lang) => new (lang);
+    public static implicit operator Language(LanguageType lang) => new(lang);
 
     public static implicit operator LanguageType(Language lang) => lang.LanguageCode;
 

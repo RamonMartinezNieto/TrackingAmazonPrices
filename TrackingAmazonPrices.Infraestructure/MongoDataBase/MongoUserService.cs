@@ -52,19 +52,18 @@ public class MongoUserService : IDatabaseUserService
 
         return Task.FromResult(userLanguage.Language);
     }
-    
+
     public async Task<bool> DeleteUser(long id)
     {
         _logger.LogInformation("Deleting user {id}", id);
 
         var collection = GetUserCollection();
 
-        var filter = FilterByUserId(id); 
+        var filter = FilterByUserId(id);
 
         var deleteResult = await collection.DeleteOneAsync(filter);
 
         return deleteResult.IsAcknowledged && deleteResult.DeletedCount > 0;
-
     }
 
     public async Task<bool> UserExists(long id)
@@ -94,5 +93,4 @@ public class MongoUserService : IDatabaseUserService
             throw new MongoException("MongoUserService => GetDataBase => Some problem GettingDatabase", ex);
         }
     }
-
 }

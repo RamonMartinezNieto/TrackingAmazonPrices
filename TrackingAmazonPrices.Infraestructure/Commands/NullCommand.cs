@@ -1,5 +1,4 @@
 ﻿using TrackingAmazonPrices.Application.Command;
-using TrackingAmazonPrices.Domain.Enums;
 
 namespace TrackingAmazonPrices.Infraestructure.Commands;
 

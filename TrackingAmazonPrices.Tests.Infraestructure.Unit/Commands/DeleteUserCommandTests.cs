@@ -45,7 +45,6 @@ public class DeleteUserCommandTests
         await _literalsService.Received(1).GetAsync(Literals.NoUser);
     }
 
-
     [Fact]
     public async Task Execute_SentMenu_WhenExistsUser()
     {

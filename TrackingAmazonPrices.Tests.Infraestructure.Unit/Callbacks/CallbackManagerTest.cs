@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TrackingAmazonPrices.Application;
+﻿using TrackingAmazonPrices.Application;
 using TrackingAmazonPrices.Application.Callbacks;
-using TrackingAmazonPrices.Application.Handlers;
 using TrackingAmazonPrices.Infraestructure.Callbacks;
 
 namespace TrackingAmazonPrices.Tests.Infraestructure.Unit.Callbacks;
@@ -47,7 +41,7 @@ public class CallbackManagerTest
         var invalidMessage = "/invalidCallback_data";
 
         var callback = _sut.GetCallback(invalidMessage);
-        
+
         callback.Should().BeOfType<NullCallback>();
     }
 

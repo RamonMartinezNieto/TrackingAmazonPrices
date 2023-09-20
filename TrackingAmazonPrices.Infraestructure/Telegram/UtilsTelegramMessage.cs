@@ -1,7 +1,7 @@
 ﻿using Telegram.Bot.Types.ReplyMarkups;
 using TrackingAmazonPrices.Domain.Enums;
-using static TrackingAmazonPrices.Domain.Entities.Language;
 using static TrackingAmazonPrices.Domain.Definitions.CallbackMessages;
+using static TrackingAmazonPrices.Domain.Entities.Language;
 
 namespace TrackingAmazonPrices.Infraestructure.Telegram;
 
@@ -20,7 +20,8 @@ public static class UtilsTelegramMessage
             int lenght = row.GetLength(0);
             for (int z = 0; z < lenght; z++)
             {
-                buttons.Add(new(row[z, 0]) { 
+                buttons.Add(new(row[z, 0])
+                {
                     CallbackData = row[z, 1],
                 });
             }
@@ -31,7 +32,7 @@ public static class UtilsTelegramMessage
         return new InlineKeyboardMarkup(menuRows);
     }
 
-    public static List<string[,]> GetMenuLanguageRows() 
+    public static List<string[,]> GetMenuLanguageRows()
         => new()
         {
             new string[4, 2] {

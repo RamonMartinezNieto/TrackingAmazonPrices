@@ -6,11 +6,11 @@ namespace TrackingAmazonPrices.Tests.Infraestructure.Unit.Callbacks;
 public class CallbackLanguageTests
 {
     private readonly ILogger<LanguageCallback> _logger = Substitute.For<ILogger<LanguageCallback>>();
-    private readonly IMessageHandler _messageHandler   = Substitute.For<IMessageHandler>();
-    private readonly ILiteralsService _literals        = Substitute.For<ILiteralsService>();
+    private readonly IMessageHandler _messageHandler = Substitute.For<IMessageHandler>();
+    private readonly ILiteralsService _literals = Substitute.For<ILiteralsService>();
     private readonly IDatabaseUserService _userService = Substitute.For<IDatabaseUserService>();
 
-    private readonly LanguageCallback _sut; 
+    private readonly LanguageCallback _sut;
 
     public CallbackLanguageTests()
     {
@@ -20,7 +20,6 @@ public class CallbackLanguageTests
     [Fact]
     public async Task ExecuteAsync_UpdatesLanguageAndUser_Success()
     {
-
         var objectMessage = new object();
         var dataCallback = "en";
 

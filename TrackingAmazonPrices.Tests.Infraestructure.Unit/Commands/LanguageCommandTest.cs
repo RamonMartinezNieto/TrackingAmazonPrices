@@ -19,7 +19,6 @@ public class LanguageCommandTest
         _sut = new(_logger, _messageHandler, _literalsService);
     }
 
-
     [Fact]
     public async void StartComand_NextStepTest_WhenCallExecuteAsyncAndMessageIsValid()
     {
@@ -36,7 +35,6 @@ public class LanguageCommandTest
 
         result.Should().BeTrue();
     }
-
 
     [Fact]
     public async void StartCommand_NextStepNothing_WhenCallExecuteAsyncAndMessageIsInValid()

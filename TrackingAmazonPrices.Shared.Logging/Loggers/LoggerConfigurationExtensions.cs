@@ -1,6 +1,6 @@
-﻿using Serilog.Sinks.Graylog.Core.Transport;
-using Serilog;
+﻿using Serilog;
 using Serilog.Sinks.Graylog;
+using Serilog.Sinks.Graylog.Core.Transport;
 
 namespace TrackingAmazonPrices.Shared.Logging.Loggers;
 
@@ -14,7 +14,6 @@ public static class LoggerConfigurationExtensions
             ? loggerConfiguration.WriteTo.Console(consoleLoggerConfiguration.MinimumLevel)
             : loggerConfiguration;
     }
-
 
     public static LoggerConfiguration AddGraylogLogger(
         this LoggerConfiguration loggerConfiguration,
@@ -33,5 +32,4 @@ public static class LoggerConfigurationExtensions
             ? loggerConfiguration.WriteTo.Graylog(options)
             : loggerConfiguration;
     }
-
 }

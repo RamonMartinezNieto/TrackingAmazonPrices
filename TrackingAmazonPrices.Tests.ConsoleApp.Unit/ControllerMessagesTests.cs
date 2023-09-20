@@ -3,15 +3,14 @@ using NSubstitute;
 using System.Threading.Tasks;
 using Telegram.Bot.Types;
 using TrackingAmazonPrices.Application;
+using TrackingAmazonPrices.Application.Callbacks;
 using TrackingAmazonPrices.Application.Command;
 using TrackingAmazonPrices.Application.Handlers;
+using TrackingAmazonPrices.Application.Services;
 using TrackingAmazonPrices.ConsoleApp;
 using TrackingAmazonPrices.Domain.Enums;
 using TrackingAmazonPrices.Infraestructure.Commands;
 using Xunit;
-using TrackingAmazonPrices.Application.Callbacks;
-using TrackingAmazonPrices.Application.Services;
-using TrackingAmazonPrices.Domain.Entities;
 
 namespace TrackingAmazonPrices.Tests.ConsoleApp.Unit;
 
@@ -45,7 +44,7 @@ public class ControllerMessagesTests
 
         Domain.Entities.User user = new()
         {
-            Language =  LanguageType.English
+            Language = LanguageType.English
         };
 
         ICommand startCommand = Substitute.ForPartsOf<StartCommand>(_loggerStart, _messageHandler, _literals, _userService);
@@ -69,7 +68,7 @@ public class ControllerMessagesTests
     public void HandlerMessageImp_CheckCalls_WhenReceiveCallBakc_WithCommand()
     {
         ControllerMessages sut = Substitute.ForPartsOf<ControllerMessages>
-            (_logger, _commandManager, _callbackManager,  _messageHandler);
+            (_logger, _commandManager, _callbackManager, _messageHandler);
 
         CallbackQuery callBack = new();
 

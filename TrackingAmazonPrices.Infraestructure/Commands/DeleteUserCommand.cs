@@ -31,7 +31,7 @@ public class DeleteUserCommand : ICommand
     {
         var user = await _handlerMessage.GetUser(objectMessage);
 
-        if (!(await _userService.UserExists(user.UserId))) 
+        if (!(await _userService.UserExists(user.UserId)))
         {
             return await _handlerMessage.SentMessageAsync(
                 objectMessage,
@@ -42,10 +42,10 @@ public class DeleteUserCommand : ICommand
 
         List<string[,]> menuRows = new()
         {
-            new string[2, 2] 
+            new string[2, 2]
             {
                 { await _literalsService.GetAsync(userLanguage, Literals.Yes), GetCallback(DELETE_USER_CALLBACK, "yes" ) },
-                { await _literalsService.GetAsync(userLanguage, Literals.No), GetCallback(DELETE_USER_CALLBACK, "no" ) } 
+                { await _literalsService.GetAsync(userLanguage, Literals.No), GetCallback(DELETE_USER_CALLBACK, "no" ) }
             }
         };
 

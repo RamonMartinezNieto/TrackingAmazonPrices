@@ -7,6 +7,6 @@ public static class CallbackMessages
     public const string LANGUAGE_CALLBACK = "/callbackLanguage";
     public const string DELETE_USER_CALLBACK = "/callbackDeleteUser";
 
-    public static string GetCallback(string callback, string data) 
+    public static string GetCallback(string callback, string data)
         => callback + SPLITTER + data;
 }

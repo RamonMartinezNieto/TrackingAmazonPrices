@@ -17,10 +17,10 @@ public static class ConfigureLogger
         LoggerConfiguration loggerConfiguration,
         IConfiguration configuration)
     {
-        GraylogLoggerConfiguration graylogLogger = new ();
+        GraylogLoggerConfiguration graylogLogger = new();
         configuration.GetSection("Logging:Graylog").Bind(graylogLogger);
 
-        ConsoleLoggerConfiguration consoleLogger = new ();
+        ConsoleLoggerConfiguration consoleLogger = new();
         configuration.GetSection("Logging:Console").Bind(consoleLogger);
 
         loggerConfiguration

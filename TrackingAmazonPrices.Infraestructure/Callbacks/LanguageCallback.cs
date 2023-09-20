@@ -2,7 +2,6 @@
 using TrackingAmazonPrices.Application.Callbacks;
 using TrackingAmazonPrices.Application.Handlers;
 using TrackingAmazonPrices.Application.Services;
-using TrackingAmazonPrices.Domain;
 using TrackingAmazonPrices.Domain.Enums;
 
 namespace TrackingAmazonPrices.Infraestructure.Callbacks;
