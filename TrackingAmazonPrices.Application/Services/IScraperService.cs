@@ -2,5 +2,5 @@
 
 public interface IScraperService<T>
 {
-    Task<AmazonObject> GetObject(Uri url);
+    Task<T> GetObject(Uri url);
 }

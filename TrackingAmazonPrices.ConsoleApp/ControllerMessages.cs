@@ -14,7 +14,6 @@ public class ControllerMessages : IControllerMessage
     private readonly ICommandManager _commandManager;
     private readonly ICallbackManager _callbackManager;
     private readonly IMessageHandler _handlerMessage;
-    private readonly IScraperService<AmazonObject> scr;
 
     public Func<Exception, Exception> HandlerError { get; }
     public Action<object> HandlerMessage { get; }
@@ -29,7 +28,6 @@ public class ControllerMessages : IControllerMessage
         _commandManager = commandManager;
         _callbackManager = callbackManager;
         _handlerMessage = handlerMessage;
-        this.scr = scr;
         HandlerError = HandleExceptionImp;
         HandlerMessage = HandlerMessageImp;
     }

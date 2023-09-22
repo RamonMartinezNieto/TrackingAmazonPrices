@@ -1,5 +1,4 @@
-﻿using Amazon.Runtime.Internal.Endpoints.StandardLibrary;
-using System.Text.Json;
+﻿using System.Text.Json;
 using System.Text.RegularExpressions;
 using TrackingAmazonPrices.Application.Services;
 using TrackingAmazonPrices.Domain.Entities;
@@ -61,14 +60,13 @@ public class AmazonScraperService : AmazonRegex, IScraperService<AmazonObject>
     {
         Match match = AmazonPriceDataObject().Match(htmlContent);
 
-        if (match.Success && match?.Groups?.Count > 1)
+        if (match.Success && match.Groups?.Count > 1)
         {
-            AmazonListObjects? amazonObjects = JsonSerializer.Deserialize<AmazonListObjects>(
+            AmazonListObjects amazonObjects = JsonSerializer.Deserialize<AmazonListObjects>(
                 match.Groups[1].Value,
                 new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
 
-            if (amazonObjects?.AmazonObjects != null
-                && amazonObjects?.AmazonObjects.Length > 0)
+            if (amazonObjects?.AmazonObjects.Length > 0)
             {
                 product = amazonObjects.AmazonObjects[0];
                 return true;

@@ -9,7 +9,7 @@ public class AmazonHtmlContentRepositoryTests
     private readonly ILogger<AmazonHtmlContentRepository> _logger = Substitute.For<ILogger<AmazonHtmlContentRepository>>();
     private readonly IHttpClientFactory _factory = Substitute.For<IHttpClientFactory>();
 
-    IHtmlContentRepository _sut;
+    private readonly IHtmlContentRepository _sut;
 
     public AmazonHtmlContentRepositoryTests()
     {
@@ -28,4 +28,19 @@ public class AmazonHtmlContentRepositoryTests
             .WithMessage("Fail getting html content from amazon.es ProductCode SOME_CODE");
     }
 
+    [Fact]
+    public async Task GetHtmlContent_ReturnStringEmpty_WhenGetIsNotSuccessStatusCode() 
+    {
+        HttpClient client = Substitute.For<HttpClient>();
+        _factory.CreateClient(Arg.Any<string>()).Returns(client);
+
+        //TODO I need an abstraction of HttpClient IHttpClient
+        HttpResponseMessage responseMessage = Substitute.For<HttpResponseMessage>();
+
+        client.GetAsync("SOME_CODE").Returns(responseMessage);
+
+        var result = await _sut.GetHtmlContent("SOME_CODE");
+
+        result.Should().BeEmpty();
+    }
 }

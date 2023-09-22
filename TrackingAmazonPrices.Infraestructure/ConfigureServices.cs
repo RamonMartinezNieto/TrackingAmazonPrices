@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Driver;
 using System.Diagnostics.CodeAnalysis;
 using System.Net.Http.Headers;
@@ -81,11 +82,13 @@ public static class ConfigureServices
         return services;
     }
     
-    public static IServiceCollection ConfigureClients(this IServiceCollection services)
+    public static IServiceCollection ConfigureClients(
+        this IServiceCollection services,
+        IConfiguration configuration)
     {
         services.AddHttpClient("AmazonClient", client =>
         {
-            client.BaseAddress = new Uri("https://www.amazon.es/dp/");
+            client.BaseAddress = new Uri(configuration.GetValue<string>("Clients:AmazonClient"));
             client.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("html/text"));
         });
