@@ -27,7 +27,7 @@ internal static class Program
                 {
                     services.AddLogging(logger => logger.AddSerilog());
                     services.AddMemoryCache();
-
+                    services.ConfigureClients();
                     services.AddConfigure();
                     services.AddServices();
                     services.AddDatabaseConnections();

@@ -173,6 +173,9 @@ public class HandlerMessageTelegram : IMessageHandler, IUpdateHandler
     {
         if (TryCastUpdate(objectMessage, out Update updateMessage))
         {
+            if (IsUrl(updateMessage?.Message?.Text))
+                return MessageTypes.Url;
+
             return updateMessage switch
             {
                 { Message: { } } => MessageTypes.Command,
@@ -181,6 +184,15 @@ public class HandlerMessageTelegram : IMessageHandler, IUpdateHandler
             };
         }
         return MessageTypes.Nothing;
+    }
+
+    private static bool IsUrl(string message)
+    {
+        if (Uri.TryCreate(message, UriKind.Absolute, out Uri uriResult))
+        {
+            return uriResult.Scheme != Uri.UriSchemeFile;
+        }
+        return false;
     }
 
     private static bool TryCastUpdate(object typeMessage, out Update updateMessage)

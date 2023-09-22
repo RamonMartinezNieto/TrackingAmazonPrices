@@ -2,6 +2,8 @@
 using TrackingAmazonPrices.Application.Callbacks;
 using TrackingAmazonPrices.Application.Command;
 using TrackingAmazonPrices.Application.Handlers;
+using TrackingAmazonPrices.Application.Services;
+using TrackingAmazonPrices.Domain.Entities;
 using TrackingAmazonPrices.Domain.Enums;
 
 namespace TrackingAmazonPrices.ConsoleApp;
@@ -12,6 +14,7 @@ public class ControllerMessages : IControllerMessage
     private readonly ICommandManager _commandManager;
     private readonly ICallbackManager _callbackManager;
     private readonly IMessageHandler _handlerMessage;
+    private readonly IScraperService<AmazonObject> scr;
 
     public Func<Exception, Exception> HandlerError { get; }
     public Action<object> HandlerMessage { get; }
@@ -26,7 +29,7 @@ public class ControllerMessages : IControllerMessage
         _commandManager = commandManager;
         _callbackManager = callbackManager;
         _handlerMessage = handlerMessage;
-
+        this.scr = scr;
         HandlerError = HandleExceptionImp;
         HandlerMessage = HandlerMessageImp;
     }
@@ -47,10 +50,19 @@ public class ControllerMessages : IControllerMessage
                 _ = ProcessCallback(objectMessage);
                 break;
 
+            case MessageTypes.Url:
+                ProcessUrl();
+                break;
+
             default:
                 _logger.LogWarning("Unsupported message type");
                 break;
         }
+    }
+
+    private void ProcessUrl()
+    {
+        _logger.LogInformation("This is an URL :)");
     }
 
     private async Task ProcessCallback(object objectMessage)
@@ -72,20 +84,10 @@ public class ControllerMessages : IControllerMessage
         {
             var message = _handlerMessage.GetMessage(objectMessage);
 
-            ICommand command = GetCommand(message);
+            ICommand command = _commandManager.GetCommand(message);
 
             _ = await command.ExecuteAsync(objectMessage);
         }
-    }
-
-    private ICommand GetCommand(string message)
-    {
-        if (_commandManager.IsCommand(message))
-        {
-            return _commandManager.GetCommand(message);
-        }
-
-        return _commandManager.NullCommand();
     }
 
     public Exception HandleExceptionImp(Exception exception)

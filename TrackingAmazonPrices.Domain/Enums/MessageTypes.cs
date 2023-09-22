@@ -4,5 +4,6 @@ public enum MessageTypes
 {
     Nothing = 0,
     CallbackQuery = 1,
-    Command = 2
+    Command = 2,
+    Url = 3
 }

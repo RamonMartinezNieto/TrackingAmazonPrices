@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Driver;
 using System.Diagnostics.CodeAnalysis;
+using System.Net.Http.Headers;
 using Telegram.Bot;
 using TrackingAmazonPrices.Application;
 using TrackingAmazonPrices.Application.Callbacks;
@@ -8,6 +9,8 @@ using TrackingAmazonPrices.Application.Command;
 using TrackingAmazonPrices.Application.Handlers;
 using TrackingAmazonPrices.Application.Services;
 using TrackingAmazonPrices.Domain.Configurations;
+using TrackingAmazonPrices.Domain.Entities;
+using TrackingAmazonPrices.Infraestructure.Amazon;
 using TrackingAmazonPrices.Infraestructure.Callbacks;
 using TrackingAmazonPrices.Infraestructure.Commands;
 using TrackingAmazonPrices.Infraestructure.MongoDataBase;
@@ -42,6 +45,8 @@ public static class ConfigureServices
                 .AddSingleton<ICommandManager, CommandManager>()
                 .AddSingleton<ICallbackManager, CallbackManager>()
                 .AddSingleton<IMessageHandler, HandlerMessageTelegram>()
+                .AddSingleton<IHtmlContentRepository, AmazonHtmlContentRepository>()
+                .AddSingleton<IScraperService<AmazonObject>, AmazonScraperService>()
                 .AddSingleton<IComunicationHandler, MessageCommunicationTelegram>();
 
         return services;
@@ -72,6 +77,18 @@ public static class ConfigureServices
         services.AddTransient<ICallback, NullCallback>()
                 .AddTransient<ICallback, LanguageCallback>()
                 .AddTransient<ICallback, DeleteUserCallback>();
+
+        return services;
+    }
+    
+    public static IServiceCollection ConfigureClients(this IServiceCollection services)
+    {
+        services.AddHttpClient("AmazonClient", client =>
+        {
+            client.BaseAddress = new Uri("https://www.amazon.es/dp/");
+            client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("html/text"));
+        });
 
         return services;
     }
