@@ -17,7 +17,6 @@ public partial class AmazonRegex
     internal static partial Regex AmazonPriceDataObject();
 
     [GeneratedRegex(
-        //"/dp/(\\d+)",
         "\\/dp\\/(\\w+)",
         RegexOptions.Singleline | RegexOptions.Compiled | RegexOptions.IgnoreCase)]
     internal static partial Regex AmazonAnsi();
