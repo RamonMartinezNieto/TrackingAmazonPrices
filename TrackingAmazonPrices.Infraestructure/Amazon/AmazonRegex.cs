@@ -4,6 +4,8 @@ namespace TrackingAmazonPrices.Infraestructure.Amazon;
 
 public partial class AmazonRegex
 {
+    protected AmazonRegex() { }
+    
     [GeneratedRegex(
         "<meta\\sname=\"description\"\\scontent=\"([^\"]*)",
         RegexOptions.Singleline | RegexOptions.Compiled | RegexOptions.IgnoreCase)]
