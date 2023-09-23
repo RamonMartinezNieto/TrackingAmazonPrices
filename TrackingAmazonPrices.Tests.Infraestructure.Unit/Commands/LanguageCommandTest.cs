@@ -10,7 +10,6 @@ public class LanguageCommandTest
     private readonly ILiteralsService _literalsService = Substitute.For<ILiteralsService>();
     private readonly ILogger<LanguageCommand> _logger = Substitute.For<ILogger<LanguageCommand>>();
     private readonly Update _updateObject = Substitute.For<Update>();
-    private static readonly ICommandManager _commandManager = Substitute.For<ICommandManager>();
 
     private readonly LanguageCommand _sut;
 

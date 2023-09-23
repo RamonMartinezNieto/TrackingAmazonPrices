@@ -30,14 +30,16 @@ public class AmazonScraperService : AmazonRegex, IScraperService<AmazonObject>
 
             string htmlContent = await _contentRepository.GetHtmlContent(productCode);
 
-            if (TryGetProdudct(htmlContent, out amazonObj))
+            if (TryGetProdudct(htmlContent, out amazonObj)) 
+            {
                 amazonObj.Ansi = productCode;
 
-            if (TryGetDescription(htmlContent, out string title))
-                amazonObj.Description = title;
+                if (TryGetDescription(htmlContent, out string title))
+                    amazonObj.Description = title;
 
-            if (TryGetTopLevelDomain(url, out string topLevelDomain))
-                amazonObj.TopLevelDomain = topLevelDomain;
+                if (TryGetTopLevelDomain(url, out string topLevelDomain))
+                    amazonObj.TopLevelDomain = topLevelDomain;
+            }
         }
         return amazonObj;
     }
@@ -49,7 +51,7 @@ public class AmazonScraperService : AmazonRegex, IScraperService<AmazonObject>
         string[] domainParts = url.Host.Split('.');
         if (domainParts.Length >= 2)
         {
-            topLevelDomain = domainParts[domainParts.Length - 1];
+            topLevelDomain = domainParts[^1];
             return true;
         }
 
