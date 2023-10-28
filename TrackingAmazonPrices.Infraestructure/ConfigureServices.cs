@@ -1,7 +1,11 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Google.Apis.Auth.OAuth2;
+using Google.Apis.Services;
+using Google.Apis.Sheets.v4;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Driver;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using System.Net.Http.Headers;
 using Telegram.Bot;
 using TrackingAmazonPrices.Application;
@@ -26,6 +30,7 @@ public static class ConfigureServices
     {
         services.Configure<BotConfig>(options =>
         {
+
             options.Token = Environment.GetEnvironmentVariable("TrackingAmazonBotToken");
         });
 
@@ -50,12 +55,28 @@ public static class ConfigureServices
                 .AddSingleton<IScraperService<AmazonObject>, AmazonScraperService>()
                 .AddSingleton<IComunicationHandler, MessageCommunicationTelegram>();
 
+        services.AddSingleton<IClientService, SheetsService>(service =>
+        {
+            using var stream = new FileStream(
+                Environment.GetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS"), 
+                FileMode.Open,
+                FileAccess.Read);
+
+            var credential = (GoogleCredential.FromStream(stream))
+                .CreateScoped(SheetsService.Scope.Spreadsheets);
+
+            return new SheetsService(new BaseClientService.Initializer()
+            {
+                HttpClientInitializer = credential
+            });
+        });
+
         return services;
     }
 
     public static IServiceCollection AddDatabaseConnections(this IServiceCollection services)
     {
-        var connectionString = Environment.GetEnvironmentVariable("TrackingAmazonPrices.Atlas.ConnectionString");
+        var connectionString = Environment.GetEnvironmentVariable("TrackingAmazonPrices_Atlas_ConnectionString");
 
         services.AddTransient<IMongoClient>(x => new MongoClient(connectionString))
                 .AddSingleton<IDatabaseUserService, MongoUserService>();
