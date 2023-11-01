@@ -9,13 +9,6 @@ namespace TrackingAmazonPrices.Tests.Shared.Logging.Unit;
 
 public class LoggerConfigurationExtensionsTests
 {
-
-    [Fact]
-    public void Fail_Test() 
-    {
-        true.Should().BeFalse();
-    }
-
     [Fact]
     public void AddConsoleLogger_Enabled_AddsConsoleLoggerInformationLevel()
     {
