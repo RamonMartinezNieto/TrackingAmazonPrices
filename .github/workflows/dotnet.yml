@@ -24,16 +24,10 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
     - name: Run automated unit tests
-      run: |
-          for project in "TrackingAmazonPrices.Tests.Infraestructure.Unit/TrackingAmazonPrices.Tests.Infraestructure.Unit.csproj" \
-                         "TrackingAmazonPrices.Tests.ConsoleApp.Unit/TrackingAmazonPrices.Tests.ConsoleApp.Unit.csproj" \
-                         "TrackingAmazonPrices.Tests.Domain.Unit/TrackingAmazonPrices.Tests.Domain.Unit.csproj" \
-                         "TrackingAmazonPrices.Tests.Shared.Logging.Unit/TrackingAmazonPrices.Tests.Shared.Logging.Unit.csproj"; do
-            dotnet test "$project/$project.csproj" \
-                /p:CollectCoverage=true \
-                /p:CoverletOutput=TestResults/ \
-                /p:CoverletOutputFormat=lcov || true
-          done
+      run: dotnet test
+          /p:CollectCoverage=true 
+          /p:CoverletOutput=TestResults/ 
+          /p:CoverletOutputFormat=lcov
 
   sonarcloud:
     name: Sonar cloud Analysis
