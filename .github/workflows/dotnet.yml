@@ -17,10 +17,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: 7.0.x
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
@@ -77,5 +73,26 @@ jobs:
           # dotnet-coverage collect 'dotnet test' -f xml -o 'coverage.xml'          
           dotnet-coverage collect -f xml -o 'coverage.xml'
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+
+  deploy:
+    runs-on: self-hosted
+
+    strategy:
+      matrix:
+        dotnet: ["7.0.x"]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
+        uses: actions/setup-dotnet@v1.7.2
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+
+      - name: Install dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+
       - name: Publish
-        run: dotnet publish -c Release -o /home/rmn/CompiledApps/TrackingAmazonPrices
+        run: dotnet publish -c Release -o /var/www/sample-app
