@@ -68,11 +68,11 @@ jobs:
         # shell: powershell
         shell: bash
         run: |
-          # dotnet tool install --global dotnet-coverage
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"RamonMartinezNieto_TrackingAmazonPrices" /o:"ramonmartineznieto" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml
+          dotnet tool install --global dotnet-coverage
+          dotnet tool install --global dotnet-sonarscanner
+          dotnet-sonarscanner begin /k:"RamonMartinezNieto_TrackingAmazonPrices" /o:"ramonmartineznieto" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml
           dotnet build --configuration Release
           dotnet-coverage collect 'dotnet test' -f xml -o 'coverage.xml'          
-          #dotnet-coverage collect -f xml -o 'coverage.xml'
           dotnet sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
 
   deploy:
