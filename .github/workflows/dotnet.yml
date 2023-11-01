@@ -71,8 +71,6 @@ jobs:
           dotnet build --configuration Release
           dotnet-coverage collect 'dotnet test' -f xml -o 'coverage.xml'
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
-      - name: Publish
-        run: dotnet publish -c Release -o /home/rmn/CompiledApps/TrackingAmazonPrices
 
 # Deploy using self-hosted running
   deploy:
