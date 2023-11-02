@@ -30,7 +30,6 @@ public static class ConfigureServices
     {
         services.Configure<BotConfig>(options =>
         {
-
             options.Token = Environment.GetEnvironmentVariable("TrackingAmazonBotToken");
         });
 
